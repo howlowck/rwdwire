@@ -4,6 +4,7 @@
 	"main" : "public/css/default.css",
 	"dependencies" : {
 		"jquery" : ">=0.0.1",
+		"jquery-ui" : ">=0.0.1",
 		"d3" : ">=0.0.1",
 		"underscore" : ">=0.0.1",
 		"backbone" : ">=0.0.1"

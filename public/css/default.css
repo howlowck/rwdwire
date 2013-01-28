@@ -2,12 +2,12 @@
 	padding: 0;
 	margin: 0;
 	box-sizing:border-box;
-	moz-box-sizing:border-box;
+	-moz-box-sizing: border-box;
 	-webkit-box-sizing:border-box;
 }
 
 #sizes{
-	width: 1200px;
+	width: 1300px;
 }
 
 .width-view{

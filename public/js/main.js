@@ -1,31 +1,5 @@
 $(function(){
 	
-	Element = Backbone.Model.extend({
-		defaults: {
-			width: "200",
-			height: "200",
-			x: "0",
-			y: "0",
-			type: "div",
-			content: " a Div",
-			bcolor: "blue"
-		}
-	});
-
-	ElementView = Backbone.View.extend({
-		className: "element-view",
-		initialize: function (options) {
-			this.dispatch = options.dispatch;
-		},
-		render: function () {
-			this.$el.width(this.model.get("width"));
-			this.$el.height(this.model.get("height"));
-			this.$el.position({left: this.model.get("x"), top: this.model.get("y")});
-			this.$el.css("background-color", this.model.get("bcolor"));
-			return this;
-		}
-	});
-	
 	Width = Backbone.Model.extend({
 		defaults: {max: "1200", min: "0"},
 		getView: function () {
@@ -49,7 +23,7 @@ $(function(){
 			return this.model.get("max") - this.model.get("min");
 		},
 		updateViewportWidth: function () {
-			this.dispatch.trigger("widthView:click", {model: this.model});
+			this.dispatch.trigger("WidthView:click", {model: this.model});
 		},
 		render: function () {
 			//console.log(this.model);
@@ -90,22 +64,97 @@ $(function(){
 		}
 	});
 
-	MainViewport = Backbone.Collection.extend({
-
+	Element = Backbone.Model.extend({
+		defaults: {
+			width: "200",
+			height: "200",
+			x: "10",
+			y: "10",
+			type: "div",
+			content: " a Div",
+			bcolor: "blue"
+		}
 	});
 
-	MainViewportView = Backbone.View.extend({
+	ElementView = Backbone.View.extend({
+		className: "element-view",
+		//template: _.template($("#elementViewTemp").html()),
+		attributes: {
+			"draggable" : "true"
+		},
+		events: {
+			"dragstart" : "collectDragInfo",
+			"resizestop" : "updateDimension"
+		},
+
+		initialize: function (options) {
+			this.dispatch = options.dispatch;
+			this.listenTo(this.model, "change:x, change:y", this.render);
+		},
+		updateDimension: function () {
+			this.model.set("width", this.$el.width() );
+			this.model.set("height", this.$el.height());
+		},
+		collectDragInfo: function (e) {
+			var topVal = e.originalEvent.clientY - this.$el.position().top;
+			var leftVal = e.originalEvent.clientX - this.$el.position().left;
+			e.originalEvent.dataTransfer.setData("application/json",'{"top" :'+ topVal + ', "left": ' + leftVal + ', "id" : "' + this.model.cid + '" }');
+		},
+
+		render: function () {
+			this.$el.width(this.model.get("width"));
+			this.$el.height(this.model.get("height"));
+			this.$el.position({left: this.model.get("x"), top: this.model.get("y")});
+			this.$el.css({"background-color": this.model.get("bcolor") , "left" : this.model.get("x") , "top" : this.model.get("y")});
+			this.$el.resizable({
+				ghost: true
+			});
+			return this;
+		}
+	});
+
+	ElementsCollection = Backbone.Collection.extend({
+		initialize: function () {
+
+		}
+	});
+
+	ElementsCollectionView = Backbone.View.extend({
 		el: $(".main-view"),
 		width: "1200",
+		events: {
+			"dragover": "allowdrag",
+			"drop" : "updateElementPosition"
+		},
 		initialize: function (options) {
 			this.dispatch = options.dispatch;
 			this.render();
-			this.dispatch.on("mainViewportView:change", this.render,this);
+			this.dispatch.on("ElementsCollectionView:change", this.updateWidth,this);
+			this.listenTo(this.collection, 'add', this.renderElement);
 		},
+		allowdrag: function (e) {
+			e.preventDefault();
+		},
+		updateElementPosition: function (e) {
+			var eventData = $.parseJSON(e.originalEvent.dataTransfer.getData("application/json"));
+			this.collection.get(eventData.id).set('x', e.originalEvent.clientX - eventData.left).set('y', e.originalEvent.clientY - eventData.top);
+			console.log(eventData);
+		},
+		updateWidth: function () {
+			this.render();
+		},
+
+		renderElement: function (model , collection , options) {
+			var modelView = new ElementView({model: model, dispatch: this.dispatch});
+			this.$el.append(modelView.render().el);
+		},
+
 		render: function () {
 			this.$el.width(this.width);
 			return this;
 		}
+
+
 	});
 
 	/** Executions **/
@@ -117,18 +166,19 @@ $(function(){
 			widths = [{max: "450"}, {min: "451", max: "750"}, {min: "751"}];
 			widthCollection = new WidthCollection(widths);
 			widthCollectionView = new WidthCollectionView({collection: widthCollection, dispatch: dispatch});
-			mainViewport = new MainViewport();
-			mainViewportView = new MainViewportView({model: mainViewport, dispatch: dispatch});
+			elementsCollection = new ElementsCollection();
+			elementsCollectionView = new ElementsCollectionView({collection: elementsCollection, dispatch: dispatch});
+			elementsCollection.add(new Element());
 		},
 
 		events: function () {
-			dispatch.on("widthView:click", this.updateViewportWidth);
+			dispatch.on("WidthView:click", this.updateViewportWidth);
 
 		},
 
 		updateViewportWidth: function (payload) {
-			mainViewportView.width = payload.model.get("max");
-			dispatch.trigger("mainViewportView:change");
+			elementsCollectionView.width = payload.model.get("max");
+			dispatch.trigger("ElementsCollectionView:change");
 		}
 	});
 	
