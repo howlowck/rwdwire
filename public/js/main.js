@@ -1,6 +1,31 @@
 $(function(){
+	
+	Element = Backbone.Model.extend({
+		defaults: {
+			width: "200",
+			height: "200",
+			x: "0",
+			y: "0",
+			type: "div",
+			content: " a Div",
+			bcolor: "blue"
+		}
+	});
 
-	/** Models and Collections **/
+	ElementView = Backbone.View.extend({
+		className: "element-view",
+		initialize: function (options) {
+			this.dispatch = options.dispatch;
+		},
+		render: function () {
+			this.$el.width(this.model.get("width"));
+			this.$el.height(this.model.get("height"));
+			this.$el.position({left: this.model.get("x"), top: this.model.get("y")});
+			this.$el.css("background-color", this.model.get("bcolor"));
+			return this;
+		}
+	});
+	
 	Width = Backbone.Model.extend({
 		defaults: {max: "1200", min: "0"},
 		getView: function () {
@@ -8,22 +33,6 @@ $(function(){
 		}
 	});
 
-	MainViewport = Backbone.Model.extend({
-		defaults: {width: 1200}
-	});
-
-	Element = Backbone.Model.extend({
-
-	});
-
-	var WidthCollection = Backbone.Collection.extend({
-		model : Width,
-		initialize: function (models, options) {
-		}
-	});
-
-
-	/** Views **/
 	WidthView = Backbone.View.extend({
 
 		className: "width-view",
@@ -50,13 +59,10 @@ $(function(){
 		}
 	});
 
-	MainViewportView = Backbone.View.extend({
-		el: $(".main-view"),
-		initialize: function (options) {
-			this.dispatch = options.dispatch;
-		},
-		render: function () {
 
+	var WidthCollection = Backbone.Collection.extend({
+		model : Width,
+		initialize: function (models, options) {
 		}
 	});
 
@@ -84,6 +90,22 @@ $(function(){
 		}
 	});
 
+	MainViewport = Backbone.Model.extend({
+		defaults: {width: "1200"}
+	});
+
+	MainViewportView = Backbone.View.extend({
+		el: $(".main-view"),
+		initialize: function (options) {
+			this.dispatch = options.dispatch;
+			this.render();
+			this.listenTo(this.model,"change", this.render);
+		},
+		render: function () {
+			this.$el.width(this.model.get("width"));
+			return this;
+		}
+	});
 
 	/** Executions **/
 	var AppView = Backbone.View.extend({
@@ -94,17 +116,17 @@ $(function(){
 			widths = [{max: "450"}, {min: "451", max: "750"}, {min: "751"}];
 			widthCollection = new WidthCollection(widths);
 			widthCollectionView = new WidthCollectionView({collection: widthCollection, dispatch: dispatch});
-			mainViewportView = new MainViewportView({dispatch: dispatch});
-			
+			mainViewport = new MainViewport();
+			mainViewportView = new MainViewportView({model: mainViewport, dispatch: dispatch});
 		},
 
 		events: function () {
 			dispatch.on("widthView:click", this.updateViewportWidth);
+
 		},
 
 		updateViewportWidth: function (payload) {
-			console.log(payload.model.get("max"));
-			console.log("clicked! (from app view!)");
+			mainViewport.set("width", payload.model.get("max"));
 		}
 	});
 	

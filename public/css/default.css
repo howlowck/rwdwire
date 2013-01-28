@@ -3,7 +3,11 @@
 	margin: 0;
 	box-sizing:border-box;
 	moz-box-sizing:border-box;
-	-webkit-box-sizing:border-box
+	-webkit-box-sizing:border-box;
+}
+
+#sizes{
+	width: 1200px;
 }
 
 .width-view{
@@ -21,6 +25,22 @@
 
 .main-view{
 	height:700px;
-	border: 1px solid red;
+	background-color: #eee;
+	position: relative;
+	-webkit-transition: width 0.5s; /* Safari and Chrome */
+	-moz-transition: width 0.5s; /* Firefox 4 */
+	-ms-transition: width 0.5s; /* MS */
+	-o-transition: width 0.5s; /* Opera */
+	transition: width 0.5s;
 
+}
+
+.tools{
+	position: fixed;
+	right: 0;
+	top: 0;
+}
+
+.element-view{
+	position: absolute;
 }
