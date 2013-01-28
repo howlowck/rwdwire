@@ -90,19 +90,20 @@ $(function(){
 		}
 	});
 
-	MainViewport = Backbone.Model.extend({
-		defaults: {width: "1200"}
+	MainViewport = Backbone.Collection.extend({
+
 	});
 
 	MainViewportView = Backbone.View.extend({
 		el: $(".main-view"),
+		width: "1200",
 		initialize: function (options) {
 			this.dispatch = options.dispatch;
 			this.render();
-			this.listenTo(this.model,"change", this.render);
+			this.dispatch.on("mainViewportView:change", this.render,this);
 		},
 		render: function () {
-			this.$el.width(this.model.get("width"));
+			this.$el.width(this.width);
 			return this;
 		}
 	});
@@ -126,7 +127,8 @@ $(function(){
 		},
 
 		updateViewportWidth: function (payload) {
-			mainViewport.set("width", payload.model.get("max"));
+			mainViewportView.width = payload.model.get("max");
+			dispatch.trigger("mainViewportView:change");
 		}
 	});
 	
