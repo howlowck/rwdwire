@@ -44,3 +44,11 @@
 .element-view{
 	position: absolute;
 }
+
+.ui-resizable-ghost{
+	-webkit-transition: none !important; /* Safari and Chrome */
+	-moz-transition: none !important; /* Firefox 4 */
+	-ms-transition: none !important; /* MS */
+	-o-transition: none !important; /* Opera */
+	transition: none !important;
+}

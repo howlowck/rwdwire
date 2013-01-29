@@ -8,7 +8,6 @@ $(function(){
 	});
 
 	WidthView = Backbone.View.extend({
-
 		className: "width-view",
 		events: {
 			"click" : "updateViewportWidth"
@@ -26,7 +25,6 @@ $(function(){
 			this.dispatch.trigger("WidthView:click", {model: this.model});
 		},
 		render: function () {
-			//console.log(this.model);
 			this.$el.html(this.template(this.model.toJSON()));
 			this.$el.width(this.dimension());
 			return this;
@@ -65,6 +63,7 @@ $(function(){
 	});
 
 	Element = Backbone.Model.extend({
+		currentState : "defaults",
 		defaults: {
 			width: "200",
 			height: "200",
@@ -89,11 +88,27 @@ $(function(){
 
 		initialize: function (options) {
 			this.dispatch = options.dispatch;
-			this.listenTo(this.model, "change:x, change:y", this.render);
+			this.listenTo(this.model, "change", this.render);
+			this.render();
+			this.$el.resizable({
+				ghost: true
+			});
+			this.$el.css({ //Needs to be inline since everything else is inline.
+				"-webkit-transition": "top 0.5s, left 0.5s, width 0.5s, height 0.5s", /* Safari and Chrome */
+				"-moz-transition": "top 0.5s, left 0.5s, width 0.5s, height 0.5s", /* Firefox 4 */
+				"-ms-transition": "top 0.5s, left 0.5s, width 0.5s, height 0.5s", /* MS */
+				"-o-transition": "top 0.5s, left 0.5s, width 0.5s, height 0.5s", /* Opera */
+				"transition": "top 0.5s, left 0.5s, width 0.5s, height 0.5s"
+			});
+
 		},
 		updateDimension: function () {
-			this.model.set("width", this.$el.width() );
-			this.model.set("height", this.$el.height());
+			this.stopListening(this.model, "change");
+			this.model.set("width", $(".ui-resizable-helper").width() );
+			this.model.set("height", $(".ui-resizable-helper").height());
+			this.render();
+			this.listenTo(this.model, "change", this.render);
+
 		},
 		collectDragInfo: function (e) {
 			var topVal = e.originalEvent.clientY - this.$el.position().top;
@@ -102,13 +117,11 @@ $(function(){
 		},
 
 		render: function () {
+			console.log("rendered");
 			this.$el.width(this.model.get("width"));
 			this.$el.height(this.model.get("height"));
 			this.$el.position({left: this.model.get("x"), top: this.model.get("y")});
 			this.$el.css({"background-color": this.model.get("bcolor") , "left" : this.model.get("x") , "top" : this.model.get("y")});
-			this.$el.resizable({
-				ghost: true
-			});
 			return this;
 		}
 	});
@@ -146,7 +159,7 @@ $(function(){
 
 		renderElement: function (model , collection , options) {
 			var modelView = new ElementView({model: model, dispatch: this.dispatch});
-			this.$el.append(modelView.render().el);
+			this.$el.append(modelView.el);
 		},
 
 		render: function () {
