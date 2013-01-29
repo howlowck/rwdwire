@@ -22,7 +22,8 @@ $(function(){
 			return this.model.get("max") - this.model.get("min");
 		},
 		updateViewportWidth: function () {
-			this.dispatch.trigger("WidthView:click", {model: this.model});
+
+			this.dispatch.trigger("WidthView:click", {width: this.model.get("max")});
 		},
 		render: function () {
 			this.$el.html(this.template(this.model.toJSON()));
@@ -40,9 +41,7 @@ $(function(){
 
 	var WidthCollectionView = Backbone.View.extend({
 		el: $("#sizes"),
-		events: {
-			
-		},
+
 		initialize: function(options) {
 			this.dispatch = options.dispatch;
 			this.render();
@@ -64,6 +63,7 @@ $(function(){
 
 	Element = Backbone.Model.extend({
 		currentState : "defaults",
+
 		defaults: {
 			width: "200",
 			height: "200",
@@ -72,6 +72,10 @@ $(function(){
 			type: "div",
 			content: " a Div",
 			bcolor: "blue"
+		},
+
+		updateCurrentState: function (width) {
+			this.currentState = "s"+width.toString();
 		}
 	});
 
@@ -117,7 +121,7 @@ $(function(){
 		},
 
 		render: function () {
-			console.log("rendered");
+
 			this.$el.width(this.model.get("width"));
 			this.$el.height(this.model.get("height"));
 			this.$el.position({left: this.model.get("x"), top: this.model.get("y")});
@@ -127,22 +131,20 @@ $(function(){
 	});
 
 	ElementsCollection = Backbone.Collection.extend({
-		initialize: function () {
 
-		}
 	});
 
 	ElementsCollectionView = Backbone.View.extend({
 		el: $(".main-view"),
-		width: "1200",
+		width: "",
 		events: {
 			"dragover": "allowdrag",
 			"drop" : "updateElementPosition"
 		},
 		initialize: function (options) {
 			this.dispatch = options.dispatch;
+			this.changeWidth(options.width);
 			this.render();
-			this.dispatch.on("ElementsCollectionView:change", this.updateWidth,this);
 			this.listenTo(this.collection, 'add', this.renderElement);
 		},
 		allowdrag: function (e) {
@@ -151,23 +153,21 @@ $(function(){
 		updateElementPosition: function (e) {
 			var eventData = $.parseJSON(e.originalEvent.dataTransfer.getData("application/json"));
 			this.collection.get(eventData.id).set('x', e.originalEvent.clientX - eventData.left).set('y', e.originalEvent.clientY - eventData.top);
-			console.log(eventData);
 		},
-		updateWidth: function () {
-			this.render();
-		},
-
 		renderElement: function (model , collection , options) {
+			model.updateCurrentState(this.width);
 			var modelView = new ElementView({model: model, dispatch: this.dispatch});
 			this.$el.append(modelView.el);
 		},
-
+		changeWidth: function (width) {
+			this.width = width;
+			this.dispatch.trigger("ElementsCollectionView/width:change", {width: width});
+			this.render();
+		},
 		render: function () {
 			this.$el.width(this.width);
 			return this;
 		}
-
-
 	});
 
 	/** Executions **/
@@ -175,23 +175,31 @@ $(function(){
 		el: $("body"),
 
 		initialize: function () {
+
 			dispatch = _.clone(Backbone.Events);
 			widths = [{max: "450"}, {min: "451", max: "750"}, {min: "751"}];
 			widthCollection = new WidthCollection(widths);
 			widthCollectionView = new WidthCollectionView({collection: widthCollection, dispatch: dispatch});
 			elementsCollection = new ElementsCollection();
-			elementsCollectionView = new ElementsCollectionView({collection: elementsCollection, dispatch: dispatch});
-			elementsCollection.add(new Element());
+			elementsCollectionView = new ElementsCollectionView({collection: elementsCollection, dispatch: dispatch, width: widthCollection.first().get("max")});
+
+			elementsCollection.add(new Element({state: elementsCollection.width}));
 		},
 
 		events: function () {
 			dispatch.on("WidthView:click", this.updateViewportWidth);
-
+			dispatch.on("ElementsCollectionView/width:change", this.updateElementsState);
 		},
 
 		updateViewportWidth: function (payload) {
-			elementsCollectionView.width = payload.model.get("max");
-			dispatch.trigger("ElementsCollectionView:change");
+			elementsCollectionView.changeWidth(payload.width);
+		},
+
+		updateElementsState: function (payload) {
+
+			_.each(elementsCollection.models, function(model) {
+				model.updateCurrentState(payload.width);
+			});
 		}
 	});
 	

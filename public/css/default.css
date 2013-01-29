@@ -25,7 +25,7 @@
 
 .main-view{
 	height:700px;
-	background-color: #eee;
+	background-color: yellow;
 	position: relative;
 	-webkit-transition: width 0.5s; /* Safari and Chrome */
 	-moz-transition: width 0.5s; /* Firefox 4 */
