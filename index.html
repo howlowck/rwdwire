@@ -3,6 +3,7 @@
 		<title>Responsive Wireframes</title>
 		<link rel="stylesheet" href="public/css/default.css">
 		<link rel="stylesheet" href="public/assets/jquery-ui/themes/base/minified/jquery.ui.resizable.min.css">
+		<link rel="stylesheet" href="public/assets/font-awesome/css/font-awesome.min.css">
 		<script src="public/assets/jquery/jquery.min.js"></script>
 		<script src="public/assets/d3/d3.min.js"></script>
 		<script src="public/assets/underscore/underscore-min.js"></script>
@@ -11,24 +12,43 @@
 		<script src="public/js/main.js"></script>
 	</head>
 	<body>
+		<div class="container">
+			<br>
+			<h1 id="main-title">
+				RWD Wireframe
+			</h1> <br>
+			<div id="sizes">
 
-		<div id="sizes">
+			</div>
 
+			<div class="tools">
+				<button class="newElement"><i class="icon-plus icon-x2"> </i>New Element</button>
+			</div>
+
+			<div class="main-view">
+
+			</div>
 		</div>
-
-		<div class="tools">
-			<button> New Section</button>
-		</div>
-
-		<div class="main-view">
-
-		</div>
-
 		<script id="widthViewTemp" type="text/template">
-		 	<span class="min">Min: <%= min %> px; </span>
-		 	<span class="max">Max: <%= max %> px; </span>
+		 	<span class="min">Min: <%= xmin %> px; </span>
+		 	<span class="max">Max: <%= xmax %> px; </span>
 		</script>
-
+		<script id="elementViewTemp" type="text/template">
+			<div class="menu">
+				<button class="edit-content"><i class="icon-pencil icon-2x"></i></button>
+				<button class="save-content hidden"><i class="icon-save icon-2x"></i></button>
+			</div>
+			<div class="content">
+				<%= content %>
+			</div>
+			<div class="edit hidden">
+				Background: <input class="inputColor" type="text">
+				<div class="colorpicker"></div>
+				<br>
+				Content: <textarea class="inputContent"></textarea>
+				<br><br>
+				<button class="remove-element"> <i class="icon-remove-circle"></i> Remove Element</button>
+		</script>
 
 	</body>
 </html>
