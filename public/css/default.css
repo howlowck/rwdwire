@@ -8,8 +8,32 @@
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing:border-box;
 }
+body {
 
-.container{
+}
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-image: url('opacity50.png');
+
+	z-index: 100;
+	cursor: crosshair;
+}
+
+.overlay .close{
+	position: absolute;
+	right: 0;
+	top: 0;
+	font-size: 20px;
+}
+.shadow-element {
+	border: 2px black solid;
+	z-index: 4;
+}
+.container {
 	width: 1200px;
 	margin: 0 auto;
 	position: relative;
@@ -18,35 +42,41 @@
 #main-title {
 	font-family: 'Lemon', cursive;
 }
-.tools{
+.main-menu {
 	position: absolute;
 	right: 0;
 	top: 20px;
-}
-.tools button{
-	display: block;
+} 
+.main-menu button {
+	display: inline-block;
 	width: 100px;
 	font-size: 20px;
 }
 
-#sizes{
+#sizes {
 	width: 1300px;
 }
 
-.width-view{
+.width-view {
+	position: relative;
 	font-family: 'Lemon', cursive;
 	background-color: #708A74;
 	display: inline-block;
 	border: 1px solid #E0C7A4;
 	cursor: pointer;
 	padding: 10px;
+	overflow: auto;
+	white-space: nowrap; 
 }
 
-.width-view .max{
+.width-view span{
+
+}
+.width-view .max {
 	float: right;
 }
 
-.main-view{
+.main-view {
 	height:700px;
 	background-color: #F79871;
 	position: relative;
@@ -60,14 +90,20 @@
 
 
 
-.element-view{
+
+.element-view {
 	border: 2px black solid;
 	font-family: 'Donegal One', serif;
 	overflow: hidden;
 	z-index: 4;
+	cursor: move;
+
+}
+.element-view .top{
+	vertical-align: top;
 }
 
-.element-view .inner .content{
+.element-view .inner .content {
 	position: inherit;
 }
 
@@ -75,18 +111,18 @@
 	position: relative;
 }
 
-.element-view .inner .menu{
+.element-view .inner .menu {
 	position: absolute;
 	top: 0;
 	right: 0;
 	z-index: 10;
 }
-.element-view .remove-element{
+.element-view .remove-element {
 	background-color: orange;
 	padding: 5px;
 }
 
-.ui-resizable-ghost{
+.ui-resizable-ghost {
 	-webkit-transition: none !important; /* Safari and Chrome */
 	-moz-transition: none !important; /* Firefox 4 */
 	-ms-transition: none !important; /* MS */
@@ -94,6 +130,6 @@
 	transition: none !important;
 }
 
-.hidden{
+.hidden {
 	display: none;
 }

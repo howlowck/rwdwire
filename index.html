@@ -12,27 +12,36 @@
 		<script src="public/js/main.js"></script>
 	</head>
 	<body>
+
 		<div class="container">
 			<br>
 			<h1 id="main-title">
 				RWD Wireframe
 			</h1> <br>
 			<div id="sizes">
-
 			</div>
 
-			<div class="tools">
-				<button class="newElement"><i class="icon-plus icon-x2"> </i>New Element</button>
+			<div class="main-menu">
+				<!-- <button class="newElement"><i class="icon-plus icon-x2"> </i>New Element</button> -->
 			</div>
 
 			<div class="main-view">
 
 			</div>
 		</div>
+		<div class="overlay hidden">
+			<button class="close">CANCEL</button>
+			<div class="hidden shadow-element" style="position: absolute; width: 1px; height: 1px;"></div>
+		</div>
 		<script id="widthViewTemp" type="text/template">
-		 	<span class="min">Min: <%= xmin %> px; </span>
-		 	<span class="max">Max: <%= xmax %> px; </span>
+		 	<span class="min"><%= xmin %>px </span>
+		 	<span class="max"><%= xmax %>px </span>
 		</script>
+
+		<script id="toolViewTemp" type="text/template">
+			<i class="<%= iconClass %>"></i> <%=name%>
+		</script>
+
 		<script id="elementViewTemp" type="text/template">
 			<div class="menu">
 				<button class="edit-content"><i class="icon-pencil icon-2x"></i></button>
@@ -42,11 +51,12 @@
 				<%= content %>
 			</div>
 			<div class="edit hidden">
-				Background: <input class="inputColor" type="text">
-				<div class="colorpicker"></div>
+				
+				<span class="top">Content: <textarea class="input-content"></textarea></span>
 				<br>
-				Content: <textarea class="inputContent"></textarea>
-				<br><br>
+				<!--Disable: <input class="input-disable" type="checkbox">-->
+				BColor: <input class="input-color" type="text" size="7">
+				Zindex: <input class="input-zindex" type="text" size="4">
 				<button class="remove-element"> <i class="icon-remove-circle"></i> Remove Element</button>
 		</script>
 
