@@ -27,13 +27,10 @@ $(function(){
 			this.$el.attr("title", this.model.get("title"));
 			return this;
 		}
-
 	});
 
 	var WidthCollection = Backbone.Collection.extend({
-		model : Width,
-		initialize: function (models, options) {
-		}
+		model : Width
 	});
 
 	var WidthCollectionView = Backbone.View.extend({
@@ -121,7 +118,9 @@ $(function(){
 	Element = Backbone.Model.extend({
 		previousState : "",
 		currentState : "defaults",
-
+		_validate: function () {
+			return true;
+		},
 		defaults: {
 			disable: false,
 			width: 200,
@@ -133,21 +132,31 @@ $(function(){
 			bcolor: "#eee",
 			zindex: 0
 		},
-		initialize: function (attibutes, options) {
-			_.each(options.states, function(value, key) {
-				this[key] = value;
-			}, this)
-		},
 		updateCurrentState: function (width) {
 			//Store dimension to current (soon previous state)
 			if (this.currentState !== "defaults") {
-				this[this.currentState] = {width: this.get("width"), height: this.get("height"), x: this.get("x"), y: this.get("y"), disable: this.get("disable")};
+				var thisWidth = this.get("width"),
+					thisHeight = this.get("height"),
+					thisX = this.get("x"),
+					thisY = this.get("y");
+					thisDisable = this.get("disable");
+				
+				this.set(this.currentState+"_x",  thisX)
+					.set(this.currentState+"_y",  thisY)
+					.set(this.currentState+"_width", thisWidth)
+					.set(this.currentState+"_height", thisHeight)
+					.set(this.currentState+"_disable", thisDisable);
 			}
 			this.previousState = this.currentState;
-			//change current state and update dimension
+			//change current state and set dimension to stored dimension if exists
 			this.currentState = "state"+width.toString();
-			if (!!this[this.currentState]) {
-				this.set({width: this[this.currentState].width, height: this[this.currentState].height, x: this[this.currentState].x, y: this[this.currentState].y, disable: this[this.currentState].disable});
+			if (!!this.get(this.currentState+"_width")) {
+				this.set({
+					width: this.get(this.currentState+"_width"), 
+					height: this.get(this.currentState+"_height"), 
+					x: this.get(this.currentState+"_x"), 
+					y: this.get(this.currentState+"_y"), 
+					disable: this.get(this.currentState+"_disable")});
 			}
 		}
 	});
@@ -166,8 +175,6 @@ $(function(){
 			"transition": "top 0.5s, left 0.5s, width 0.5s, height 0.5s"
 		},
 		events: {
-			//"resizestop" : "dispatcherTriggerResize", /* see jquery ui initilization on resizable */
-			//"drag": "dispatcherTriggerMove", /* see jquery ui initilization on draggable */
 			"click .edit-content" : "editContent",
 			"click .save-content" : "saveContent",
 			"click .remove-element" : "removeElement"
@@ -223,7 +230,14 @@ $(function(){
 				visibleValue = this.model.get("disable")? "hidden" :"visible";
 			this.$el.children(".inner").html(this.template(this.model.toJSON()));
 			this.$el.position({left: this.model.get("x"), top: this.model.get("y")});
-			this.$el.css({"background-color": this.model.get("bcolor") , "left" : this.model.get("x") , "top" : this.model.get("y"), "width": this.model.get("width"), "height": this.model.get("height"), "z-index": this.model.get("zindex"), "visibility": visibleValue});
+			this.$el.css({
+				"background-color": this.model.get("bcolor"), 
+				"left" : this.model.get("x"), 
+				"top" : this.model.get("y"), 
+				"width": this.model.get("width"), 
+				"height": this.model.get("height"), 
+				"z-index": this.model.get("zindex"), 
+				"visibility": visibleValue});
 			
 
 			this.$el.resizable({
@@ -253,13 +267,7 @@ $(function(){
 	});
 
 	ElementsCollection = Backbone.Collection.extend({
-		model: Element,
-
-		initLoad: function (modelsData) {
-			_.each(modelsData, function (oneModelData) {
-				this.add(oneModelData.property, {states: _.omit(oneModelData, 'property')});
-			}, this);
-		}
+		model: Element
 	});
 
 	ElementsCollectionView = Backbone.View.extend({
@@ -299,8 +307,7 @@ $(function(){
 			"click .close": "closeOverlay",
 			"mousedown" : "startCreateElement",
 			"mouseup" : "endCreateElement",
-			"mousemove" : "drawShadowElement"
-			
+			"mousemove" : "drawShadowElement"	
 		},
 		initialize: function (options) {
 			this.dispatch = options.dispatch;
@@ -308,7 +315,13 @@ $(function(){
 		},
 		startCreateElement: function (e) {
 			console.log("Starting coordiate: "+ e.originalEvent.clientX +", "+ + e.originalEvent.clientY);
-			this.drawing = {start: {x: e.originalEvent.clientX, y: e.originalEvent.clientY, mousex: e.originalEvent.clientX, mousey:e.originalEvent.clientY}};
+			this.drawing = {
+				start: {
+					x: e.originalEvent.clientX, 
+					y: e.originalEvent.clientY, 
+					mousex: e.originalEvent.clientX, 
+					mousey:e.originalEvent.clientY
+				}};
 			this.$el.children(".shadow-element").removeClass("hidden").css({"left": this.drawing.start.x, "top": this.drawing.start.y});
 			this.drawing.start.x = this.$el.children(".shadow-element").offset().left;
 			this.drawing.start.y = this.$el.children(".shadow-element").offset().top;
@@ -318,22 +331,35 @@ $(function(){
 			if (!this.drawing) {
 				return false;
 			};
-			this.$el.children(".shadow-element").css({"width": e.originalEvent.clientX-this.drawing.start.mousex, "height": e.originalEvent.clientY-this.drawing.start.mousey});
+			this.$el.children(".shadow-element").css({
+				"width": e.originalEvent.clientX-this.drawing.start.mousex, 
+				"height": e.originalEvent.clientY-this.drawing.start.mousey
+			});
 		},
 
 		endCreateElement: function (e) {
 			var width = this.$el.children(".shadow-element").width(),
 				height = this.$el.children(".shadow-element").height();
 			console.log("Ending Dim: "+ width +", "+ height);
-			this.$el.children(".shadow-element").addClass("hidden").css({"width": 0, "height": 0, "top": 0, "left" : 0});
+			this.$el.children(".shadow-element")
+					.addClass("hidden")
+					.css({"width": 0, "height": 0, "top": 0, "left" : 0});
 			
 			this.closeOverlay();
-			if (width<10 || height<10) {
+			
+			if ( width<10 || height<10 ) {
 				this.drawing = false;
 				console.log("the created div is too small");
 				return false;
 			};
-			this.dispatch.trigger("OverlayView:createElement",{rawx:this.drawing.start.x, rawy: this.drawing.start.y, width: width, height: height});
+
+			this.dispatch.trigger("OverlayView:createElement",{
+				rawx:this.drawing.start.x, 
+				rawy: this.drawing.start.y, 
+				width: width, 
+				height: height
+			});
+
 			this.drawing = false;
 		},
 
@@ -356,50 +382,51 @@ $(function(){
 
 			this.dispatch = _.clone(Backbone.Events);
 			data = {
-				dimensions: [{xmax: "480", y: "700", title: "mobile portrait"}, {xmin: "481", xmax: "767", y: "700", title: "mobile landscape"}, {xmin: "768", xmax:"979", y: "700", title: "default"}, {xmin: "980", y:"700", title: "large display"} ],
-				tools: [{iconClass: "icon-plus", name: "New Element"}, {iconClass: "icon-save", name: "Save Layout"}],
+				dimensions: [{xmax: "480", y: "700", title: "mobile portrait"}, 
+							{xmin: "481", xmax: "767", y: "700", title: "mobile landscape"}, 
+							{xmin: "768", xmax:"979", y: "700", title: "default"}, 
+							{xmin: "980", y:"700", title: "large display"} ],
+				tools: [{iconClass: "icon-plus", name: "New Element"}, 
+						{iconClass: "icon-save", name: "Save Layout"}],
 				elements: [{
-							property: {
-								disable: false,
-								width: 200,
-								height: 100,
-								x: 10,
-								y: 10,
-								type: "div",
-								content: "Hi! I'm a new Element.  Edit me.",
-								bcolor: "#eee",
-								zindex: 1
-							},
-							state767: {
-								disable: false,
-								width: 300,
-								height: 300,
-								x: 30,
-								y: 30
-							} 
-						},{
-							property: {
-								disable: false,
-								width: 300,
-								height: 200,
-								x: 50,
-								y: 100,
-								type: "div",
-								content: "New Div!!!",
-								bcolor: "#abc",
-								zindex: 0
-							}
-						}
-				]
+							disable: false,
+							width: 200,
+							height: 100,
+							x: 10,
+							y: 10,
+							type: "div",
+							content: "Hi! I'm a new Element.  Edit me.",
+							bcolor: "#eee",
+							zindex: 1,
+							state767_x: 30,
+							state767_y: 30,
+							state767_width: 300,
+							state767_height: 300 
+							},{
+							disable: false,
+							width: 300,
+							height: 200,
+							x: 50,
+							y: 100,
+							type: "div",
+							content: "New Div!!!",
+							bcolor: "#abc",
+							zindex: 0
+							}]
 			};
 			this.widthCollection = new WidthCollection(data.dimensions);
 			this.widthCollectionView = new WidthCollectionView({collection: this.widthCollection, dispatch: this.dispatch});
 			this.toolsCollection = new ToolsCollection(data.tools);
 			this.toolsCollectionView = new ToolsCollectionView({collection: this.toolsCollection, dispatch: this.dispatch});
 			this.elementsCollection = new ElementsCollection();
-			this.elementsCollectionView = new ElementsCollectionView({collection: this.elementsCollection, dispatch: this.dispatch, width: this.widthCollection.first().get("xmax"), height: this.widthCollection.first().get("y")});
+			this.elementsCollectionView = new ElementsCollectionView({
+				collection: this.elementsCollection, 
+				dispatch: this.dispatch, 
+				width: this.widthCollection.first().get("xmax"), 
+				height: this.widthCollection.first().get("y")
+			});
 			this.overlayView = new OverlayView({dispatch: this.dispatch});
-			this.elementsCollection.initLoad(data.elements);
+			this.elementsCollection.add(data.elements);
 		},
 
 		events: function () {
