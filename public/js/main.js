@@ -1,3 +1,7 @@
+function passwordHash(raw){
+	return CryptoJS.SHA256(raw).toString().substring(0,15);
+}
+
 $(function(){
 	
 	Width = Backbone.Model.extend({
@@ -60,6 +64,7 @@ $(function(){
 	 	defaults: {
 	 		iconClass: "icon-plus icon-2x",
 			name: "New Element",
+			task: "New Element"
 	 	}
 	});
 
@@ -67,24 +72,25 @@ $(function(){
 		tagName: "button",
 		className: "tool-view",
 		template: _.template($("#toolViewTemp").html()),
+		taskToAction: {
+			"New Element": "NewElementButton:click",
+			"Save Layout": "SaveLayoutButton:click",
+			"User": "LoginButton:click"
+		},
 		events: {
-			"click": "dispatcherTrigger"
+			 "click": "dispatcherTrigger"
 		},
 		initialize: function (options) {
 			this.dispatch = options.dispatch;
 			this.render();
+			this.listenTo(this.model, "change", this.render);
 		},
 
 		dispatcherTrigger: function () {
-			switch(this.model.get("name")){
-				case "New Element":
-					this.dispatch.trigger("NewElementButton:click");
-					break;
-				case "Save Layout":
-					this.dispatch.trigger("SaveLayoutButton:click");
-					break;
-				default:
-					console.log("sorry don't know what the button is");
+			if (!!this.taskToAction[this.model.get("task")]) {
+				this.dispatch.trigger(this.taskToAction[this.model.get("task")], {model: this.model});
+			} else {
+				console.log("sorry don't know what the button is");
 			}
 		},
 
@@ -102,6 +108,9 @@ $(function(){
 	var ToolsCollectionView = Backbone.View.extend({
 		model: Tool,
 		el: $(".main-menu"),
+		events: {
+
+		},
 		initialize: function (options) {
 			this.dispatch = options.dispatch;
 			this.render();
@@ -111,17 +120,13 @@ $(function(){
 				var modelView = new ToolView({model: modelTool, dispatch: this.dispatch});
 				this.$el.append(modelView.el);
 			},this)
-
 		}
-	});
+	}); 
 
 	Element = Backbone.Model.extend({
 		previousState : "",
 		currentState : "defaults",
-		_validate: function () {
-			return true;
-		},
-		defaults: {
+		defaults: { 
 			disable: false,
 			width: 200,
 			height: 200,
@@ -135,28 +140,23 @@ $(function(){
 		updateCurrentState: function (width) {
 			//Store dimension to current (soon previous state)
 			if (this.currentState !== "defaults") {
-				var thisWidth = this.get("width"),
-					thisHeight = this.get("height"),
-					thisX = this.get("x"),
-					thisY = this.get("y");
-					thisDisable = this.get("disable");
-				
-				this.set(this.currentState+"_x",  thisX)
-					.set(this.currentState+"_y",  thisY)
-					.set(this.currentState+"_width", thisWidth)
-					.set(this.currentState+"_height", thisHeight)
-					.set(this.currentState+"_disable", thisDisable);
+				this.set(this.currentState+"_x",  this.get("x"))
+					.set(this.currentState+"_y",  this.get("y"))
+					.set(this.currentState+"_width", this.get("width"))
+					.set(this.currentState+"_height", this.get("height"))
+					.set(this.currentState+"_disable", this.get("disable"));
 			}
 			this.previousState = this.currentState;
 			//change current state and set dimension to stored dimension if exists
 			this.currentState = "state"+width.toString();
 			if (!!this.get(this.currentState+"_width")) {
 				this.set({
-					width: this.get(this.currentState+"_width"), 
-					height: this.get(this.currentState+"_height"), 
-					x: this.get(this.currentState+"_x"), 
-					y: this.get(this.currentState+"_y"), 
-					disable: this.get(this.currentState+"_disable")});
+						width: this.get(this.currentState+"_width"), 
+						height: this.get(this.currentState+"_height"), 
+						x: this.get(this.currentState+"_x"), 
+						y: this.get(this.currentState+"_y"), 
+						disable: this.get(this.currentState+"_disable")
+					});
 			}
 		}
 	});
@@ -213,7 +213,10 @@ $(function(){
 		saveContent: function () {
 			this.$el.find(".save-content").addClass("hidden");
 
-			this.model.set({"content" :this.$el.find(".input-content").val(), "bcolor" : this.$el.find(".input-color").val(), "zindex": this.$el.find(".input-zindex").val()});
+			this.model.set({"content" :this.$el.find(".input-content").val(), 
+							"bcolor" : this.$el.find(".input-color").val(), 
+							"zindex": this.$el.find(".input-zindex").val()
+							});
 
 			this.$el.find(".edit").addClass("hidden");
 			this.$el.find(".edit-content").removeClass("hidden");
@@ -301,28 +304,30 @@ $(function(){
 			return this;
 		}
 	});
-	var OverlayView = Backbone.View.extend({
-		el: $(".overlay"),
+	var CreateElementOverlayView = Backbone.View.extend({
+		el: $(".create-element-overlay"),
 		events: {
-			"click .close": "closeOverlay",
+			"click .close": "closeCreateElementOverlay",
 			"mousedown" : "startCreateElement",
 			"mouseup" : "endCreateElement",
 			"mousemove" : "drawShadowElement"	
 		},
 		initialize: function (options) {
 			this.dispatch = options.dispatch;
-			this.render();
 		},
 		startCreateElement: function (e) {
-			console.log("Starting coordiate: "+ e.originalEvent.clientX +", "+ + e.originalEvent.clientY);
 			this.drawing = {
 				start: {
-					x: e.originalEvent.clientX, 
-					y: e.originalEvent.clientY, 
-					mousex: e.originalEvent.clientX, 
-					mousey:e.originalEvent.clientY
+					x: e.originalEvent.clientX - 1, 
+					y: e.originalEvent.clientY - 1, 
+					mousex: e.originalEvent.clientX -1, 
+					mousey:e.originalEvent.clientY -1 
 				}};
-			this.$el.children(".shadow-element").removeClass("hidden").css({"left": this.drawing.start.x, "top": this.drawing.start.y});
+			this.$el.children(".shadow-element")
+					.removeClass("hidden")
+					.css({"left": this.drawing.start.x, 
+						  "top": this.drawing.start.y
+						});
 			this.drawing.start.x = this.$el.children(".shadow-element").offset().left;
 			this.drawing.start.y = this.$el.children(".shadow-element").offset().top;
 		},
@@ -332,28 +337,27 @@ $(function(){
 				return false;
 			};
 			this.$el.children(".shadow-element").css({
-				"width": e.originalEvent.clientX-this.drawing.start.mousex, 
+				"width": e.originalEvent.clientX-this.drawing.start.mousex , 
 				"height": e.originalEvent.clientY-this.drawing.start.mousey
 			});
 		},
 
 		endCreateElement: function (e) {
-			var width = this.$el.children(".shadow-element").width(),
-				height = this.$el.children(".shadow-element").height();
-			console.log("Ending Dim: "+ width +", "+ height);
+			var width = this.$el.children(".shadow-element").css("width"),
+				height = this.$el.children(".shadow-element").css("height");
+
 			this.$el.children(".shadow-element")
 					.addClass("hidden")
 					.css({"width": 0, "height": 0, "top": 0, "left" : 0});
 			
-			this.closeOverlay();
+			this.closeCreateElementOverlay();
 			
-			if ( width<10 || height<10 ) {
+			if ( parseInt(width, 10) <10 || parseInt(height, 10)<10 ) {
 				this.drawing = false;
-				console.log("the created div is too small");
 				return false;
 			};
 
-			this.dispatch.trigger("OverlayView:createElement",{
+			this.dispatch.trigger("CreateElementOverlayView:createElement",{
 				rawx:this.drawing.start.x, 
 				rawy: this.drawing.start.y, 
 				width: width, 
@@ -363,14 +367,49 @@ $(function(){
 			this.drawing = false;
 		},
 
-		showOverlay: function () {
+		showCreateElementOverlay: function () {
 			this.$el.removeClass("hidden");
 		},
-		closeOverlay: function () {
+		closeCreateElementOverlay: function () {
 			this.$el.addClass("hidden");
+		}
+	});
+	
+	var User = Backbone.Model.extend({
+		urlRoot : '../rwdwire-server/users/login',
+		defaults : {
+			"email" : "",
+			"api_key" : ""
+		}
+		//User.fetch({data:{email: 'yay@gmail.com', pass:'asdfasdfdadf'}, type: 'POST'});
+	});
+	var UserOverlayView = Backbone.View.extend({
+		el:$(".user-overlay"),
+		loginTemplate: _.template($("#loginTemp").html()),
+		events: {
+			"submit #loginForm" : "onLoginSubmit"
 		},
-		render: function () {
+		onLoginSubmit: function (e) {
+			var self = this;
+			this.model.email = this.$el.find("#inputEmail").val();
+			this.model.fetch({
+				data:{email: this.model.email, pass: passwordHash(this.$el.find("#inputPass").val())}, 
+				type: 'POST',
+				success: this.loginSuccess
+			});
+			console.log(this.model);
+			e.preventDefault();
+			
+		},
+		initialize: function () {
 
+		},
+		loginSuccess: function (model, resp) {
+			model.set(resp);
+		},
+		renderLogin: function () {
+			this.$el.removeClass("hidden");
+			this.$el.html(this.loginTemplate());
 		}
 	});
 	/** Application View **/
@@ -386,8 +425,9 @@ $(function(){
 							{xmin: "481", xmax: "767", y: "700", title: "mobile landscape"}, 
 							{xmin: "768", xmax:"979", y: "700", title: "default"}, 
 							{xmin: "980", y:"700", title: "large display"} ],
-				tools: [{iconClass: "icon-plus", name: "New Element"}, 
-						{iconClass: "icon-save", name: "Save Layout"}],
+				tools: [{iconClass: "icon-plus", name: "New Element", task: "New Element"}, 
+						{iconClass: "icon-save", name: "Save Layout", task: "Save Layout"},
+						{iconClass: "icon-signin", name: "Login Here", task: "User"}],
 				elements: [{
 							disable: false,
 							width: 200,
@@ -402,7 +442,7 @@ $(function(){
 							state767_y: 30,
 							state767_width: 300,
 							state767_height: 300 
-							},{
+						},{
 							disable: false,
 							width: 300,
 							height: 200,
@@ -412,7 +452,7 @@ $(function(){
 							content: "New Div!!!",
 							bcolor: "#abc",
 							zindex: 0
-							}]
+						}]
 			};
 			this.widthCollection = new WidthCollection(data.dimensions);
 			this.widthCollectionView = new WidthCollectionView({collection: this.widthCollection, dispatch: this.dispatch});
@@ -425,26 +465,32 @@ $(function(){
 				width: this.widthCollection.first().get("xmax"), 
 				height: this.widthCollection.first().get("y")
 			});
-			this.overlayView = new OverlayView({dispatch: this.dispatch});
+			this.createElementOverlayView = new CreateElementOverlayView({dispatch: this.dispatch});
+			this.user = new User();
+			this.userOverlayView = new UserOverlayView({model: this.user, dispatch: this.dispatch});
 			this.elementsCollection.add(data.elements);
 		},
 
 		events: function () {
-			this.dispatch.on("NewElementButton:click", this.showOverlay, this);
+			this.dispatch.on("NewElementButton:click", this.showCreateElementOverlay, this);
 			this.dispatch.on("SaveLayoutButton:click", this.saveLayout, this);
+			this.dispatch.on("LoginButton:click", this.login, this);
 			this.dispatch.on("WidthView:click", this.updateViewportDim, this);
 			this.dispatch.on("ElementsCollectionView/width:change", this.updateElementsState, this);
-			this.dispatch.on("OverlayView:createElement", this.createElement, this);
+			this.dispatch.on("CreateElementOverlayView:createElement", this.createElement, this);
 			this.dispatch.on("ElementView:resize", this.resizeElement, this);
 			this.dispatch.on("ElementView:move", this.moveElement, this);
 		},
 
-		showOverlay: function () {
-			this.overlayView.showOverlay();
+		showCreateElementOverlay: function () {
+			this.createElementOverlayView.showCreateElementOverlay();
 		},
-		saveLayout: function(){
+		saveLayout: function() {
 			console.log(this.elementsCollection.toJSON());
-			//this.elementsCollection.save();
+		},
+		login: function (payload) {
+			//payload.model.set({name: "User Info"});
+			this.userOverlayView.renderLogin();
 		},
 		updateViewportDim: function (payload) {
 			this.elementsCollectionView.changeDimension(payload.width, payload.height);

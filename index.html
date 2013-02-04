@@ -4,6 +4,7 @@
 		<link rel="stylesheet" href="public/css/default.css">
 		<link rel="stylesheet" href="public/assets/jquery-ui/themes/base/minified/jquery.ui.resizable.min.css">
 		<link rel="stylesheet" href="public/assets/font-awesome/css/font-awesome.min.css">
+		<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
 		<script src="public/assets/jquery/jquery.min.js"></script>
 		<script src="public/assets/underscore/underscore-min.js"></script>
 		<script src="public/assets/backbone/backbone-min.js"></script>
@@ -21,17 +22,22 @@
 			</div>
 
 			<div class="main-menu">
-				<!-- <button class="newElement"><i class="icon-plus icon-x2"> </i>New Element</button> -->
+
 			</div>
 
 			<div class="main-view">
 
 			</div>
 		</div>
-		<div class="overlay hidden">
-			<button class="close">CANCEL</button>
+		<div class="create-element-overlay hidden overlay">
+			<button class="close no-select">Cancel (or Click Anywhere)</button>
 			<div class="hidden shadow-element" style="position: absolute; width: 1px; height: 1px;"></div>
 		</div>
+
+		<div class="user-overlay hidden overlay">
+
+		</div>
+
 		<script id="widthViewTemp" type="text/template">
 		 	<span class="min"><%= xmin %>px </span>
 		 	<span class="max"><%= xmax %>px </span>
@@ -57,6 +63,18 @@
 				BColor: <input class="input-color" type="text" size="7">
 				Zindex: <input class="input-zindex" type="text" size="4">
 				<button class="remove-element"> <i class="icon-remove-circle"></i> Remove Element</button>
+		</script>
+
+		<script id="loginTemp" type="text/template">
+			<div class="login-window">
+				<form id="loginForm">
+					<label> Email: </label>
+					<input type="email" name="email" id="inputEmail"><br>
+					<label> Password: </label>
+					<input type="password" name="password" id="inputPass"><br>
+					<button type="submit" id="loginSubmit">Login</button>
+				</form>
+			</div>
 		</script>
 
 	</body>
