@@ -75,7 +75,8 @@ $(function(){
 		taskToAction: {
 			"New Element": "NewElementButton:click",
 			"Save Layout": "SaveLayoutButton:click",
-			"User": "LoginButton:click"
+			"Login": "LoginButton:click",
+			"ListProjects": "ListButton: click"
 		},
 		events: {
 			 "click": "dispatcherTrigger"
@@ -304,6 +305,7 @@ $(function(){
 			return this;
 		}
 	});
+
 	var CreateElementOverlayView = Backbone.View.extend({
 		el: $(".create-element-overlay"),
 		events: {
@@ -376,7 +378,9 @@ $(function(){
 	});
 	
 	var User = Backbone.Model.extend({
-		urlRoot : '../rwdwire-server/users/login',
+		urlRoot : '../rwdwire-server/users',
+		loginUrl: "/login",
+		registerUrl: "/register",
 		defaults : {
 			"email" : "",
 			"api_key" : ""
@@ -386,30 +390,82 @@ $(function(){
 	var UserOverlayView = Backbone.View.extend({
 		el:$(".user-overlay"),
 		loginTemplate: _.template($("#loginTemp").html()),
+		//loginUrl: "/login",
+		registerTemplate: _.template($("#registerTemp").html()),
+		//registerUrl: "/register",
+		userTemplate: _.template($("#userTemp").html()),
 		events: {
-			"submit #loginForm" : "onLoginSubmit"
+			"submit #loginForm" : "onLoginSubmit",
+			"click .close" : "closeOverlay",
+			"click #registerButton" : "renderRegister",
+			"submit #registerForm" : "onRegisterSubmit"
 		},
 		onLoginSubmit: function (e) {
-			var self = this;
-			this.model.email = this.$el.find("#inputEmail").val();
-			this.model.fetch({
-				data:{email: this.model.email, pass: passwordHash(this.$el.find("#inputPass").val())}, 
-				type: 'POST',
-				success: this.loginSuccess
-			});
-			console.log(this.model);
 			e.preventDefault();
-			
-		},
-		initialize: function () {
+			var self = this;
+			this.hideError();
+			this.model.fetch({
+				url: this.model.urlRoot + this.model.loginUrl,
+				data:{email: this.$el.find("#inputEmail").val(), pass: passwordHash(this.$el.find("#inputPass").val())}, 
+				type: 'POST',
+				success: this.loginCallback.bind(this)
+			});
+		}, 
+		onRegisterSubmit: function (e) {
+			var self = this;
+			e.preventDefault();
+			this.hideError();
 
+			console.log("what?");
+			$.ajax({
+				url: this.model.urlRoot + this.model.registerUrl,
+				data:{email: this.$el.find("#inputRegisterEmail").val(),
+					  pass: passwordHash(this.$el.find("#inputRegisterPass").val()),
+					  vpass: passwordHash(this.$el.find("#vinputRegisterPass").val())
+					},
+				type: 'POST',
+			}).done(function (data){
+				self.registerCallback(data);
+			});
 		},
-		loginSuccess: function (model, resp) {
-			model.set(resp);
+		initialize: function (options) {
+			this.dispatch = options.dispatch;
+		},
+		closeOverlay: function () {
+			this.$el.addClass("hidden");
+		},
+		loginCallback: function (model, resp) {
+			if (!!resp.error) {
+				this.showError("#loginError", resp.error);
+			} else {
+				console.log(model);
+				model.set(resp);
+				this.closeOverlay();
+				this.dispatch.trigger("UserLogin:success", {user: this.model});
+			}
+		},
+		registerCallback: function (data) {
+			console.log("got back");
+			if (!!data.error) {
+				this.showError("#registerError", data.error);
+			} else {
+				console.log(data);
+			}
+		},
+		hideError: function () {
+			this.$el.find(".error").addClass("hidden");
+		},
+		showError: function (selector, errorMessage) {
+			this.$el.find(selector).html(errorMessage);
+			this.$el.find(selector).removeClass("hidden");
 		},
 		renderLogin: function () {
 			this.$el.removeClass("hidden");
 			this.$el.html(this.loginTemplate());
+		},
+		renderRegister: function () {
+			this.$el.empty();
+			this.$el.html(this.registerTemplate());
 		}
 	});
 	/** Application View **/
@@ -427,7 +483,7 @@ $(function(){
 							{xmin: "980", y:"700", title: "large display"} ],
 				tools: [{iconClass: "icon-plus", name: "New Element", task: "New Element"}, 
 						{iconClass: "icon-save", name: "Save Layout", task: "Save Layout"},
-						{iconClass: "icon-signin", name: "Login Here", task: "User"}],
+						{iconClass: "icon-signin", name: "Login Here", task: "Login"}],
 				elements: [{
 							disable: false,
 							width: 200,
@@ -480,6 +536,7 @@ $(function(){
 			this.dispatch.on("CreateElementOverlayView:createElement", this.createElement, this);
 			this.dispatch.on("ElementView:resize", this.resizeElement, this);
 			this.dispatch.on("ElementView:move", this.moveElement, this);
+			this.dispatch.on("UserLogin:success", this.successLogin, this);
 		},
 
 		showCreateElementOverlay: function () {
@@ -524,6 +581,9 @@ $(function(){
 		},
 		moveElement: function (payload) {
 			this.elementsCollection.get(payload.cid).set({x: payload.ui.position.left, y: payload.ui.position.top});
+		},
+		successLogin: function (payload) {
+			this.toolsCollection.where({task: "Login"})[0].set({name: "List Proj", task: "ListProjects"});
 		}
 	});
 	

@@ -115,15 +115,33 @@ button{
 	background-image: url('opacity50.png');
 	z-index: 100;
 }
+.overlay .window{
+	width: 300px;
+	background-color: #eee;
+	position: relative;
+	margin: 0 auto;
+	margin-top: 130px;
+	padding: 10px;
+}
 
+.overlay .btn-large{
+	padding: 10px;
+}
+
+.overlay .window .close{
+	padding: 5px;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
 .create-element-overlay {
 	cursor: crosshair;
 }
 
 .create-element-overlay .close{
 	position: absolute;
-	right: 0;
-	top: 0;
+	right: 0px;
+	top: 0px;
 	font-size: 20px;
 }
 .shadow-element {
@@ -132,12 +150,15 @@ button{
 }
 
 .user-overlay .login-window{
-	width: 300px;
-	margin: 0 auto;
-	background-color: #eee;
+	
+	
 
 }
 
+.user-overlay .login-window .error{
+	background-color: #fbb450;
+	padding: 5px;
+}
 
 .ui-resizable-ghost {
 	-webkit-transition: none !important; /* Safari and Chrome */

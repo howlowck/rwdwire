@@ -66,14 +66,45 @@
 		</script>
 
 		<script id="loginTemp" type="text/template">
-			<div class="login-window">
+			<div class="login-window window">
+				<button class="close"><i class="icon-remove"></i></button>
+				<h3>Login</h3><br>
+				<div id="loginError" class="error hidden"></div>
 				<form id="loginForm">
 					<label> Email: </label>
 					<input type="email" name="email" id="inputEmail"><br>
 					<label> Password: </label>
 					<input type="password" name="password" id="inputPass"><br>
-					<button type="submit" id="loginSubmit">Login</button>
+					<br>
+					<button type="submit" id="loginSubmit" class="btn-large"><i class="icon-ok"></i> Login</button>
 				</form>
+				Or 
+				<br>
+				<button id="registerButton" class="btn-large"><i class="icon-key"></i> Register </button>
+				<br>
+				
+			</div>
+		</script>
+		<script id="registerTemp" type="text/template">
+			<div class="register-window window">
+				<button class="close"><i class="icon-remove"></i></button>
+				<h3>Register</h3><br>
+				<div id="registerError" class="error hidden"></div>
+				<form id="registerForm">
+					<label> Email: </label>
+					<input type="email" name="email" id="inputRegisterEmail"><br>
+					<label> Password: </label>
+					<input type="password" name="password" id="inputRegisterPass"><br>
+					<label> Confirm Password: </label>
+					<input type="password" name="vpassword" id="vinputRegisterPass"><br><br>
+					<button type="submit" class="btn-large"><i class="icon-ok"></i> Submit </button>
+				</form>
+			</div>
+		</script>
+		<script id="userTemp" type="text/template">
+			<div class="window">
+				<div class="error hidden"><i class="icon-remove"></i></div>
+
 			</div>
 		</script>
 
