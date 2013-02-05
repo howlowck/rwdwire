@@ -415,8 +415,6 @@ $(function(){
 			var self = this;
 			e.preventDefault();
 			this.hideError();
-
-			console.log("what?");
 			$.ajax({
 				url: this.model.urlRoot + this.model.registerUrl,
 				data:{email: this.$el.find("#inputRegisterEmail").val(),
@@ -435,21 +433,22 @@ $(function(){
 			this.$el.addClass("hidden");
 		},
 		loginCallback: function (model, resp) {
+			//console.log(resp);
 			if (!!resp.error) {
 				this.showError("#loginError", resp.error);
 			} else {
-				console.log(model);
 				model.set(resp);
 				this.closeOverlay();
 				this.dispatch.trigger("UserLogin:success", {user: this.model});
 			}
 		},
 		registerCallback: function (data) {
-			console.log("got back");
 			if (!!data.error) {
 				this.showError("#registerError", data.error);
 			} else {
-				console.log(data);
+				this.model.set(data);
+				this.closeOverlay();
+				this.dispatch.trigger("UserLogin:success", {user: this.model});
 			}
 		},
 		hideError: function () {

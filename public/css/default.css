@@ -124,6 +124,11 @@ button{
 	padding: 10px;
 }
 
+.overlay .window .error{
+	background-color: #fbb450;
+	padding: 5px;
+}
+
 .overlay .btn-large{
 	padding: 10px;
 }
@@ -147,17 +152,6 @@ button{
 .shadow-element {
 	border: 2px black solid;
 	z-index: 4;
-}
-
-.user-overlay .login-window{
-	
-	
-
-}
-
-.user-overlay .login-window .error{
-	background-color: #fbb450;
-	padding: 5px;
 }
 
 .ui-resizable-ghost {
