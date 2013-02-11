@@ -4,11 +4,11 @@ function passwordHash(raw){
 
 $(function(){
 	
-	Width = Backbone.Model.extend({
+	var Width = Backbone.Model.extend({
 		defaults: {xmax: "1200", xmin: "0", y: "700", title :"No Name"},
 	});
 
-	WidthView = Backbone.View.extend({
+	var WidthView = Backbone.View.extend({
 		className: "width-view",
 		
 		events: {
@@ -60,6 +60,25 @@ $(function(){
 		}
 	});
 
+	var WidthCollectionEditView = Backbone.View.extend({
+		el: $(".width-overlay"),
+		template: _.template($("#widthOverlayTemp").html()),
+		events: {
+			"click .close": "closeOverlay"
+		},
+		initialize: function(options){
+			this.dispatch = options.dispatch;
+		},
+		closeOverlay: function () {
+			this.$el.addClass("hidden");
+		},
+		render: function () {
+			this.$el.removeClass("hidden");
+			this.$el.html(this.template());
+		}
+
+	});
+
 	var Tool = Backbone.Model.extend({
 	 	defaults: {
 	 		iconClass: "icon-plus icon-2x",
@@ -73,6 +92,7 @@ $(function(){
 		className: "tool-view",
 		template: _.template($("#toolViewTemp").html()),
 		taskToAction: {
+			"Edit Widths": "EditWidthButton:click",
 			"New Element": "NewElementButton:click",
 			"Save Layout": "SaveLayoutButton:click",
 			"Login": "LoginButton:click",
@@ -124,7 +144,7 @@ $(function(){
 		}
 	}); 
 
-	Element = Backbone.Model.extend({
+	var Element = Backbone.Model.extend({
 		previousState : "",
 		currentState : "defaults",
 		defaults: { 
@@ -162,7 +182,7 @@ $(function(){
 		}
 	});
 
-	ElementView = Backbone.View.extend({
+	var ElementView = Backbone.View.extend({
 		className: "element-view",
 		template: _.template($("#elementViewTemp").html()),
 		attributes: {
@@ -270,11 +290,11 @@ $(function(){
 		}
 	});
 
-	ElementsCollection = Backbone.Collection.extend({
+	var ElementsCollection = Backbone.Collection.extend({
 		model: Element
 	});
 
-	ElementsCollectionView = Backbone.View.extend({
+	var ElementsCollectionView = Backbone.View.extend({
 		el: $(".main-view"),
 		width: "",
 		height: "",
@@ -307,7 +327,7 @@ $(function(){
 	});
 
 	var CreateElementOverlayView = Backbone.View.extend({
-		el: $(".create-element-overlay"),
+		el: $(".element-overlay"),
 		events: {
 			"click .close": "closeCreateElementOverlay",
 			"mousedown" : "startCreateElement",
@@ -345,8 +365,8 @@ $(function(){
 		},
 
 		endCreateElement: function (e) {
-			var width = this.$el.children(".shadow-element").css("width"),
-				height = this.$el.children(".shadow-element").css("height");
+			var width = parseInt(this.$el.children(".shadow-element").css("width"),10),
+				height = parseInt(this.$el.children(".shadow-element").css("height"),10);
 
 			this.$el.children(".shadow-element")
 					.addClass("hidden")
@@ -385,15 +405,12 @@ $(function(){
 			"email" : "",
 			"api_key" : ""
 		}
-		//User.fetch({data:{email: 'yay@gmail.com', pass:'asdfasdfdadf'}, type: 'POST'});
 	});
 	var UserOverlayView = Backbone.View.extend({
 		el:$(".user-overlay"),
-		loginTemplate: _.template($("#loginTemp").html()),
-		//loginUrl: "/login",
-		registerTemplate: _.template($("#registerTemp").html()),
-		//registerUrl: "/register",
-		userTemplate: _.template($("#userTemp").html()),
+		loginTemplate: _.template($("#loginOverlayTemp").html()),
+		registerTemplate: _.template($("#registerOverlayTemp").html()),
+		userTemplate: _.template($("#userOverlayTemp").html()),
 		events: {
 			"submit #loginForm" : "onLoginSubmit",
 			"click .close" : "closeOverlay",
@@ -415,6 +432,10 @@ $(function(){
 			var self = this;
 			e.preventDefault();
 			this.hideError();
+			if (this.$el.find("#inputRegisterPass").val() == "") {
+				this.showError("#registerError", "Your password is empty");
+				return;
+			}
 			$.ajax({
 				url: this.model.urlRoot + this.model.registerUrl,
 				data:{email: this.$el.find("#inputRegisterEmail").val(),
@@ -472,45 +493,27 @@ $(function(){
 	var AppView = Backbone.View.extend({
 		el: $("body"),
 
-		initialize: function () {
+		initialize: function (options) {
 
-			this.dispatch = _.clone(Backbone.Events);
+			this.dispatch = options.dispatch;
 			data = {
 				dimensions: [{xmax: "480", y: "700", title: "mobile portrait"}, 
 							{xmin: "481", xmax: "767", y: "700", title: "mobile landscape"}, 
 							{xmin: "768", xmax:"979", y: "700", title: "default"}, 
 							{xmin: "980", y:"700", title: "large display"} ],
-				tools: [{iconClass: "icon-plus", name: "New Element", task: "New Element"}, 
+				tools: [{iconClass: "icon-pencil", name: "Edit Widths", task: "Edit Widths"},
+						{iconClass: "icon-plus", name: "New Element", task: "New Element"}, 
 						{iconClass: "icon-save", name: "Save Layout", task: "Save Layout"},
 						{iconClass: "icon-signin", name: "Login Here", task: "Login"}],
-				elements: [{
-							disable: false,
-							width: 200,
-							height: 100,
-							x: 10,
-							y: 10,
-							type: "div",
-							content: "Hi! I'm a new Element.  Edit me.",
-							bcolor: "#eee",
-							zindex: 1,
-							state767_x: 30,
-							state767_y: 30,
-							state767_width: 300,
-							state767_height: 300 
-						},{
-							disable: false,
-							width: 300,
-							height: 200,
-							x: 50,
-							y: 100,
-							type: "div",
-							content: "New Div!!!",
-							bcolor: "#abc",
-							zindex: 0
-						}]
+				elements: [{"x":7,"y":4,"width":103,"height":59,"disable":false,"type":"div","content":"Logo\n","bcolor":"#eee","zindex":"0"},
+				{"x":7,"y":347,"width":242,"height":178,"disable":false,"type":"div","content":"Supplement","bcolor":"#abc","zindex":"0"},
+				{"x":7,"y":69,"width":466,"height":275,"disable":false,"type":"div","content":"Main Content","bcolor":"#dce","zindex":"0"},
+				{"x":113,"y":3,"width":360,"height":60,"disable":false,"type":"div","content":"Navigation","bcolor":"#eee","zindex":"0"},
+				{"x":252,"y":347,"width":221,"height":178,"disable":false,"type":"div","content":"Sidebar","bcolor":"#eee","zindex":"0"}]
 			};
 			this.widthCollection = new WidthCollection(data.dimensions);
 			this.widthCollectionView = new WidthCollectionView({collection: this.widthCollection, dispatch: this.dispatch});
+			this.widthCollectionEditView = new WidthCollectionEditView({collection: this.widthCollection, dispatch: this.dispatch});
 			this.toolsCollection = new ToolsCollection(data.tools);
 			this.toolsCollectionView = new ToolsCollectionView({collection: this.toolsCollection, dispatch: this.dispatch});
 			this.elementsCollection = new ElementsCollection();
@@ -527,7 +530,8 @@ $(function(){
 		},
 
 		events: function () {
-			this.dispatch.on("NewElementButton:click", this.showCreateElementOverlay, this);
+			this.dispatch.on("EditWidthButton:click", this.editWidth,this);
+			this.dispatch.on("NewElementButton:click", this.newElement, this);
 			this.dispatch.on("SaveLayoutButton:click", this.saveLayout, this);
 			this.dispatch.on("LoginButton:click", this.login, this);
 			this.dispatch.on("WidthView:click", this.updateViewportDim, this);
@@ -537,12 +541,14 @@ $(function(){
 			this.dispatch.on("ElementView:move", this.moveElement, this);
 			this.dispatch.on("UserLogin:success", this.successLogin, this);
 		},
-
-		showCreateElementOverlay: function () {
+		editWidth: function () {
+			this.widthCollectionEditView.render();
+		},
+		newElement: function () {
 			this.createElementOverlayView.showCreateElementOverlay();
 		},
 		saveLayout: function() {
-			console.log(this.elementsCollection.toJSON());
+			console.log(JSON.stringify(this.elementsCollection.toJSON()));
 		},
 		login: function (payload) {
 			//payload.model.set({name: "User Info"});
@@ -587,10 +593,25 @@ $(function(){
 	});
 	
 	var App = Backbone.Router.extend({
+		
 		initialize: function () {
-			this.appView = new AppView();
+			this.dispatch = _.clone(Backbone.Events);
+			this.appView = new AppView({dispatch: this.dispatch});
+		},
+		routes: {
+			"layout/:layoutUid": "loadLayout"
+		},
+		loadLayout: function (layoutUid) {
+			console.log("this is running");
+			$.ajax({
+				url: "../rwdwire-server/layouts/"+layoutUid+".json"
+			}).done(function (data) {
+
+			})
 		}
+
 	});
 
 	app= new App();
+	Backbone.history.start()
 });

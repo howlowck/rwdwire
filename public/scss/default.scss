@@ -1,0 +1,192 @@
+@import url(http://fonts.googleapis.com/css?family=Lemon);
+@import url(http://fonts.googleapis.com/css?family=Donegal+One);
+
+//variables
+$viewport-color: #F79871;
+$overlay-window-color: #eee;
+$width-color: #708A74;
+$width-border-color: #E0C7A4;
+
+//Mixins
+@mixin borderbox {
+	box-sizing:border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing:border-box;
+}
+
+@mixin transition($duration:0.5s) {
+	-webkit-transition: width $duration, height $duration; /* Safari and Chrome */
+	-moz-transition: width $duration, height $duration; /* Firefox 4 */
+	-ms-transition: width $duration, height $duration; /* MS */
+	-o-transition: width $duration, height $duration; /* Opera */
+	transition: width $duration, height $duration;
+}
+@mixin no-select {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+@mixin no-transition {
+	-webkit-transition: none !important; /* Safari and Chrome */
+	-moz-transition: none !important; /* Firefox 4 */
+	-ms-transition: none !important; /* MS */
+	-o-transition: none !important; /* Opera */
+	transition: none !important;
+}
+
+* {
+	padding: 0;
+	margin: 0;
+	@include borderbox;
+}
+
+.container {
+	width: 1200px;
+	margin: 0 auto;
+	position: relative;
+	margin-bottom: 30px;
+}
+
+#main-title {
+	font-family: 'Lemon', cursive;
+	#version{
+		font-size: 15px;
+	}
+}
+
+button{
+	font-family: 'Lemon', cursive;
+	cursor: pointer;
+}
+.main-menu {
+	position: absolute;
+	right: 0;
+	top: 20px;
+	button {
+		display: inline-block;
+		width: 100px;
+		font-size: 20px;
+	}
+}
+
+#sizes {
+	width: 1300px;
+}
+
+.width-view {
+	position: relative;
+	font-family: 'Lemon', cursive;
+	background-color: $width-color;
+	display: inline-block;
+	border: 1px solid $width-border-color;
+	cursor: pointer;
+	padding: 10px;
+	overflow: auto;
+	white-space: nowrap; 
+	.max{
+		float: right;
+	}
+}
+
+.main-view {
+	height:700px;
+	background-color: $viewport-color;
+	position: relative;
+	@include transition(0.5s);
+
+}
+
+
+.element-view {
+	border: 2px black solid;
+	font-family: 'Donegal One', serif;
+	overflow: hidden;
+	z-index: 4;
+	cursor: move;
+
+	.top{
+		vertical-align: top;
+	}
+	.inner {
+		position: relative;
+
+		.content {
+			position: inherit;
+		}
+
+		.menu {
+			position: absolute;
+			top: 0;
+			right: 0;
+			z-index: 10;
+		}
+	}
+	.remove-element {
+		background-color: orange;
+		padding: 5px;
+	}
+}
+
+
+/** Overlay Stuff **/
+.overlay{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-image: url('opacity50.png');
+	z-index: 100;
+	.window{
+		min-width: 300px;
+		max-width: 600px;
+		background-color: $overlay-window-color;
+		position: relative;
+		margin: 0 auto;
+		margin-top: 130px;
+		padding: 10px;
+		.error{
+			background-color: #fbb450;
+			padding: 5px;
+		}
+		.close{
+			padding: 5px;
+			position: absolute;
+			top: 0;
+			right: 0;
+		}
+	}
+	.btn-large{
+		padding: 10px;
+	}
+}
+
+.element-overlay {
+	cursor: crosshair;
+	.close{
+		position: absolute;
+		right: 0px;
+		top: 0px;
+		font-size: 20px;
+	}
+}
+
+.shadow-element {
+	border: 2px black solid;
+	z-index: 4;
+}
+
+.ui-resizable-ghost {
+	@include no-transition;
+}
+
+.hidden {
+	display: none;
+}
+
+.no-select {
+	@include no-select;
+}

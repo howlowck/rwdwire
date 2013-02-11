@@ -16,7 +16,7 @@
 		<div class="container">
 			<br>
 			<h1 id="main-title">
-				RWD Wireframe
+				RWD Wireframe <span id="version"> (v. Pre-Alpha) </span>
 			</h1> <br>
 			<div id="sizes">
 			</div>
@@ -29,7 +29,10 @@
 
 			</div>
 		</div>
-		<div class="create-element-overlay hidden overlay">
+
+
+		<!-- Overlays -->
+		<div class="element-overlay hidden overlay">
 			<button class="close no-select">Cancel (or Click Anywhere)</button>
 			<div class="hidden shadow-element" style="position: absolute; width: 1px; height: 1px;"></div>
 		</div>
@@ -38,6 +41,11 @@
 
 		</div>
 
+		<div class="width-overlay hidden overlay">
+
+		</div>
+
+		<!-- Templates -->
 		<script id="widthViewTemp" type="text/template">
 		 	<span class="min"><%= xmin %>px </span>
 		 	<span class="max"><%= xmax %>px </span>
@@ -65,7 +73,7 @@
 				<button class="remove-element"> <i class="icon-remove-circle"></i> Remove Element</button>
 		</script>
 
-		<script id="loginTemp" type="text/template">
+		<script id="loginOverlayTemp" type="text/template">
 			<div class="login-window window">
 				<button class="close"><i class="icon-remove"></i></button>
 				<h3>Login</h3><br>
@@ -85,7 +93,7 @@
 				
 			</div>
 		</script>
-		<script id="registerTemp" type="text/template">
+		<script id="registerOverlayTemp" type="text/template">
 			<div class="register-window window">
 				<button class="close"><i class="icon-remove"></i></button>
 				<h3>Register</h3><br>
@@ -101,10 +109,16 @@
 				</form>
 			</div>
 		</script>
-		<script id="userTemp" type="text/template">
+		<script id="userOverlayTemp" type="text/template">
 			<div class="window">
+				<button class="close"><i class="icon-remove"></i></button>
 				<div class="error hidden"><i class="icon-remove"></i></div>
-
+			</div>
+		</script>
+		<script id="widthOverlayTemp" type="text/template">
+			<div class="window">
+				<button class="close"><i class="icon-remove"></i></button>
+				<div class="error hidden"><i class="icon-remove"></i></div>
 			</div>
 		</script>
 

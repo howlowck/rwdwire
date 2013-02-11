@@ -46,6 +46,8 @@ application/config/recaptcha.php
 .project
 .settings
 
+.sass-cache/*
+
 nbproject/*
 
 application/logs/*
@@ -53,6 +55,5 @@ application/logs/*
 images/*
 
 public/assets/*
-
 
 *.sublime-*
