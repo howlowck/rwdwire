@@ -117,8 +117,20 @@
 		</script>
 		<script id="widthOverlayTemp" type="text/template">
 			<div class="window">
-				<button class="close"><i class="icon-remove"></i></button>
+				<h3>Edit Width </h3>
+				<button class="close" title="close window"><i class="icon-remove"></i></button>
 				<div class="error hidden"><i class="icon-remove"></i></div>
+				<div class="width-form-items">
+					<!-- The width items will be inserted here (see below) -->
+				</div>
+				<button class="add-width"><i class="icon-plus"></i> Add New Width</button>
+			</div>
+		</script>
+		<script id="widthFormItemTemp" type="text/template">
+			<div class="width-form-item" data-cid="<%= cid %>">
+			min: <%= xmin %>
+			max: <input type="text" value="<%= xmax %>" class="edit-max-width" />
+			<button class="remove-width" title="Remove Width"><i class="icon-remove"></i></button>
 			</div>
 		</script>
 

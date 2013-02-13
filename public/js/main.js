@@ -5,7 +5,7 @@ function passwordHash(raw){
 $(function(){
 	
 	var Width = Backbone.Model.extend({
-		defaults: {xmax: "1200", xmin: "0", y: "700", title :"No Name"},
+		defaults: {xmax: "changeme", xmin: "0", y: "700", title :"No Name"},
 	});
 
 	var WidthView = Backbone.View.extend({
@@ -35,6 +35,7 @@ $(function(){
 
 	var WidthCollection = Backbone.Collection.extend({
 		model : Width
+		//TODO: 2. add model on change then update all model min attributes
 	});
 
 	var WidthCollectionView = Backbone.View.extend({
@@ -44,9 +45,11 @@ $(function(){
 			this.dispatch = options.dispatch;
 			this.render();
 			this.listenTo(this.collection,"add",this.addModelToView);
+			this.listenTo(this.collection,"destroy",this.render);
 		},
 		render: function () {
-			_.each(this.collection.models, function (widthModel){
+			this.$el.empty();
+			this.collection.each(function (widthModel){
 				this.addModelToView(widthModel);
 			},this);
 			return this;
@@ -63,18 +66,44 @@ $(function(){
 	var WidthCollectionEditView = Backbone.View.extend({
 		el: $(".width-overlay"),
 		template: _.template($("#widthOverlayTemp").html()),
+		formItemTemplate: _.template($("#widthFormItemTemp").html()),
 		events: {
-			"click .close": "closeOverlay"
+			"click .close": "closeOverlay",
+			"click .remove-width": "removeWidth",
+			"click .add-width": "addWidth",
+			"change .edit-max-width": "editWidth",
 		},
 		initialize: function(options){
 			this.dispatch = options.dispatch;
+			this.render();
+			this.listenTo(this.collection,"add destroy",this.render);
+		},
+		removeWidth: function (e){
+			console.log(e);
+			$removeElement = $(e.target).parent();
+			this.collection.get($removeElement.attr("data-cid")).destroy();
+			$removeElement.remove();
+		},
+		addWidth: function () {
+			this.collection.add({});
+		},
+		editWidth: function () {
+			console.log("it changed!");
+			//TODO: 1. update width 
 		},
 		closeOverlay: function () {
 			this.$el.addClass("hidden");
 		},
-		render: function () {
+		showOverlay: function () {
 			this.$el.removeClass("hidden");
+		},
+		render: function () {
 			this.$el.html(this.template());
+			var $formItemDiv= this.$el.find(".width-form-items");
+			$formItemDiv.empty();
+			this.collection.each(function(model){
+				$formItemDiv.append(this.formItemTemplate(model.set("cid",model.cid).toJSON()));
+			},this);
 		}
 
 	});
@@ -137,10 +166,10 @@ $(function(){
 			this.render();
 		},
 		render: function() {
-			_.each(this.collection.models, function(modelTool){
+			this.collection.each(function(modelTool){
 				var modelView = new ToolView({model: modelTool, dispatch: this.dispatch});
 				this.$el.append(modelView.el);
-			},this)
+			},this);
 		}
 	}); 
 
@@ -500,7 +529,7 @@ $(function(){
 				dimensions: [{xmax: "480", y: "700", title: "mobile portrait"}, 
 							{xmin: "481", xmax: "767", y: "700", title: "mobile landscape"}, 
 							{xmin: "768", xmax:"979", y: "700", title: "default"}, 
-							{xmin: "980", y:"700", title: "large display"} ],
+							{xmin: "980", xmax:"1200", y:"700", title: "large display"} ],
 				tools: [{iconClass: "icon-pencil", name: "Edit Widths", task: "Edit Widths"},
 						{iconClass: "icon-plus", name: "New Element", task: "New Element"}, 
 						{iconClass: "icon-save", name: "Save Layout", task: "Save Layout"},
@@ -542,7 +571,7 @@ $(function(){
 			this.dispatch.on("UserLogin:success", this.successLogin, this);
 		},
 		editWidth: function () {
-			this.widthCollectionEditView.render();
+			this.widthCollectionEditView.showOverlay();
 		},
 		newElement: function () {
 			this.createElementOverlayView.showCreateElementOverlay();
@@ -551,7 +580,6 @@ $(function(){
 			console.log(JSON.stringify(this.elementsCollection.toJSON()));
 		},
 		login: function (payload) {
-			//payload.model.set({name: "User Info"});
 			this.userOverlayView.renderLogin();
 		},
 		updateViewportDim: function (payload) {
@@ -559,7 +587,7 @@ $(function(){
 		},
 
 		updateElementsState: function (payload) {
-			_.each(this.elementsCollection.models, function(model) {
+			this.elementsCollection.each( function (model) {
 				model.updateCurrentState(payload.width);
 			});
 		},
