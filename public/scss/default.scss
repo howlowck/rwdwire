@@ -44,8 +44,7 @@ $width-border-color: #E0C7A4;
 }
 
 .container {
-	width: 1200px;
-	margin: 0 auto;
+	margin-left: 30px;
 	position: relative;
 	margin-bottom: 30px;
 }
@@ -63,8 +62,9 @@ button{
 }
 .main-menu {
 	position: absolute;
-	right: 0;
+	left: 50%;
 	top: 20px;
+	min-width: 400px;
 	button {
 		display: inline-block;
 		width: 100px;
@@ -73,7 +73,7 @@ button{
 }
 
 #sizes {
-	width: 1300px;
+	height: 4em;
 }
 
 .width-view {
@@ -81,11 +81,13 @@ button{
 	font-family: 'Lemon', cursive;
 	background-color: $width-color;
 	display: inline-block;
+	vertical-align: top;
 	border: 1px solid $width-border-color;
 	cursor: pointer;
 	padding: 10px;
 	overflow: auto;
 	white-space: nowrap; 
+	height: 100%;
 	.max{
 		float: right;
 	}
@@ -175,7 +177,15 @@ button{
 }
 
 .width-form-item {
-	margin: 5px;
+	margin: 10px;
+	padding: 10px;
+	background-color: #fff;
+	position: relative;
+	.remove-width{
+		position: absolute;
+		top: 10px;
+		right: 10px;
+	}
 }
 
 .shadow-element {

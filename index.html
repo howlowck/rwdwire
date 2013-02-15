@@ -117,8 +117,9 @@
 		</script>
 		<script id="widthOverlayTemp" type="text/template">
 			<div class="window">
-				<h3>Edit Width </h3>
+				<h3>Edit Viewport Dimensions </h3>
 				<button class="close" title="close window"><i class="icon-remove"></i></button>
+				<div class="notice"> Everything updates instanteously.  So just change and close :) </div>
 				<div class="error hidden"><i class="icon-remove"></i></div>
 				<div class="width-form-items">
 					<!-- The width items will be inserted here (see below) -->
@@ -128,9 +129,10 @@
 		</script>
 		<script id="widthFormItemTemp" type="text/template">
 			<div class="width-form-item" data-cid="<%= cid %>">
-			min: <%= xmin %>
-			max: <input type="text" value="<%= xmax %>" class="edit-max-width" />
-			<button class="remove-width" title="Remove Width"><i class="icon-remove"></i></button>
+			Width: <input type="text" value="<%= xmax %>" class="edit-width" /> <br>
+			Height: <input type="text" value="<%=y%>" class="edit-height"/> <br>
+			Title: <input type="text" value="<%=title%>" class="edit-title"/> <br>
+			<button class="remove-width" title="Remove This Width">Remove</button>
 			</div>
 		</script>
 

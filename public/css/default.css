@@ -11,32 +11,32 @@
 
 /* line 46, ../scss/default.scss */
 .container {
-  width: 1200px;
-  margin: 0 auto;
+  margin-left: 30px;
   position: relative;
   margin-bottom: 30px;
 }
 
-/* line 53, ../scss/default.scss */
+/* line 52, ../scss/default.scss */
 #main-title {
   font-family: 'Lemon', cursive;
 }
-/* line 55, ../scss/default.scss */
+/* line 54, ../scss/default.scss */
 #main-title #version {
   font-size: 15px;
 }
 
-/* line 60, ../scss/default.scss */
+/* line 59, ../scss/default.scss */
 button {
   font-family: 'Lemon', cursive;
   cursor: pointer;
 }
 
-/* line 64, ../scss/default.scss */
+/* line 63, ../scss/default.scss */
 .main-menu {
   position: absolute;
-  right: 0;
+  left: 50%;
   top: 20px;
+  min-width: 400px;
 }
 /* line 68, ../scss/default.scss */
 .main-menu button {
@@ -47,7 +47,7 @@ button {
 
 /* line 75, ../scss/default.scss */
 #sizes {
-  width: 1300px;
+  height: 4em;
 }
 
 /* line 79, ../scss/default.scss */
@@ -56,18 +56,20 @@ button {
   font-family: 'Lemon', cursive;
   background-color: #708a74;
   display: inline-block;
+  vertical-align: top;
   border: 1px solid #e0c7a4;
   cursor: pointer;
   padding: 10px;
   overflow: auto;
   white-space: nowrap;
+  height: 100%;
 }
-/* line 89, ../scss/default.scss */
+/* line 91, ../scss/default.scss */
 .width-view .max {
   float: right;
 }
 
-/* line 94, ../scss/default.scss */
+/* line 96, ../scss/default.scss */
 .main-view {
   height: 700px;
   background-color: #f79871;
@@ -83,7 +85,7 @@ button {
   transition: width 0.5s, height 0.5s;
 }
 
-/* line 103, ../scss/default.scss */
+/* line 105, ../scss/default.scss */
 .element-view {
   border: 2px black solid;
   font-family: 'Donegal One', serif;
@@ -91,33 +93,33 @@ button {
   z-index: 4;
   cursor: move;
 }
-/* line 110, ../scss/default.scss */
+/* line 112, ../scss/default.scss */
 .element-view .top {
   vertical-align: top;
 }
-/* line 113, ../scss/default.scss */
+/* line 115, ../scss/default.scss */
 .element-view .inner {
   position: relative;
 }
-/* line 116, ../scss/default.scss */
+/* line 118, ../scss/default.scss */
 .element-view .inner .content {
   position: inherit;
 }
-/* line 120, ../scss/default.scss */
+/* line 122, ../scss/default.scss */
 .element-view .inner .menu {
   position: absolute;
   top: 0;
   right: 0;
   z-index: 10;
 }
-/* line 127, ../scss/default.scss */
+/* line 129, ../scss/default.scss */
 .element-view .remove-element {
   background-color: orange;
   padding: 5px;
 }
 
 /** Overlay Stuff **/
-/* line 135, ../scss/default.scss */
+/* line 137, ../scss/default.scss */
 .overlay {
   position: fixed;
   top: 0;
@@ -127,7 +129,7 @@ button {
   background-image: url("opacity50.png");
   z-index: 100;
 }
-/* line 143, ../scss/default.scss */
+/* line 145, ../scss/default.scss */
 .overlay .window {
   min-width: 300px;
   max-width: 600px;
@@ -137,28 +139,28 @@ button {
   margin-top: 130px;
   padding: 10px;
 }
-/* line 151, ../scss/default.scss */
+/* line 153, ../scss/default.scss */
 .overlay .window .error {
   background-color: #fbb450;
   padding: 5px;
 }
-/* line 155, ../scss/default.scss */
+/* line 157, ../scss/default.scss */
 .overlay .window .close {
   padding: 5px;
   position: absolute;
   top: 0;
   right: 0;
 }
-/* line 162, ../scss/default.scss */
+/* line 164, ../scss/default.scss */
 .overlay .btn-large {
   padding: 10px;
 }
 
-/* line 167, ../scss/default.scss */
+/* line 169, ../scss/default.scss */
 .element-overlay {
   cursor: crosshair;
 }
-/* line 169, ../scss/default.scss */
+/* line 171, ../scss/default.scss */
 .element-overlay .close {
   position: absolute;
   right: 0px;
@@ -166,18 +168,27 @@ button {
   font-size: 20px;
 }
 
-/* line 177, ../scss/default.scss */
+/* line 179, ../scss/default.scss */
 .width-form-item {
-  margin: 5px;
+  margin: 10px;
+  padding: 10px;
+  background-color: #fff;
+  position: relative;
+}
+/* line 184, ../scss/default.scss */
+.width-form-item .remove-width {
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
-/* line 181, ../scss/default.scss */
+/* line 191, ../scss/default.scss */
 .shadow-element {
   border: 2px black solid;
   z-index: 4;
 }
 
-/* line 186, ../scss/default.scss */
+/* line 196, ../scss/default.scss */
 .ui-resizable-ghost {
   -webkit-transition: none !important;
   /* Safari and Chrome */
@@ -190,12 +201,12 @@ button {
   transition: none !important;
 }
 
-/* line 190, ../scss/default.scss */
+/* line 200, ../scss/default.scss */
 .hidden {
   display: none;
 }
 
-/* line 194, ../scss/default.scss */
+/* line 204, ../scss/default.scss */
 .no-select {
   -webkit-touch-callout: none;
   -webkit-user-select: none;

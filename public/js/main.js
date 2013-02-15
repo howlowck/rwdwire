@@ -5,7 +5,7 @@ function passwordHash(raw){
 $(function(){
 	
 	var Width = Backbone.Model.extend({
-		defaults: {xmax: "changeme", xmin: "0", y: "700", title :"No Name"},
+		defaults: {xmax: 1300, xmin: "0", y: "700", title :"What device am I supposed to be?"},
 	});
 
 	var WidthView = Backbone.View.extend({
@@ -18,6 +18,7 @@ $(function(){
 		template: _.template($("#widthViewTemp").html()),
 		initialize: function (options) {
 			this.dispatch = options.dispatch;
+			this.listenTo(this.model, "change", this.render);
 		},
 		dimension: function () {
 			return this.model.get("xmax") - this.model.get("xmin");
@@ -34,8 +35,10 @@ $(function(){
 	});
 
 	var WidthCollection = Backbone.Collection.extend({
-		model : Width
-		//TODO: 2. add model on change then update all model min attributes
+		model : Width,
+		comparator: function (model) {
+			return model.get("xmax");
+		}
 	});
 
 	var WidthCollectionView = Backbone.View.extend({
@@ -44,18 +47,33 @@ $(function(){
 		initialize: function(options) {
 			this.dispatch = options.dispatch;
 			this.render();
-			this.listenTo(this.collection,"add",this.addModelToView);
-			this.listenTo(this.collection,"destroy",this.render);
+			this.listenTo(this.collection,"add destroy change:xmax", this.render);
+		},
+		maxWidth: function () {
+			this.collection.sort();
+			return(this.collection.last().get("xmax"));
 		},
 		render: function () {
+			this.calcWidthDim();
 			this.$el.empty();
 			this.collection.each(function (widthModel){
 				this.addModelToView(widthModel);
 			},this);
+			this.maxWidth();
+			this.$el.width(this.maxWidth() + 5);
 			return this;
 		},
-		updateViewportWidth: function (e) {
-
+		calcWidthDim: function () {
+			var prevMax = 0;
+			this.collection.sort();
+			this.collection.each(
+				function(model){
+					if (prevMax != 0) {
+						model.set("xmin", prevMax + 1);
+					}
+					prevMax = model.get("xmax");
+				}
+			);
 		},
 		addModelToView: function (widthModel) {
 			var tempView = new WidthView( {model: widthModel, dispatch: this.dispatch} );
@@ -71,15 +89,15 @@ $(function(){
 			"click .close": "closeOverlay",
 			"click .remove-width": "removeWidth",
 			"click .add-width": "addWidth",
-			"change .edit-max-width": "editWidth",
+			"change .edit-width": "editWidth",
+			//TODO: 1. add change title and height
 		},
 		initialize: function(options){
 			this.dispatch = options.dispatch;
 			this.render();
-			this.listenTo(this.collection,"add destroy",this.render);
+			this.listenTo(this.collection,"add destroy sort",this.render);
 		},
 		removeWidth: function (e){
-			console.log(e);
 			$removeElement = $(e.target).parent();
 			this.collection.get($removeElement.attr("data-cid")).destroy();
 			$removeElement.remove();
@@ -87,9 +105,9 @@ $(function(){
 		addWidth: function () {
 			this.collection.add({});
 		},
-		editWidth: function () {
-			console.log("it changed!");
-			//TODO: 1. update width 
+		editWidth: function (e) {
+			$editElement = $(e.target).parent();
+			this.collection.get($editElement.attr("data-cid")).set("xmax", parseInt($(e.target).val(),10));
 		},
 		closeOverlay: function () {
 			this.$el.addClass("hidden");
@@ -104,6 +122,8 @@ $(function(){
 			this.collection.each(function(model){
 				$formItemDiv.append(this.formItemTemplate(model.set("cid",model.cid).toJSON()));
 			},this);
+
+			this.$el.find(".window").draggable();
 		}
 
 	});
@@ -526,15 +546,15 @@ $(function(){
 
 			this.dispatch = options.dispatch;
 			data = {
-				dimensions: [{xmax: "480", y: "700", title: "mobile portrait"}, 
-							{xmin: "481", xmax: "767", y: "700", title: "mobile landscape"}, 
-							{xmin: "768", xmax:"979", y: "700", title: "default"}, 
-							{xmin: "980", xmax:"1200", y:"700", title: "large display"} ],
-				tools: [{iconClass: "icon-pencil", name: "Edit Widths", task: "Edit Widths"},
+				dimensions: [{xmax: 480, y: 700, title: "mobile portrait"}, 
+							{xmin: 481, xmax: 767, y: 700, title: "mobile landscape"}, 
+							{xmin: 768, xmax:979, y: 700, title: "default"}, 
+							{xmin: 980, xmax:1200, y:700, title: "large display"} ],
+				tools: [{iconClass: "icon-pencil", name: "Edit Views", task: "Edit Widths"},
 						{iconClass: "icon-plus", name: "New Element", task: "New Element"}, 
 						{iconClass: "icon-save", name: "Save Layout", task: "Save Layout"},
 						{iconClass: "icon-signin", name: "Login Here", task: "Login"}],
-				elements: [{"x":7,"y":4,"width":103,"height":59,"disable":false,"type":"div","content":"Logo\n","bcolor":"#eee","zindex":"0"},
+				elements: [{"x":7,"y":4,"width":103,"height":59,"disable":false,"type":"div","content":"Logo","bcolor":"#eee","zindex":"0"},
 				{"x":7,"y":347,"width":242,"height":178,"disable":false,"type":"div","content":"Supplement","bcolor":"#abc","zindex":"0"},
 				{"x":7,"y":69,"width":466,"height":275,"disable":false,"type":"div","content":"Main Content","bcolor":"#dce","zindex":"0"},
 				{"x":113,"y":3,"width":360,"height":60,"disable":false,"type":"div","content":"Navigation","bcolor":"#eee","zindex":"0"},
@@ -643,3 +663,5 @@ $(function(){
 	app= new App();
 	Backbone.history.start()
 });
+
+//TODO: added save output to the right JSON format
