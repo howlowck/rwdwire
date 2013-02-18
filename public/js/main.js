@@ -549,10 +549,32 @@ $(function(){
 			this.$el.empty();
 			this.$el.html(this.registerTemplate());
 		},
-		renderUserInfo: function () {
+		renderUserInfo: function (data) {
+			var self = this;
 			this.$el.removeClass("hidden");
 			this.$el.html(this.userTemplate());
 			// TODO: get list from server
+			$.ajax({
+				url: this.model.urlRoot + "/getProjects",
+				data: {
+					key: data.key
+				},
+				type: 'POST'
+			}).done(function (data) {
+				self.renderProjects($.parseJSON(data));
+			});
+		},
+		renderProjects: function (data) {
+			$projects = this.$el.find(".projects");
+			$projects.empty();
+			_(data).each(function(data){
+				var datetime =  new Date((Date.parse(data.ts)/60000 - new Date().getTimezoneOffset())*60000).toISOString();
+					$oneProject = $("<div></div>").addClass("project");
+				$oneProject.append("<a class='project-name' href='"+"#"+data.name+"'>"+data.name+"</a>");
+				$oneProject.append("<abbr class='project-time timeago' title='"+datetime+"'></abbr>");
+				$projects.append($oneProject);
+			});
+			$projects.find(".timeago").timeago();
 		}
 	});
 	/** Application View **/
@@ -645,7 +667,7 @@ $(function(){
 			this.userOverlayView.renderLogin();
 		},
 		showUserInfo: function (payload){
-			this.userOverlayView.renderUserInfo();
+			this.userOverlayView.renderUserInfo({key: this.user.get("api_key")});
 		},
 		updateViewportDim: function (payload) {
 			this.elementsCollectionView.changeDimension(payload.width, payload.height);

@@ -2,6 +2,7 @@
 @import url(http://fonts.googleapis.com/css?family=Donegal+One);
 
 //variables
+$container-color: white;
 $viewport-color: #F79871;
 $overlay-window-color: #eee;
 $width-color: #708A74;
@@ -47,6 +48,7 @@ $width-border-color: #E0C7A4;
 	margin-left: 30px;
 	position: relative;
 	margin-bottom: 30px;
+	background-color: $container-color;
 }
 
 #main-title {
@@ -187,6 +189,16 @@ button{
 		right: 10px;
 	}
 }
+
+.projects{
+	.project-name{
+		margin-right: 30px;
+	}
+	.project-time{
+
+	}
+}
+
 
 .shadow-element {
 	border: 2px black solid;

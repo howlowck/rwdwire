@@ -2,6 +2,19 @@
 	"name" : "RWDWire",
 	"version" : "0.0.1",
 	"main" : "public/css/default.css",
+	// "ignore": [
+	// 	"docs/",
+	// 	"examples/",
+	//     "test/",
+	//     "**/*.txt",
+	//     "package.json",
+	//     "component.json",
+	//     "CNAME",
+	//     "*.md",
+	//     "rakefile",
+	//     ".*",
+	//     "LICENSE"
+	//   ],
 	"dependencies" : {
 		"jquery" : ">=0.0.1",
 		"jquery-ui" : ">=0.0.1",
