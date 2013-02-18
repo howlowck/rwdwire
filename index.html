@@ -1,9 +1,10 @@
 <html>
 	<head>
 		<title>Responsive Wireframes</title>
-		<link rel="stylesheet" href="public/css/default.css">
 		<link rel="stylesheet" href="public/assets/jquery-ui/themes/base/minified/jquery.ui.resizable.min.css">
 		<link rel="stylesheet" href="public/assets/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="public/css/default.css">
+
 		<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
 		<script src="public/assets/jquery/jquery.min.js"></script>
 		<script src="public/assets/underscore/underscore-min.js"></script>
@@ -30,7 +31,8 @@
 
 			</div>
 		</div>
-
+		<div class="notification">
+		</div>
 
 		<!-- Overlays -->
 		<div class="element-overlay hidden overlay">
@@ -53,7 +55,7 @@
 		</script>
 
 		<script id="elementViewTemp" type="text/template">
-			<div class="menu">
+			<div class="edit-element">
 				<button class="edit-content"><i class="icon-pencil icon-2x"></i></button>
 				<button class="save-content hidden"><i class="icon-save icon-2x"></i></button>
 			</div>
@@ -111,7 +113,7 @@
 				<div class="error hidden"><i class="icon-remove"></i></div>
 				<h3> Your Projects </h3>
 				<div class="projects">
-					It seems you have no projects save yet. 
+					It seems you have no saved projects yet. 
 				</div>
 				<br/><br/>
 				<h3> To Sign off... </h3>

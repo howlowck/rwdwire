@@ -134,7 +134,7 @@ $(function(){
 				data.cid=model.cid;
 				$formItemDiv.append(this.formItemTemplate(data));
 			},this);
-
+			this.$el.find(".remove-width").first().remove(); //removes the first remove button because there should be at least one width.
 			this.$el.find(".window").draggable();
 		}
 
@@ -217,7 +217,7 @@ $(function(){
 			type: "div",
 			content: "Hi! I'm a new Element.  Edit me.",
 			bcolor: "#eee",
-			zindex: 0
+			zindex: 10
 		},
 		updateCurrentState: function (width) {
 			//Store dimension to current (soon previous state)
@@ -226,7 +226,7 @@ $(function(){
 					.set(this.currentState+"_y",  this.get("y"))
 					.set(this.currentState+"_width", this.get("width"))
 					.set(this.currentState+"_height", this.get("height"))
-					.set(this.currentState+"_disable", this.get("disable"));
+					.set(this.currentState+"_zindex", this.get("zindex"));
 			}
 			this.previousState = this.currentState;
 			//change current state and set dimension to stored dimension if exists
@@ -237,7 +237,7 @@ $(function(){
 						height: this.get(this.currentState+"_height"),
 						x: this.get(this.currentState+"_x"),
 						y: this.get(this.currentState+"_y"),
-						disable: this.get(this.currentState+"_disable")
+						zindex: this.get(this.currentState+"_zindex")
 					});
 			}
 		}
@@ -331,7 +331,7 @@ $(function(){
 					self.dispatcherTriggerResize(ui);
 				}
 			}).draggable({
-				stack: ".element-view",
+				//stack: ".element-view",
 				start: function () {
 					self.$el.css({
 						"-webkit-transition": "none", /* Safari and Chrome */
@@ -552,7 +552,7 @@ $(function(){
 		renderUserInfo: function () {
 			this.$el.removeClass("hidden");
 			this.$el.html(this.userTemplate());
-			//TODO: get list from server
+			// TODO: get list from server
 		}
 	});
 	/** Application View **/
@@ -573,11 +573,11 @@ $(function(){
 						{iconClass: "icon-plus", name: "New Element", task: "New Element"},
 						{iconClass: "icon-save", name: "Save Layout", task: "Save Layout"},
 						{iconClass: "icon-signin", name: "Login Here", task: "Login"}],
-				elements: [{"x":7,"y":4,"width":103,"height":59,"disable":false,"type":"div","content":"Logo","bcolor":"#eee","zindex":"0"},
-				{"x":7,"y":347,"width":242,"height":178,"disable":false,"type":"div","content":"Supplement","bcolor":"#abc","zindex":"0"},
-				{"x":7,"y":69,"width":466,"height":275,"disable":false,"type":"div","content":"Main Content","bcolor":"#dce","zindex":"0"},
-				{"x":113,"y":3,"width":360,"height":60,"disable":false,"type":"div","content":"Navigation","bcolor":"#eee","zindex":"0"},
-				{"x":252,"y":347,"width":221,"height":178,"disable":false,"type":"div","content":"Sidebar","bcolor":"#eee","zindex":"0"}]
+				elements: [{"x":7,"y":4,"width":103,"height":59,"disable":false,"type":"div","content":"Logo","bcolor":"#eee","zindex":"10"},
+				{"x":7,"y":347,"width":242,"height":178,"disable":false,"type":"div","content":"Supplement","bcolor":"#abc","zindex":"10"},
+				{"x":7,"y":69,"width":466,"height":275,"disable":false,"type":"div","content":"Main Content","bcolor":"#dce","zindex":"10"},
+				{"x":113,"y":3,"width":360,"height":60,"disable":false,"type":"div","content":"Navigation","bcolor":"#eee","zindex":"10"},
+				{"x":252,"y":347,"width":221,"height":178,"disable":false,"type":"div","content":"Sidebar","bcolor":"#eee","zindex":"10"}]
 			};
 			this.widthsCollection = new WidthCollection(data.dimensions);
 			this.widthsCollectionView = new WidthCollectionView({collection: this.widthsCollection, dispatch: this.dispatch});
@@ -627,19 +627,17 @@ $(function(){
 			data.widths = JSON.stringify(this.widthsCollection.toJSON());
 			data.elements= JSON.stringify(this.elementsCollection.toJSON());
 			//$.parseJSON(string)
-			if (!this.uid) {
-				$.ajax({
-					url: this.urlRoot + "save_layout",
-					data: data,
-					type: 'POST'
-				}).done(function (data){
-					console.log(data);
-					//TODO: set url to uid
-					//TODO: implement self.displayMessage();
-				});
-			} else{
 
-			}
+			$.ajax({
+				url: this.urlRoot + "save_layout",
+				data: data,
+				type: 'POST'
+			}).done(function (data){
+				console.log(data);
+				//TODO: set url to uid
+				//TODO: implement self.displayMessage();
+			});
+
 			
 			console.log(data);
 		},
@@ -708,8 +706,6 @@ $(function(){
 	app= new App();
 	Backbone.history.start();
 });
-
-//TODO: add ajax call on save - DONE!
-//TODO: clear unused states - ? not a priority
 //TODO: on login provide a list of projects
+//TODO: add notification system
 //TODO: fetch layout
