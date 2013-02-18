@@ -9,6 +9,7 @@
 		<script src="public/assets/underscore/underscore-min.js"></script>
 		<script src="public/assets/backbone/backbone-min.js"></script>
 		<script src="public/assets/jquery-ui/ui/minified/jquery-ui.custom.min.js"></script>
+		<script src="public/assets/jquery-timeago/jquery.timeago.js"></script>
 		<script src="public/js/main.js"></script>
 	</head>
 	<body>
@@ -37,13 +38,9 @@
 			<div class="hidden shadow-element" style="position: absolute; width: 1px; height: 1px;"></div>
 		</div>
 
-		<div class="user-overlay hidden overlay">
+		<div class="user-overlay hidden overlay"></div>
 
-		</div>
-
-		<div class="width-overlay hidden overlay">
-
-		</div>
+		<div class="width-overlay hidden overlay"></div>
 
 		<!-- Templates -->
 		<script id="widthViewTemp" type="text/template">
@@ -90,7 +87,6 @@
 				<br>
 				<button id="registerButton" class="btn-large"><i class="icon-key"></i> Register </button>
 				<br>
-				
 			</div>
 		</script>
 		<script id="registerOverlayTemp" type="text/template">
@@ -113,6 +109,13 @@
 			<div class="window">
 				<button class="close"><i class="icon-remove"></i></button>
 				<div class="error hidden"><i class="icon-remove"></i></div>
+				<h3> Your Projects </h3>
+				<div class="projects">
+					It seems you have no projects save yet. 
+				</div>
+				<br/><br/>
+				<h3> To Sign off... </h3>
+				<p> Simply close this tab to sign off.  It is that easy :) </p>
 			</div>
 		</script>
 		<script id="widthOverlayTemp" type="text/template">
@@ -135,6 +138,5 @@
 			<button class="remove-width" title="Remove This Width">Remove</button>
 			</div>
 		</script>
-
 	</body>
 </html>

@@ -7,7 +7,8 @@
 		"jquery-ui" : ">=0.0.1",
 		"underscore" : ">=0.0.1",
 		"backbone" : ">=0.0.1",
-		"font-awesome" : ">=0.0.1"
+		"font-awesome" : ">=0.0.1",
+		"jquery-timeago" : ">=0.0.1"
 	}
 
 }

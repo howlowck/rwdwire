@@ -5,7 +5,7 @@ function passwordHash(raw){
 $(function(){
 	
 	var Width = Backbone.Model.extend({
-		defaults: {xmax: 1300, xmin: "0", y: "700", title :"What device am I supposed to be?"},
+		defaults: {xmax: 1300, xmin: "0", y: "700", title :"What device am I supposed to be?"}
 	});
 
 	var WidthView = Backbone.View.extend({
@@ -68,7 +68,7 @@ $(function(){
 			this.collection.sort();
 			this.collection.each(
 				function(model){
-					if (prevMax != 0) {
+					if (prevMax !== 0) {
 						model.set("xmin", prevMax + 1);
 					}
 					prevMax = model.get("xmax");
@@ -90,7 +90,8 @@ $(function(){
 			"click .remove-width": "removeWidth",
 			"click .add-width": "addWidth",
 			"change .edit-width": "editWidth",
-			//TODO: 1. add change title and height
+			"change .edit-height": "editHeight",
+			"change .edit-title": "editTitle"
 		},
 		initialize: function(options){
 			this.dispatch = options.dispatch;
@@ -109,6 +110,15 @@ $(function(){
 			$editElement = $(e.target).parent();
 			this.collection.get($editElement.attr("data-cid")).set("xmax", parseInt($(e.target).val(),10));
 		},
+		editHeight: function (e) {
+			$editElement = $(e.target).parent();
+			this.collection.get($editElement.attr("data-cid")).set("y", parseInt($(e.target).val(),10));
+		},
+		editTitle: function (e) {
+			$editElement = $(e.target).parent();
+			this.collection.get($editElement.attr("data-cid")).set("title", $(e.target).val());
+		},
+
 		closeOverlay: function () {
 			this.$el.addClass("hidden");
 		},
@@ -120,7 +130,9 @@ $(function(){
 			var $formItemDiv= this.$el.find(".width-form-items");
 			$formItemDiv.empty();
 			this.collection.each(function(model){
-				$formItemDiv.append(this.formItemTemplate(model.set("cid",model.cid).toJSON()));
+				var data = model.toJSON();
+				data.cid=model.cid;
+				$formItemDiv.append(this.formItemTemplate(data));
 			},this);
 
 			this.$el.find(".window").draggable();
@@ -129,11 +141,11 @@ $(function(){
 	});
 
 	var Tool = Backbone.Model.extend({
-	 	defaults: {
-	 		iconClass: "icon-plus icon-2x",
+		defaults: {
+			iconClass: "icon-plus icon-2x",
 			name: "New Element",
 			task: "New Element"
-	 	}
+		}
 	});
 
 	var ToolView = Backbone.View.extend({
@@ -145,10 +157,10 @@ $(function(){
 			"New Element": "NewElementButton:click",
 			"Save Layout": "SaveLayoutButton:click",
 			"Login": "LoginButton:click",
-			"ListProjects": "ListButton: click"
+			"UserInfo": "UserInfo:click"
 		},
 		events: {
-			 "click": "dispatcherTrigger"
+			"click": "dispatcherTrigger"
 		},
 		initialize: function (options) {
 			this.dispatch = options.dispatch;
@@ -191,12 +203,12 @@ $(function(){
 				this.$el.append(modelView.el);
 			},this);
 		}
-	}); 
+	});
 
 	var Element = Backbone.Model.extend({
 		previousState : "",
 		currentState : "defaults",
-		defaults: { 
+		defaults: {
 			disable: false,
 			width: 200,
 			height: 200,
@@ -221,10 +233,10 @@ $(function(){
 			this.currentState = "state"+width.toString();
 			if (!!this.get(this.currentState+"_width")) {
 				this.set({
-						width: this.get(this.currentState+"_width"), 
-						height: this.get(this.currentState+"_height"), 
-						x: this.get(this.currentState+"_x"), 
-						y: this.get(this.currentState+"_y"), 
+						width: this.get(this.currentState+"_width"),
+						height: this.get(this.currentState+"_height"),
+						x: this.get(this.currentState+"_x"),
+						y: this.get(this.currentState+"_y"),
 						disable: this.get(this.currentState+"_disable")
 					});
 			}
@@ -254,9 +266,9 @@ $(function(){
 			
 			this.dispatch = options.dispatch;
 			this.listenTo(this.model, "change", this.render);
-			this.listenTo(this.model, "destroy", this.remove);		
+			this.listenTo(this.model, "destroy", this.remove);
 
-			this.$el.append('<div class="inner"></div>');	
+			this.$el.append('<div class="inner"></div>');
 			this.render();
 
 			this.$el.css({"position": "absolute"}).css(this.cssAnimateSetting);
@@ -283,8 +295,8 @@ $(function(){
 		saveContent: function () {
 			this.$el.find(".save-content").addClass("hidden");
 
-			this.model.set({"content" :this.$el.find(".input-content").val(), 
-							"bcolor" : this.$el.find(".input-color").val(), 
+			this.model.set({"content" :this.$el.find(".input-content").val(),
+							"bcolor" : this.$el.find(".input-color").val(),
 							"zindex": this.$el.find(".input-zindex").val()
 							});
 
@@ -304,15 +316,14 @@ $(function(){
 			this.$el.children(".inner").html(this.template(this.model.toJSON()));
 			this.$el.position({left: this.model.get("x"), top: this.model.get("y")});
 			this.$el.css({
-				"background-color": this.model.get("bcolor"), 
-				"left" : this.model.get("x"), 
-				"top" : this.model.get("y"), 
-				"width": this.model.get("width"), 
-				"height": this.model.get("height"), 
-				"z-index": this.model.get("zindex"), 
+				"background-color": this.model.get("bcolor"),
+				"left" : this.model.get("x"),
+				"top" : this.model.get("y"),
+				"width": this.model.get("width"),
+				"height": this.model.get("height"),
+				"z-index": this.model.get("zindex"),
 				"visibility": visibleValue});
 			
-
 			this.$el.resizable({
 				ghost: true,
 				handles: 'n, e, s, w, ne, se, sw, nw ',
@@ -381,7 +392,7 @@ $(function(){
 			"click .close": "closeCreateElementOverlay",
 			"mousedown" : "startCreateElement",
 			"mouseup" : "endCreateElement",
-			"mousemove" : "drawShadowElement"	
+			"mousemove" : "drawShadowElement"
 		},
 		initialize: function (options) {
 			this.dispatch = options.dispatch;
@@ -389,15 +400,15 @@ $(function(){
 		startCreateElement: function (e) {
 			this.drawing = {
 				start: {
-					x: e.originalEvent.clientX - 1, 
-					y: e.originalEvent.clientY - 1, 
-					mousex: e.originalEvent.clientX -1, 
-					mousey:e.originalEvent.clientY -1 
+					x: e.originalEvent.clientX - 1,
+					y: e.originalEvent.clientY - 1,
+					mousex: e.originalEvent.clientX -1,
+					mousey:e.originalEvent.clientY -1
 				}};
 			this.$el.children(".shadow-element")
 					.removeClass("hidden")
-					.css({"left": this.drawing.start.x, 
-						  "top": this.drawing.start.y
+					.css({	"left": this.drawing.start.x,
+							"top": this.drawing.start.y
 						});
 			this.drawing.start.x = this.$el.children(".shadow-element").offset().left;
 			this.drawing.start.y = this.$el.children(".shadow-element").offset().top;
@@ -406,9 +417,9 @@ $(function(){
 		drawShadowElement: function (e) {
 			if (!this.drawing) {
 				return false;
-			};
+			}
 			this.$el.children(".shadow-element").css({
-				"width": e.originalEvent.clientX-this.drawing.start.mousex , 
+				"width": e.originalEvent.clientX-this.drawing.start.mousex ,
 				"height": e.originalEvent.clientY-this.drawing.start.mousey
 			});
 		},
@@ -426,12 +437,12 @@ $(function(){
 			if ( parseInt(width, 10) <10 || parseInt(height, 10)<10 ) {
 				this.drawing = false;
 				return false;
-			};
+			}
 
 			this.dispatch.trigger("CreateElementOverlayView:createElement",{
-				rawx:this.drawing.start.x, 
-				rawy: this.drawing.start.y, 
-				width: width, 
+				rawx:this.drawing.start.x,
+				rawy: this.drawing.start.y,
+				width: width,
 				height: height
 			});
 
@@ -472,26 +483,28 @@ $(function(){
 			this.hideError();
 			this.model.fetch({
 				url: this.model.urlRoot + this.model.loginUrl,
-				data:{email: this.$el.find("#inputEmail").val(), pass: passwordHash(this.$el.find("#inputPass").val())}, 
+				data:{	email: this.$el.find("#inputEmail").val(),
+						pass: passwordHash(this.$el.find("#inputPass").val())
+					},
 				type: 'POST',
 				success: this.loginCallback.bind(this)
 			});
-		}, 
+		},
 		onRegisterSubmit: function (e) {
 			var self = this;
 			e.preventDefault();
 			this.hideError();
-			if (this.$el.find("#inputRegisterPass").val() == "") {
+			if (this.$el.find("#inputRegisterPass").val() === "") {
 				this.showError("#registerError", "Your password is empty");
 				return;
 			}
 			$.ajax({
 				url: this.model.urlRoot + this.model.registerUrl,
-				data:{email: this.$el.find("#inputRegisterEmail").val(),
-					  pass: passwordHash(this.$el.find("#inputRegisterPass").val()),
-					  vpass: passwordHash(this.$el.find("#vinputRegisterPass").val())
+				data:{	email: this.$el.find("#inputRegisterEmail").val(),
+						pass: passwordHash(this.$el.find("#inputRegisterPass").val()),
+						vpass: passwordHash(this.$el.find("#vinputRegisterPass").val())
 					},
-				type: 'POST',
+				type: 'POST'
 			}).done(function (data){
 				self.registerCallback(data);
 			});
@@ -535,23 +548,29 @@ $(function(){
 		renderRegister: function () {
 			this.$el.empty();
 			this.$el.html(this.registerTemplate());
+		},
+		renderUserInfo: function () {
+			this.$el.removeClass("hidden");
+			this.$el.html(this.userTemplate());
+			//TODO: get list from server
 		}
 	});
 	/** Application View **/
 
 	var AppView = Backbone.View.extend({
 		el: $("body"),
-
+		urlRoot : '../rwdwire-server/layouts/',
+		uid: "",
 		initialize: function (options) {
 
 			this.dispatch = options.dispatch;
 			data = {
-				dimensions: [{xmax: 480, y: 700, title: "mobile portrait"}, 
-							{xmin: 481, xmax: 767, y: 700, title: "mobile landscape"}, 
-							{xmin: 768, xmax:979, y: 700, title: "default"}, 
+				dimensions: [{xmax: 480, y: 700, title: "mobile portrait"},
+							{xmin: 481, xmax: 767, y: 700, title: "mobile landscape"},
+							{xmin: 768, xmax:979, y: 700, title: "default"},
 							{xmin: 980, xmax:1200, y:700, title: "large display"} ],
 				tools: [{iconClass: "icon-pencil", name: "Edit Views", task: "Edit Widths"},
-						{iconClass: "icon-plus", name: "New Element", task: "New Element"}, 
+						{iconClass: "icon-plus", name: "New Element", task: "New Element"},
 						{iconClass: "icon-save", name: "Save Layout", task: "Save Layout"},
 						{iconClass: "icon-signin", name: "Login Here", task: "Login"}],
 				elements: [{"x":7,"y":4,"width":103,"height":59,"disable":false,"type":"div","content":"Logo","bcolor":"#eee","zindex":"0"},
@@ -560,17 +579,17 @@ $(function(){
 				{"x":113,"y":3,"width":360,"height":60,"disable":false,"type":"div","content":"Navigation","bcolor":"#eee","zindex":"0"},
 				{"x":252,"y":347,"width":221,"height":178,"disable":false,"type":"div","content":"Sidebar","bcolor":"#eee","zindex":"0"}]
 			};
-			this.widthCollection = new WidthCollection(data.dimensions);
-			this.widthCollectionView = new WidthCollectionView({collection: this.widthCollection, dispatch: this.dispatch});
-			this.widthCollectionEditView = new WidthCollectionEditView({collection: this.widthCollection, dispatch: this.dispatch});
+			this.widthsCollection = new WidthCollection(data.dimensions);
+			this.widthsCollectionView = new WidthCollectionView({collection: this.widthsCollection, dispatch: this.dispatch});
+			this.widthsCollectionEditView = new WidthCollectionEditView({collection: this.widthsCollection, dispatch: this.dispatch});
 			this.toolsCollection = new ToolsCollection(data.tools);
 			this.toolsCollectionView = new ToolsCollectionView({collection: this.toolsCollection, dispatch: this.dispatch});
 			this.elementsCollection = new ElementsCollection();
 			this.elementsCollectionView = new ElementsCollectionView({
-				collection: this.elementsCollection, 
-				dispatch: this.dispatch, 
-				width: this.widthCollection.first().get("xmax"), 
-				height: this.widthCollection.first().get("y")
+				collection: this.elementsCollection,
+				dispatch: this.dispatch,
+				width: this.widthsCollection.first().get("xmax"),
+				height: this.widthsCollection.first().get("y")
 			});
 			this.createElementOverlayView = new CreateElementOverlayView({dispatch: this.dispatch});
 			this.user = new User();
@@ -583,24 +602,52 @@ $(function(){
 			this.dispatch.on("NewElementButton:click", this.newElement, this);
 			this.dispatch.on("SaveLayoutButton:click", this.saveLayout, this);
 			this.dispatch.on("LoginButton:click", this.login, this);
+			this.dispatch.on("UserInfo:click", this.showUserInfo, this);
+
 			this.dispatch.on("WidthView:click", this.updateViewportDim, this);
 			this.dispatch.on("ElementsCollectionView/width:change", this.updateElementsState, this);
 			this.dispatch.on("CreateElementOverlayView:createElement", this.createElement, this);
+			
 			this.dispatch.on("ElementView:resize", this.resizeElement, this);
 			this.dispatch.on("ElementView:move", this.moveElement, this);
 			this.dispatch.on("UserLogin:success", this.successLogin, this);
 		},
 		editWidth: function () {
-			this.widthCollectionEditView.showOverlay();
+			this.widthsCollectionEditView.showOverlay();
 		},
 		newElement: function () {
 			this.createElementOverlayView.showCreateElementOverlay();
 		},
 		saveLayout: function() {
-			console.log(JSON.stringify(this.elementsCollection.toJSON()));
+			var data= {},
+				self = this;
+			data.key = this.user.get("api_key");
+			data.uid = this.uid;
+			data.tools = JSON.stringify(this.toolsCollection.toJSON());
+			data.widths = JSON.stringify(this.widthsCollection.toJSON());
+			data.elements= JSON.stringify(this.elementsCollection.toJSON());
+			//$.parseJSON(string)
+			if (!this.uid) {
+				$.ajax({
+					url: this.urlRoot + "save_layout",
+					data: data,
+					type: 'POST'
+				}).done(function (data){
+					console.log(data);
+					//TODO: set url to uid
+					//TODO: implement self.displayMessage();
+				});
+			} else{
+
+			}
+			
+			console.log(data);
 		},
 		login: function (payload) {
 			this.userOverlayView.renderLogin();
+		},
+		showUserInfo: function (payload){
+			this.userOverlayView.renderUserInfo();
 		},
 		updateViewportDim: function (payload) {
 			this.elementsCollectionView.changeDimension(payload.width, payload.height);
@@ -636,12 +683,11 @@ $(function(){
 			this.elementsCollection.get(payload.cid).set({x: payload.ui.position.left, y: payload.ui.position.top});
 		},
 		successLogin: function (payload) {
-			this.toolsCollection.where({task: "Login"})[0].set({name: "List Proj", task: "ListProjects"});
+			this.toolsCollection.where({task: "Login"})[0].set({name: "User Info", task: "UserInfo"});
 		}
 	});
 	
 	var App = Backbone.Router.extend({
-		
 		initialize: function () {
 			this.dispatch = _.clone(Backbone.Events);
 			this.appView = new AppView({dispatch: this.dispatch});
@@ -655,13 +701,15 @@ $(function(){
 				url: "../rwdwire-server/layouts/"+layoutUid+".json"
 			}).done(function (data) {
 
-			})
+			});
 		}
-
 	});
 
 	app= new App();
-	Backbone.history.start()
+	Backbone.history.start();
 });
 
-//TODO: added save output to the right JSON format
+//TODO: add ajax call on save - DONE!
+//TODO: clear unused states - ? not a priority
+//TODO: on login provide a list of projects
+//TODO: fetch layout
