@@ -651,6 +651,12 @@ $(function(){
 		saveLayout: function() {
 			var data= {},
 				self = this;
+
+			//save current state
+			this.elementsCollection.each( function (model) {
+				model.updateCurrentState(self.widthsCollectionView.width +'');
+			});
+
 			data.key = this.user.get("api_key");
 			data.uid = this.uid;
 			data.widths = JSON.stringify(this.widthsCollection.toJSON());
@@ -734,7 +740,7 @@ $(function(){
 				type: "POST"
 			}).done(function (data) {
 				data = $.parseJSON(data);
-				console.log(data);
+				console.log($.parseJSON(data.elements));
 				self.appView.widthsCollection.cleanReset($.parseJSON(data.dimensions));
 				self.appView.elementsCollectionView.width = self.appView.widthsCollection.first().get("xmax");
 				self.appView.elementsCollectionView.height = self.appView.widthsCollection.first().get("y");
@@ -766,5 +772,6 @@ $(function(){
 	app= new App();
 	Backbone.history.start();
 });
+
 //TODO: add notification system
 //TODO: on save update URL
