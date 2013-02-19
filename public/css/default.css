@@ -1,5 +1,6 @@
 @import url(http://fonts.googleapis.com/css?family=Lemon);
 @import url(http://fonts.googleapis.com/css?family=Donegal+One);
+/* line 41, ../scss/default.scss */
 * {
   padding: 0;
   margin: 0;
@@ -8,6 +9,7 @@
   -webkit-box-sizing: border-box;
 }
 
+/* line 47, ../scss/default.scss */
 .container {
   margin-left: 30px;
   position: relative;
@@ -15,34 +17,41 @@
   background-color: white;
 }
 
+/* line 54, ../scss/default.scss */
 #main-title {
   font-family: 'Lemon', cursive;
 }
+/* line 56, ../scss/default.scss */
 #main-title #version {
   font-size: 15px;
 }
 
+/* line 61, ../scss/default.scss */
 button {
   font-family: 'Lemon', cursive;
   cursor: pointer;
 }
 
+/* line 65, ../scss/default.scss */
 .main-menu {
   position: absolute;
   left: 50%;
   top: 20px;
   min-width: 400px;
 }
+/* line 70, ../scss/default.scss */
 .main-menu button {
   display: inline-block;
   width: 100px;
   font-size: 20px;
 }
 
+/* line 77, ../scss/default.scss */
 #sizes {
   height: 4em;
 }
 
+/* line 81, ../scss/default.scss */
 .width-view {
   position: relative;
   font-family: 'Lemon', cursive;
@@ -56,10 +65,12 @@ button {
   white-space: nowrap;
   height: 100%;
 }
+/* line 93, ../scss/default.scss */
 .width-view .max {
   float: right;
 }
 
+/* line 98, ../scss/default.scss */
 .main-view {
   height: 700px;
   background-color: #f79871;
@@ -75,6 +86,7 @@ button {
   transition: width 0.5s, height 0.5s;
 }
 
+/* line 107, ../scss/default.scss */
 .element-view {
   border: 2px black solid;
   font-family: 'Donegal One', serif;
@@ -82,27 +94,33 @@ button {
   z-index: 4;
   cursor: move;
 }
+/* line 114, ../scss/default.scss */
 .element-view .top {
   vertical-align: top;
 }
+/* line 117, ../scss/default.scss */
 .element-view .inner {
   position: relative;
 }
+/* line 120, ../scss/default.scss */
 .element-view .inner .content {
   position: inherit;
 }
+/* line 124, ../scss/default.scss */
 .element-view .inner .edit-element {
   position: absolute;
   top: 0;
   right: 0;
   z-index: 10;
 }
+/* line 131, ../scss/default.scss */
 .element-view .remove-element {
   background-color: orange;
   padding: 5px;
 }
 
 /** Overlay Stuff **/
+/* line 139, ../scss/default.scss */
 .overlay {
   position: fixed;
   top: 0;
@@ -112,6 +130,7 @@ button {
   background-image: url("opacity50.png");
   z-index: 100;
 }
+/* line 147, ../scss/default.scss */
 .overlay .window {
   min-width: 300px;
   max-width: 600px;
@@ -121,23 +140,28 @@ button {
   margin-top: 130px;
   padding: 10px;
 }
+/* line 155, ../scss/default.scss */
 .overlay .window .error {
   background-color: #fbb450;
   padding: 5px;
 }
+/* line 159, ../scss/default.scss */
 .overlay .window .close {
   padding: 5px;
   position: absolute;
   top: 0;
   right: 0;
 }
+/* line 166, ../scss/default.scss */
 .overlay .btn-large {
   padding: 10px;
 }
 
+/* line 171, ../scss/default.scss */
 .element-overlay {
   cursor: crosshair;
 }
+/* line 173, ../scss/default.scss */
 .element-overlay .close {
   position: absolute;
   right: 0px;
@@ -145,27 +169,32 @@ button {
   font-size: 20px;
 }
 
+/* line 181, ../scss/default.scss */
 .width-form-item {
   margin: 10px;
   padding: 10px;
   background-color: #fff;
   position: relative;
 }
+/* line 186, ../scss/default.scss */
 .width-form-item .remove-width {
   position: absolute;
   top: 10px;
   right: 10px;
 }
 
+/* line 194, ../scss/default.scss */
 .projects .project-name {
   margin-right: 30px;
 }
 
+/* line 203, ../scss/default.scss */
 .shadow-element {
   border: 2px black solid;
   z-index: 4;
 }
 
+/* line 208, ../scss/default.scss */
 .ui-resizable-ghost {
   -webkit-transition: none !important;
   /* Safari and Chrome */
@@ -178,10 +207,12 @@ button {
   transition: none !important;
 }
 
+/* line 212, ../scss/default.scss */
 .hidden {
   display: none;
 }
 
+/* line 216, ../scss/default.scss */
 .no-select {
   -webkit-touch-callout: none;
   -webkit-user-select: none;

@@ -38,6 +38,13 @@ $(function(){
 		model : Width,
 		comparator: function (model) {
 			return model.get("xmax");
+		},
+		cleanReset: function (data) {
+			var model;
+			while (!!(model = this.pop())) {
+				model.destroy();
+			}
+			this.reset(data);
 		}
 	});
 
@@ -46,8 +53,7 @@ $(function(){
 
 		initialize: function(options) {
 			this.dispatch = options.dispatch;
-			this.render();
-			this.listenTo(this.collection,"add destroy change:xmax", this.render);
+			this.listenTo(this.collection,"reset add destroy change:xmax", this.render);
 		},
 		maxWidth: function () {
 			this.collection.sort();
@@ -96,7 +102,7 @@ $(function(){
 		initialize: function(options){
 			this.dispatch = options.dispatch;
 			this.render();
-			this.listenTo(this.collection,"add destroy sort",this.render);
+			this.listenTo(this.collection,"reset add destroy sort",this.render);
 		},
 		removeWidth: function (e){
 			$removeElement = $(e.target).parent();
@@ -136,6 +142,7 @@ $(function(){
 			},this);
 			this.$el.find(".remove-width").first().remove(); //removes the first remove button because there should be at least one width.
 			this.$el.find(".window").draggable();
+			return this;
 		}
 
 	});
@@ -265,7 +272,7 @@ $(function(){
 		initialize: function (options) {
 			
 			this.dispatch = options.dispatch;
-			this.listenTo(this.model, "change", this.render);
+			this.listenTo(this.model, "reset change", this.render);
 			this.listenTo(this.model, "destroy", this.remove);
 
 			this.$el.append('<div class="inner"></div>');
@@ -306,7 +313,6 @@ $(function(){
 		},
 		
 		removeElement: function (){
-			console.log("triggered");
 			this.model.destroy();
 		},
 		
@@ -351,7 +357,14 @@ $(function(){
 	});
 
 	var ElementsCollection = Backbone.Collection.extend({
-		model: Element
+		model: Element,
+		cleanReset: function (data) {
+			var model;
+			while (!!(model = this.pop())) {
+				model.destroy();
+			}
+			this.reset(data);
+		}
 	});
 
 	var ElementsCollectionView = Backbone.View.extend({
@@ -363,17 +376,21 @@ $(function(){
 		initialize: function (options) {
 			this.dispatch = options.dispatch;
 			this.changeDimension(options.width, options.height);
-			this.render();
 
 			this.listenTo(this.collection, 'add', this.initRenderElement);
+			this.listenTo(this.collection, 'reset', this.resetElementsCollection);
 		},
 
 		initRenderElement: function (model , collection , options) {
 			model.updateCurrentState(this.width);
 			var modelView = new ElementView({model: model, dispatch: this.dispatch});
-			this.$el.append(modelView.el);
+			this.$el.append(modelView.$el);
 		},
-
+		resetElementsCollection: function (collection, options) {
+			this.collection.each(function (model) {
+				this.initRenderElement(model, collection);
+			},this);
+		},
 		changeDimension: function (width, height) {
 			this.width = width;
 			this.height = height;
@@ -565,12 +582,15 @@ $(function(){
 			});
 		},
 		renderProjects: function (data) {
+			if (data.length === 0) {
+				return;
+			}
 			$projects = this.$el.find(".projects");
 			$projects.empty();
 			_(data).each(function(data){
 				var datetime =  new Date((Date.parse(data.ts)/60000 - new Date().getTimezoneOffset())*60000).toISOString();
 					$oneProject = $("<div></div>").addClass("project");
-				$oneProject.append("<a class='project-name' href='"+"#"+data.name+"'>"+data.name+"</a>");
+				$oneProject.append("<a class='project-name' href='"+"#/layout/"+data.name+"'>"+data.name+"</a>");
 				$oneProject.append("<abbr class='project-time timeago' title='"+datetime+"'></abbr>");
 				$projects.append($oneProject);
 			});
@@ -586,22 +606,13 @@ $(function(){
 		initialize: function (options) {
 
 			this.dispatch = options.dispatch;
-			data = {
-				dimensions: [{xmax: 480, y: 700, title: "mobile portrait"},
-							{xmin: 481, xmax: 767, y: 700, title: "mobile landscape"},
-							{xmin: 768, xmax:979, y: 700, title: "default"},
-							{xmin: 980, xmax:1200, y:700, title: "large display"} ],
+			var data = {
 				tools: [{iconClass: "icon-pencil", name: "Edit Views", task: "Edit Widths"},
 						{iconClass: "icon-plus", name: "New Element", task: "New Element"},
 						{iconClass: "icon-save", name: "Save Layout", task: "Save Layout"},
-						{iconClass: "icon-signin", name: "Login Here", task: "Login"}],
-				elements: [{"x":7,"y":4,"width":103,"height":59,"disable":false,"type":"div","content":"Logo","bcolor":"#eee","zindex":"10"},
-				{"x":7,"y":347,"width":242,"height":178,"disable":false,"type":"div","content":"Supplement","bcolor":"#abc","zindex":"10"},
-				{"x":7,"y":69,"width":466,"height":275,"disable":false,"type":"div","content":"Main Content","bcolor":"#dce","zindex":"10"},
-				{"x":113,"y":3,"width":360,"height":60,"disable":false,"type":"div","content":"Navigation","bcolor":"#eee","zindex":"10"},
-				{"x":252,"y":347,"width":221,"height":178,"disable":false,"type":"div","content":"Sidebar","bcolor":"#eee","zindex":"10"}]
+						{iconClass: "icon-signin", name: "Login Here", task: "Login"}]
 			};
-			this.widthsCollection = new WidthCollection(data.dimensions);
+			this.widthsCollection = new WidthCollection();
 			this.widthsCollectionView = new WidthCollectionView({collection: this.widthsCollection, dispatch: this.dispatch});
 			this.widthsCollectionEditView = new WidthCollectionEditView({collection: this.widthsCollection, dispatch: this.dispatch});
 			this.toolsCollection = new ToolsCollection(data.tools);
@@ -609,14 +620,11 @@ $(function(){
 			this.elementsCollection = new ElementsCollection();
 			this.elementsCollectionView = new ElementsCollectionView({
 				collection: this.elementsCollection,
-				dispatch: this.dispatch,
-				width: this.widthsCollection.first().get("xmax"),
-				height: this.widthsCollection.first().get("y")
+				dispatch: this.dispatch
 			});
 			this.createElementOverlayView = new CreateElementOverlayView({dispatch: this.dispatch});
 			this.user = new User();
 			this.userOverlayView = new UserOverlayView({model: this.user, dispatch: this.dispatch});
-			this.elementsCollection.add(data.elements);
 		},
 
 		events: function () {
@@ -645,7 +653,6 @@ $(function(){
 				self = this;
 			data.key = this.user.get("api_key");
 			data.uid = this.uid;
-			data.tools = JSON.stringify(this.toolsCollection.toJSON());
 			data.widths = JSON.stringify(this.widthsCollection.toJSON());
 			data.elements= JSON.stringify(this.elementsCollection.toJSON());
 			//$.parseJSON(string)
@@ -713,21 +720,51 @@ $(function(){
 			this.appView = new AppView({dispatch: this.dispatch});
 		},
 		routes: {
-			"layout/:layoutUid": "loadLayout"
+			"layout/:layoutUid": "loadLayout",
+			"*actions": "defaultAction"
 		},
 		loadLayout: function (layoutUid) {
-			console.log("this is running");
+			var self = this;
+			this.appView.uid = layoutUid;
 			$.ajax({
-				url: "../rwdwire-server/layouts/"+layoutUid+".json"
+				url: "../rwdwire-server/layouts/load_layout/"+layoutUid,
+				data: {
+					uid : layoutUid
+				},
+				type: "POST"
 			}).done(function (data) {
-
+				data = $.parseJSON(data);
+				console.log(data);
+				self.appView.widthsCollection.cleanReset($.parseJSON(data.dimensions));
+				self.appView.elementsCollectionView.width = self.appView.widthsCollection.first().get("xmax");
+				self.appView.elementsCollectionView.height = self.appView.widthsCollection.first().get("y");
+				self.appView.elementsCollection.cleanReset($.parseJSON(data.elements));
+				self.appView.elementsCollectionView.render();
 			});
+		},
+		defaultAction: function () {
+			var self = this,
+				data = {dimensions: [{xmax: 480, y: 700, title: "mobile portrait"},
+							{xmin: 481, xmax: 767, y: 700, title: "mobile landscape"},
+							{xmin: 768, xmax:979, y: 700, title: "default"},
+							{xmin: 980, xmax:1200, y:700, title: "large display"} ],
+						elements: [{"x":7,"y":4,"width":103,"height":59,"disable":false,"type":"div","content":"Logo","bcolor":"#eee","zindex":"10"},
+							{"x":7,"y":347,"width":242,"height":178,"disable":false,"type":"div","content":"Supplement","bcolor":"#abc","zindex":"10"},
+							{"x":7,"y":69,"width":466,"height":275,"disable":false,"type":"div","content":"Main Content","bcolor":"#dce","zindex":"10"},
+							{"x":113,"y":3,"width":360,"height":60,"disable":false,"type":"div","content":"Navigation","bcolor":"#eee","zindex":"10"},
+							{"x":252,"y":347,"width":221,"height":178,"disable":false,"type":"div","content":"Sidebar","bcolor":"#eee","zindex":"10"}]
+						};
+
+			this.appView.widthsCollection.add(data.dimensions);
+			this.appView.elementsCollectionView.width = this.appView.widthsCollection.first().get("xmax");
+			this.appView.elementsCollectionView.height = this.appView.widthsCollection.first().get("y");
+			this.appView.elementsCollectionView.render();
+			this.appView.elementsCollection.add(data.elements);
 		}
 	});
 
 	app= new App();
 	Backbone.history.start();
 });
-//TODO: on login provide a list of projects
 //TODO: add notification system
-//TODO: fetch layout
+//TODO: on save update URL
