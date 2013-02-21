@@ -74,6 +74,25 @@ button{
 	}
 }
 
+.notification {
+	position: absolute;
+	right: 0;
+	top: 0;
+	.notification-item{
+		.notification-type{
+			font-size: 2em;
+			font-weight: bolder;
+		}
+		.notification-message{
+			font-size: 1.5em;
+		}
+		.close{
+			position: absolute;
+			right: 0;
+		}
+	}
+}
+
 #sizes {
 	height: 4em;
 }

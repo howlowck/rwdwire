@@ -602,6 +602,7 @@ $(function(){
 	var AppView = Backbone.View.extend({
 		el: $("body"),
 		urlRoot : '../rwdwire-server/layouts/',
+		notificationTemplate: _.template($("#notificationItemTemp").html()),
 		uid: "",
 		initialize: function (options) {
 
@@ -626,12 +627,19 @@ $(function(){
 			this.user = new User();
 			this.userOverlayView = new UserOverlayView({model: this.user, dispatch: this.dispatch});
 		},
+		notify: function (type, message, options){
+			var data = {};
+			data.type = type;
+			data.message = message;
+			console.log(message);
+			this.$el.find(".notification").append(this.notificationTemplate(data));
 
+		},
 		events: function () {
 			this.dispatch.on("EditWidthButton:click", this.editWidth,this);
 			this.dispatch.on("NewElementButton:click", this.newElement, this);
 			this.dispatch.on("SaveLayoutButton:click", this.saveLayout, this);
-			this.dispatch.on("LoginButton:click", this.login, this);
+			this.dispatch.on("LoginButton:click", this.showLogin, this);
 			this.dispatch.on("UserInfo:click", this.showUserInfo, this);
 
 			this.dispatch.on("WidthView:click", this.updateViewportDim, this);
@@ -654,7 +662,7 @@ $(function(){
 
 			//save current state
 			this.elementsCollection.each( function (model) {
-				model.updateCurrentState(self.widthsCollectionView.width +'');
+				model.updateCurrentState(self.widthsCollectionView.width + '');
 			});
 
 			data.key = this.user.get("api_key");
@@ -670,13 +678,14 @@ $(function(){
 			}).done(function (data){
 				console.log(data);
 				//TODO: set url to uid
-				//TODO: implement self.displayMessage();
+
+				self.notify("info","Your layout has been saved");
 			});
 
 			
 			console.log(data);
 		},
-		login: function (payload) {
+		showLogin: function (payload) {
 			this.userOverlayView.renderLogin();
 		},
 		showUserInfo: function (payload){
@@ -717,6 +726,7 @@ $(function(){
 		},
 		successLogin: function (payload) {
 			this.toolsCollection.where({task: "Login"})[0].set({name: "User Info", task: "UserInfo"});
+			this.notify("info","You have been logged in");
 		}
 	});
 	
