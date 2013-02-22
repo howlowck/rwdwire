@@ -1,5 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Lemon);
-@import url(http://fonts.googleapis.com/css?family=Donegal+One);
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,700);
 
 //variables
 $container-color: white;
@@ -7,7 +6,9 @@ $viewport-color: #F79871;
 $overlay-window-color: #eee;
 $width-color: #708A74;
 $width-border-color: #E0C7A4;
-
+$info-color: #5bc0de;
+$success-color: #62c462;
+$error-color: #fbb450;
 //Mixins
 @mixin borderbox {
 	box-sizing:border-box;
@@ -42,8 +43,11 @@ $width-border-color: #E0C7A4;
 	padding: 0;
 	margin: 0;
 	@include borderbox;
+	font-family: 'Roboto', sans-serif;
 }
-
+body{
+	background-color: $container-color;
+}
 .container {
 	margin-left: 30px;
 	position: relative;
@@ -52,14 +56,12 @@ $width-border-color: #E0C7A4;
 }
 
 #main-title {
-	font-family: 'Lemon', cursive;
 	#version{
 		font-size: 15px;
 	}
 }
 
 button{
-	font-family: 'Lemon', cursive;
 	cursor: pointer;
 }
 .main-menu {
@@ -76,9 +78,13 @@ button{
 
 .notification {
 	position: absolute;
-	right: 0;
+	right: 20px;
 	top: 0;
+
 	.notification-item{
+		position: relative;
+		padding: 20px;
+		opacity: 0.8;
 		.notification-type{
 			font-size: 2em;
 			font-weight: bolder;
@@ -88,8 +94,19 @@ button{
 		}
 		.close{
 			position: absolute;
-			right: 0;
+			top: 20;
+			right: 20;
+			padding: 5px;
 		}
+	}
+	.error{
+		background-color: $error-color;
+	}
+	.info{
+		background-color: $info-color;
+	}
+	.success{
+		background-color: $success-color;
 	}
 }
 
@@ -99,7 +116,6 @@ button{
 
 .width-view {
 	position: relative;
-	font-family: 'Lemon', cursive;
 	background-color: $width-color;
 	display: inline-block;
 	vertical-align: top;
@@ -119,13 +135,11 @@ button{
 	background-color: $viewport-color;
 	position: relative;
 	@include transition(0.5s);
-
 }
 
 
 .element-view {
 	border: 2px black solid;
-	font-family: 'Donegal One', serif;
 	overflow: hidden;
 	z-index: 4;
 	cursor: move;
@@ -154,6 +168,8 @@ button{
 }
 
 
+
+
 /** Overlay Stuff **/
 .overlay{
 	position: fixed;
@@ -166,7 +182,7 @@ button{
 	.window{
 		min-width: 300px;
 		max-width: 600px;
-		background-color: $overlay-window-color;
+		background-color: $overlay-window-color; 
 		position: relative;
 		margin: 0 auto;
 		margin-top: 130px;
@@ -182,8 +198,12 @@ button{
 			right: 0;
 		}
 	}
+	button{
+		padding: 5px;
+	}
 	.btn-large{
 		padding: 10px;
+		font-size: 1.25em;
 	}
 }
 

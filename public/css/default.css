@@ -1,13 +1,20 @@
-@import url(http://fonts.googleapis.com/css?family=Lemon);
-@import url(http://fonts.googleapis.com/css?family=Donegal+One);
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,700);
+/* line 42, ../scss/default.scss */
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
 }
 
+/* line 48, ../scss/default.scss */
+body {
+  background-color: white;
+}
+
+/* line 51, ../scss/default.scss */
 .container {
   margin-left: 30px;
   position: relative;
@@ -15,54 +22,79 @@
   background-color: white;
 }
 
-#main-title {
-  font-family: 'Lemon', cursive;
-}
+/* line 59, ../scss/default.scss */
 #main-title #version {
   font-size: 15px;
 }
 
+/* line 64, ../scss/default.scss */
 button {
-  font-family: 'Lemon', cursive;
   cursor: pointer;
 }
 
+/* line 67, ../scss/default.scss */
 .main-menu {
   position: absolute;
   left: 50%;
   top: 20px;
   min-width: 400px;
 }
+/* line 72, ../scss/default.scss */
 .main-menu button {
   display: inline-block;
   width: 100px;
   font-size: 20px;
 }
 
+/* line 79, ../scss/default.scss */
 .notification {
   position: absolute;
-  right: 0;
+  right: 20px;
   top: 0;
 }
+/* line 84, ../scss/default.scss */
+.notification .notification-item {
+  position: relative;
+  padding: 20px;
+  opacity: 0.8;
+}
+/* line 88, ../scss/default.scss */
 .notification .notification-item .notification-type {
   font-size: 2em;
   font-weight: bolder;
 }
+/* line 92, ../scss/default.scss */
 .notification .notification-item .notification-message {
   font-size: 1.5em;
 }
+/* line 95, ../scss/default.scss */
 .notification .notification-item .close {
   position: absolute;
-  right: 0;
+  top: 20;
+  right: 20;
+  padding: 5px;
+}
+/* line 102, ../scss/default.scss */
+.notification .error {
+  background-color: #fbb450;
+}
+/* line 105, ../scss/default.scss */
+.notification .info {
+  background-color: #5bc0de;
+}
+/* line 108, ../scss/default.scss */
+.notification .success {
+  background-color: #62c462;
 }
 
+/* line 113, ../scss/default.scss */
 #sizes {
   height: 4em;
 }
 
+/* line 117, ../scss/default.scss */
 .width-view {
   position: relative;
-  font-family: 'Lemon', cursive;
   background-color: #708a74;
   display: inline-block;
   vertical-align: top;
@@ -73,10 +105,12 @@ button {
   white-space: nowrap;
   height: 100%;
 }
+/* line 128, ../scss/default.scss */
 .width-view .max {
   float: right;
 }
 
+/* line 133, ../scss/default.scss */
 .main-view {
   height: 700px;
   background-color: #f79871;
@@ -92,34 +126,40 @@ button {
   transition: width 0.5s, height 0.5s;
 }
 
+/* line 141, ../scss/default.scss */
 .element-view {
   border: 2px black solid;
-  font-family: 'Donegal One', serif;
   overflow: hidden;
   z-index: 4;
   cursor: move;
 }
+/* line 147, ../scss/default.scss */
 .element-view .top {
   vertical-align: top;
 }
+/* line 150, ../scss/default.scss */
 .element-view .inner {
   position: relative;
 }
+/* line 153, ../scss/default.scss */
 .element-view .inner .content {
   position: inherit;
 }
+/* line 157, ../scss/default.scss */
 .element-view .inner .edit-element {
   position: absolute;
   top: 0;
   right: 0;
   z-index: 10;
 }
+/* line 164, ../scss/default.scss */
 .element-view .remove-element {
   background-color: orange;
   padding: 5px;
 }
 
 /** Overlay Stuff **/
+/* line 174, ../scss/default.scss */
 .overlay {
   position: fixed;
   top: 0;
@@ -129,6 +169,7 @@ button {
   background-image: url("opacity50.png");
   z-index: 100;
 }
+/* line 182, ../scss/default.scss */
 .overlay .window {
   min-width: 300px;
   max-width: 600px;
@@ -138,23 +179,33 @@ button {
   margin-top: 130px;
   padding: 10px;
 }
+/* line 190, ../scss/default.scss */
 .overlay .window .error {
   background-color: #fbb450;
   padding: 5px;
 }
+/* line 194, ../scss/default.scss */
 .overlay .window .close {
   padding: 5px;
   position: absolute;
   top: 0;
   right: 0;
 }
+/* line 201, ../scss/default.scss */
+.overlay button {
+  padding: 5px;
+}
+/* line 204, ../scss/default.scss */
 .overlay .btn-large {
   padding: 10px;
+  font-size: 1.25em;
 }
 
+/* line 210, ../scss/default.scss */
 .element-overlay {
   cursor: crosshair;
 }
+/* line 212, ../scss/default.scss */
 .element-overlay .close {
   position: absolute;
   right: 0px;
@@ -162,27 +213,32 @@ button {
   font-size: 20px;
 }
 
+/* line 220, ../scss/default.scss */
 .width-form-item {
   margin: 10px;
   padding: 10px;
   background-color: #fff;
   position: relative;
 }
+/* line 225, ../scss/default.scss */
 .width-form-item .remove-width {
   position: absolute;
   top: 10px;
   right: 10px;
 }
 
+/* line 233, ../scss/default.scss */
 .projects .project-name {
   margin-right: 30px;
 }
 
+/* line 242, ../scss/default.scss */
 .shadow-element {
   border: 2px black solid;
   z-index: 4;
 }
 
+/* line 247, ../scss/default.scss */
 .ui-resizable-ghost {
   -webkit-transition: none !important;
   /* Safari and Chrome */
@@ -195,10 +251,12 @@ button {
   transition: none !important;
 }
 
+/* line 251, ../scss/default.scss */
 .hidden {
   display: none;
 }
 
+/* line 255, ../scss/default.scss */
 .no-select {
   -webkit-touch-callout: none;
   -webkit-user-select: none;

@@ -134,12 +134,14 @@ $(function(){
 		render: function () {
 			this.$el.html(this.template());
 			var $formItemDiv= this.$el.find(".width-form-items");
+				widthsHTML = "";
 			$formItemDiv.empty();
 			this.collection.each(function(model){
 				var data = model.toJSON();
 				data.cid=model.cid;
-				$formItemDiv.append(this.formItemTemplate(data));
+				widthsHTML += this.formItemTemplate(data);
 			},this);
+			$formItemDiv.append(widthsHTML);
 			this.$el.find(".remove-width").first().remove(); //removes the first remove button because there should be at least one width.
 			this.$el.find(".window").draggable();
 			return this;
@@ -205,10 +207,12 @@ $(function(){
 			this.render();
 		},
 		render: function() {
+			var toolsHTML = "";
 			this.collection.each(function(modelTool){
 				var modelView = new ToolView({model: modelTool, dispatch: this.dispatch});
 				this.$el.append(modelView.el);
 			},this);
+
 		}
 	});
 
@@ -266,7 +270,8 @@ $(function(){
 		events: {
 			"click .edit-content" : "editContent",
 			"click .save-content" : "saveContent",
-			"click .remove-element" : "removeElement"
+			"click .remove-element" : "removeElement",
+			"dblclick": "editContent"
 		},
 
 		initialize: function (options) {
@@ -582,18 +587,23 @@ $(function(){
 			});
 		},
 		renderProjects: function (data) {
+			projectItems = "";
 			if (data.length === 0) {
 				return;
 			}
 			$projects = this.$el.find(".projects");
 			$projects.empty();
+
 			_(data).each(function(data){
 				var datetime =  new Date((Date.parse(data.ts)/60000 - new Date().getTimezoneOffset())*60000).toISOString();
 					$oneProject = $("<div></div>").addClass("project");
-				$oneProject.append("<a class='project-name' href='"+"#/layout/"+data.name+"'>"+data.name+"</a>");
-				$oneProject.append("<abbr class='project-time timeago' title='"+datetime+"'></abbr>");
-				$projects.append($oneProject);
+				projectItems += "<div class=\"project\">" 
+								+"<a class='project-name' href='"+"#/layout/"+data.name+"'>"+data.name+"</a>"
+								+ "<abbr class='project-time timeago' title='"+datetime+"'></abbr>"
+								+ "</div>"; 
+				
 			});
+			$projects.append(projectItems);
 			$projects.find(".timeago").timeago();
 		}
 	});
@@ -608,7 +618,7 @@ $(function(){
 
 			this.dispatch = options.dispatch;
 			var data = {
-				tools: [{iconClass: "icon-pencil", name: "Edit Views", task: "Edit Widths"},
+				tools: [{iconClass: "icon-pencil", name: "Edit Viewports", task: "Edit Widths"},
 						{iconClass: "icon-plus", name: "New Element", task: "New Element"},
 						{iconClass: "icon-save", name: "Save Layout", task: "Save Layout"},
 						{iconClass: "icon-signin", name: "Login Here", task: "Login"}]
@@ -628,12 +638,16 @@ $(function(){
 			this.userOverlayView = new UserOverlayView({model: this.user, dispatch: this.dispatch});
 		},
 		notify: function (type, message, options){
-			var data = {};
+			var data = {},
+				item;
 			data.type = type;
 			data.message = message;
-			console.log(message);
+			data.className = options.class;
 			this.$el.find(".notification").append(this.notificationTemplate(data));
 
+		},
+		closeNotify: function (e){
+			$(e.currentTarget).parent().remove();
 		},
 		events: function () {
 			this.dispatch.on("EditWidthButton:click", this.editWidth,this);
@@ -649,6 +663,7 @@ $(function(){
 			this.dispatch.on("ElementView:resize", this.resizeElement, this);
 			this.dispatch.on("ElementView:move", this.moveElement, this);
 			this.dispatch.on("UserLogin:success", this.successLogin, this);
+			this.$el.on("click", ".notification .close", this.closeNotify);
 		},
 		editWidth: function () {
 			this.widthsCollectionEditView.showOverlay();
@@ -679,7 +694,7 @@ $(function(){
 				console.log(data);
 				//TODO: set url to uid
 
-				self.notify("info","Your layout has been saved");
+				self.notify("Info","Your layout has been saved");
 			});
 
 			
@@ -726,7 +741,7 @@ $(function(){
 		},
 		successLogin: function (payload) {
 			this.toolsCollection.where({task: "Login"})[0].set({name: "User Info", task: "UserInfo"});
-			this.notify("info","You have been logged in");
+			this.notify("Info","You have been logged in",{class:"info"});
 		}
 	});
 	
