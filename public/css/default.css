@@ -63,7 +63,11 @@ button:active {
 }
 
 button.danger {
-  background-color: #fbb450;
+  background-color: #ee5f5b;
+}
+
+button.danger:hover {
+  background-color: #bd362f;
 }
 
 .main-menu {
@@ -134,7 +138,7 @@ button.danger {
 }
 
 .main-view {
-  height: 700px;
+  width: 1px;
   background-color: #f79871;
   position: relative;
   -webkit-transition: width 0.5s, height 0.5s, background-color 0.5s;
@@ -163,12 +167,6 @@ button.danger {
 .element-view .inner .content {
   position: inherit;
 }
-.element-view .inner .edit-element {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 10;
-}
 .element-view .remove-element {
   background-color: orange;
   padding: 5px;
@@ -185,8 +183,6 @@ button.danger {
   z-index: 100;
 }
 .overlay .window {
-  min-width: 300px;
-  max-width: 600px;
   background-color: #eeeeee;
   position: relative;
   margin: 0 auto;
@@ -210,6 +206,27 @@ button.danger {
 .overlay .btn-large {
   padding: 10px;
   font-size: 1.25em;
+}
+
+.edit-overlay .window {
+  min-height: 300px;
+  max-height: 800px;
+  overflow: auto;
+}
+.edit-overlay .window .nicEdit-main {
+  -webkit-user-select: all;
+  -khtml-user-select: all;
+  -moz-user-select: all;
+  -ms-user-select: all;
+  user-select: all;
+  overflow: auto;
+}
+.edit-overlay .window .remove-element {
+  margin-left: 0;
+  font-size: 0.8em;
+}
+.edit-overlay .window .save {
+  background-color: #62c462;
 }
 
 .element-overlay {

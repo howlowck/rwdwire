@@ -8,6 +8,8 @@ require.config({
 		crypto: "http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256",
 		jqueryui: "../assets/jquery-ui/ui/minified/jquery-ui.custom.min",
 		timeago: "../assets/jquery-timeago/jquery.timeago",
+		spectrum: "../assets/spectrum/spectrum",
+		nicEdit: "http://js.nicedit.com/nicEdit-latest",
 		app: "../js/app"
 	},
 	shim:{
@@ -18,11 +20,18 @@ require.config({
 			deps:["underscore", "jquery"],
 			exports: "Backbone"
 		},
+		crypto:{
+			exports: "CryptoJS"
+		},
 		jqueryui : ['jquery'],
-		timeago: ['jquery']
+		timeago: ['jquery'],
+		nicEdit: {
+			exports: "nicEditors"
+		},
+		spectrum: ['jquery']
 	}
 });
 
-define(["app"], function(App){
-	console.log(App);
+define(["app"], function(myApp){
+	rwdwire = myApp;
 });

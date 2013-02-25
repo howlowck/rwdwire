@@ -12,9 +12,11 @@ $error-color: #fbb450;
 $button-color-default: #eee;
 $button-color-hover: #ddd;
 $button-color-active: #ccc;
-$button-danger-default: #fbb450;
-$button-danger-hover: #fbb450;
-$button-danger-active: #fbb450;
+$button-danger-default: #ee5f5b;
+$button-danger-hover: #bd362f;
+$button-danger-active: #bd362f;
+$button-success-default: #62c462;
+$button-success-hover: #42c442;
 //Mixins
 @mixin borderbox {
 	box-sizing:border-box;
@@ -29,7 +31,7 @@ $button-danger-active: #fbb450;
 	-o-transition: width $duration, height $duration, background-color $duration; /* Opera */
 	transition: width $duration, height $duration, background-color $duration;
 }
-@mixin select ($opt:none) {
+@mixin select ($opt) {
 	-webkit-user-select: $opt;
 	-khtml-user-select: $opt;
 	-moz-user-select: $opt;
@@ -48,12 +50,14 @@ $button-danger-active: #fbb450;
 	padding: 0;
 	margin: 0;
 	@include borderbox;
-	@include select();
+	@include select(none);
 	font-family: 'Roboto', sans-serif;
 }
+
 input, textarea{
 	@include select(all);
 }
+
 body{
 	background-color: $container-color;
 }
@@ -89,6 +93,9 @@ button:active{
 
 button.danger{
 	background-color: $button-danger-default;
+}
+button.danger:hover{
+	background-color: $button-danger-hover;
 }
 .main-menu {
 	position: absolute;
@@ -159,7 +166,7 @@ button.danger{
 }
 
 .main-view {
-	height:700px;
+	width: 1px;
 	background-color: $viewport-color;
 	position: relative;
 	@include transition(0.5s);
@@ -181,13 +188,6 @@ button.danger{
 		.content {
 			position: inherit;
 		}
-
-		.edit-element {
-			position: absolute;
-			top: 0;
-			right: 0;
-			z-index: 10;
-		}
 	}
 	.remove-element {
 		background-color: orange;
@@ -208,8 +208,8 @@ button.danger{
 	background-image: url('opacity50.png');
 	z-index: 100;
 	.window{
-		min-width: 300px;
-		max-width: 600px;
+		//min-width: 300px;
+		//max-width: 600px;
 		background-color: $overlay-window-color; 
 		position: relative;
 		margin: 0 auto;
@@ -233,6 +233,24 @@ button.danger{
 	.btn-large{
 		padding: 10px;
 		font-size: 1.25em;
+	}
+}
+.edit-overlay{
+	.window{
+		min-height: 300px;
+		max-height: 800px;
+		overflow:auto;
+		.nicEdit-main{
+			@include select(all);
+			overflow: auto;
+		}
+		.remove-element{
+			margin-left: 0;
+			font-size: 0.8em;
+		}
+		.save{
+			background-color: $button-success-default;
+		}
 	}
 }
 
@@ -282,5 +300,5 @@ button.danger{
 }
 
 .no-select {
-	@include select();
+	@include select(none);
 }

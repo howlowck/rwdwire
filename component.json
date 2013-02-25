@@ -10,7 +10,8 @@
 		"backbone" : ">=0.0.1",
 		"font-awesome" : ">=0.0.1",
 		"jquery-timeago" : ">=0.0.1",
-		"spectrum" : ">=0.0.1"
+		"spectrum" : ">=0.0.1",
+		"wysihtml5" : ">=0.0.1"
 	}
 
 }
