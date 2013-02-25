@@ -3,6 +3,7 @@
 	"version" : "0.0.1",
 	"main" : "public/css/default.css",
 	"dependencies" : {
+		"requirejs" : ">=0.0.1",
 		"jquery" : ">=0.0.1",
 		"jquery-ui" : ">=0.0.1",
 		"underscore" : ">=0.0.1",
