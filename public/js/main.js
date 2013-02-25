@@ -92,6 +92,7 @@ $(function(){
 		template: _.template($("#widthOverlayTemp").html()),
 		formItemTemplate: _.template($("#widthFormItemTemp").html()),
 		events: {
+			"keypress" :"keyEvents",
 			"click .close": "closeOverlay",
 			"click .remove-width": "removeWidth",
 			"click .add-width": "addWidth",
@@ -99,10 +100,13 @@ $(function(){
 			"change .edit-height": "editHeight",
 			"change .edit-title": "editTitle"
 		},
-		initialize: function(options){
+		initialize: function (options) {
 			this.dispatch = options.dispatch;
 			this.render();
 			this.listenTo(this.collection,"reset add destroy sort",this.render);
+		},
+		keyEvents: function (e) {
+			
 		},
 		removeWidth: function (e){
 			$removeElement = $(e.target).parent();
@@ -220,6 +224,7 @@ $(function(){
 		previousState : "",
 		currentState : "defaults",
 		defaults: {
+			name: "generic",
 			disable: false,
 			width: 200,
 			height: 200,
@@ -269,7 +274,7 @@ $(function(){
 		},
 		events: {
 			"click .edit-content" : "editContent",
-			"click .save-content" : "saveContent",
+			"submit #editElementForm" : "saveContent",
 			"click .remove-element" : "removeElement",
 			"dblclick": "editContent"
 		},
@@ -294,17 +299,19 @@ $(function(){
 		},
 
 		editContent: function () {
-			this.$el.find(".edit-content").addClass("hidden");
+			// this.$el.find(".edit-content").addClass("hidden");
 
-			this.$el.find(".input-content").val(this.model.get("content"));
-			this.$el.find(".input-color").val(this.model.get("bcolor"));
-			this.$el.find(".input-zindex").val(this.model.get("zindex"));
+			// this.$el.find(".input-content").val(this.model.get("content"));
+			// this.$el.find(".input-color").val(this.model.get("bcolor"));
+			// this.$el.find(".input-zindex").val(this.model.get("zindex"));
 
-			this.$el.find(".edit").removeClass("hidden");
-			this.$el.find(".save-content").removeClass("hidden");
-			this.$el.find(".content").addClass("hidden");
+			// this.$el.find(".edit").removeClass("hidden");
+			// this.$el.find(".save-content").removeClass("hidden");
+			// this.$el.find(".content").addClass("hidden");
+			this.dispatch.trigger("element:edit", {cid: this.model.cid});
 		},
-		saveContent: function () {
+		saveContent: function (e) {
+			e.preventDefault();
 			this.$el.find(".save-content").addClass("hidden");
 
 			this.model.set({"content" :this.$el.find(".input-content").val(),
@@ -478,7 +485,47 @@ $(function(){
 			this.$el.addClass("hidden");
 		}
 	});
-	
+
+	var EditElementOverlayView = Backbone.View.extend({
+		el: $(".edit-overlay"),
+		events: {
+			"submit #editElementForm": "saveElement",
+			"click .remove-element": "removeElement",
+			"click .cancel" : "close"
+		},
+		template: _.template($("#editELementItemTemp").html()),
+		initialize: function (options) {
+			this.dispatch = options.dispatch;
+		},
+		saveElement: function (e){
+			e.preventDefault();
+			this.model.set("name", this.$el.find(".input-name").val());
+			this.model.set("content", this.$el.find(".input-content").val());
+			this.model.set("bcolor", this.$el.find(".input-bcolor").val());
+			this.model.set("zindex", this.$el.find(".input-zindex").val());
+			this.close();
+		},
+		removeElement: function (e) {
+			e.preventDefault();
+			this.model.destroy();
+			this.close();
+		},
+		show: function(model){
+			this.model = model;
+			this.render();
+		},
+		close: function () {
+			this.$el.addClass("hidden");
+		},
+		render: function () {
+			
+			this.$el.html(this.template(this.model.toJSON()));
+			this.$el.removeClass("hidden");
+			return this;
+		}
+
+	});
+
 	var User = Backbone.Model.extend({
 		urlRoot : '../rwdwire-server/users',
 		loginUrl: "/login",
@@ -509,7 +556,15 @@ $(function(){
 						pass: passwordHash(this.$el.find("#inputPass").val())
 					},
 				type: 'POST',
-				success: this.loginCallback.bind(this)
+				success: function (model, resp) {
+					if (!!resp.error) {
+						self.showError("#loginError", resp.error);
+					} else {
+						model.set(resp);
+						self.closeOverlay();
+						self.dispatch.trigger("UserLogin:success", {user: self.model});
+					}
+				}
 			});
 		},
 		onRegisterSubmit: function (e) {
@@ -528,7 +583,13 @@ $(function(){
 					},
 				type: 'POST'
 			}).done(function (data){
-				self.registerCallback(data);
+				if (!!data.error) {
+					self.showError("#registerError", data.error);
+				} else {
+					self.model.set(data);
+					self.closeOverlay();
+					self.dispatch.trigger("UserLogin:success", {user: self.model});
+				}
 			});
 		},
 		initialize: function (options) {
@@ -536,25 +597,6 @@ $(function(){
 		},
 		closeOverlay: function () {
 			this.$el.addClass("hidden");
-		},
-		loginCallback: function (model, resp) {
-			//console.log(resp);
-			if (!!resp.error) {
-				this.showError("#loginError", resp.error);
-			} else {
-				model.set(resp);
-				this.closeOverlay();
-				this.dispatch.trigger("UserLogin:success", {user: this.model});
-			}
-		},
-		registerCallback: function (data) {
-			if (!!data.error) {
-				this.showError("#registerError", data.error);
-			} else {
-				this.model.set(data);
-				this.closeOverlay();
-				this.dispatch.trigger("UserLogin:success", {user: this.model});
-			}
 		},
 		hideError: function () {
 			this.$el.find(".error").addClass("hidden");
@@ -607,8 +649,8 @@ $(function(){
 			$projects.find(".timeago").timeago();
 		}
 	});
-	/** Application View **/
 
+	/** Application View **/
 	var AppView = Backbone.View.extend({
 		el: $("body"),
 		urlRoot : '../rwdwire-server/layouts/',
@@ -634,6 +676,7 @@ $(function(){
 				dispatch: this.dispatch
 			});
 			this.createElementOverlayView = new CreateElementOverlayView({dispatch: this.dispatch});
+			this.editElementOverlayView = new EditElementOverlayView({dispatch: this.dispatch});
 			this.user = new User();
 			this.userOverlayView = new UserOverlayView({model: this.user, dispatch: this.dispatch});
 		},
@@ -647,7 +690,7 @@ $(function(){
 
 		},
 		closeNotify: function (e){
-			$(e.currentTarget).parent().remove();
+			$(e.currentTarget).remove();
 		},
 		events: function () {
 			this.dispatch.on("EditWidthButton:click", this.editWidth,this);
@@ -656,6 +699,7 @@ $(function(){
 			this.dispatch.on("LoginButton:click", this.showLogin, this);
 			this.dispatch.on("UserInfo:click", this.showUserInfo, this);
 
+			this.dispatch.on("element:edit", this.editElement, this);
 			this.dispatch.on("WidthView:click", this.updateViewportDim, this);
 			this.dispatch.on("ElementsCollectionView/width:change", this.updateElementsState, this);
 			this.dispatch.on("CreateElementOverlayView:createElement", this.createElement, this);
@@ -663,7 +707,7 @@ $(function(){
 			this.dispatch.on("ElementView:resize", this.resizeElement, this);
 			this.dispatch.on("ElementView:move", this.moveElement, this);
 			this.dispatch.on("UserLogin:success", this.successLogin, this);
-			this.$el.on("click", ".notification .close", this.closeNotify);
+			this.$el.on("click", ".notification-item", this.closeNotify);
 		},
 		editWidth: function () {
 			this.widthsCollectionEditView.showOverlay();
@@ -691,14 +735,19 @@ $(function(){
 				data: data,
 				type: 'POST'
 			}).done(function (data){
-				console.log(data);
-				//TODO: set url to uid
-
-				self.notify("Info","Your layout has been saved");
+				var json = $.parseJSON(data);
+				if ( json.error) {
+					self.notify("Uh oh..",json.error, {"class":"error"});
+					return;
+				}
+				self.dispatch.trigger("saveLayout:success", {url:json.url});
+				self.notify("Yay!",json.success, {"class":"success"});
+				self.uid = json.url;
+				console.log(json.url);
 			});
 
 			
-			console.log(data);
+			//console.log(data);
 		},
 		showLogin: function (payload) {
 			this.userOverlayView.renderLogin();
@@ -706,10 +755,14 @@ $(function(){
 		showUserInfo: function (payload){
 			this.userOverlayView.renderUserInfo({key: this.user.get("api_key")});
 		},
+
+		editElement: function (payload){
+			var model = this.elementsCollection.get(payload.cid);
+			this.editElementOverlayView.show(model);
+		},
 		updateViewportDim: function (payload) {
 			this.elementsCollectionView.changeDimension(payload.width, payload.height);
 		},
-
 		updateElementsState: function (payload) {
 			this.elementsCollection.each( function (model) {
 				model.updateCurrentState(payload.width);
@@ -741,7 +794,7 @@ $(function(){
 		},
 		successLogin: function (payload) {
 			this.toolsCollection.where({task: "Login"})[0].set({name: "User Info", task: "UserInfo"});
-			this.notify("Info","You have been logged in",{class:"info"});
+			this.notify("Yay!","You are logged in", { "class":"success" });
 		}
 	});
 	
@@ -749,6 +802,7 @@ $(function(){
 		initialize: function () {
 			this.dispatch = _.clone(Backbone.Events);
 			this.appView = new AppView({dispatch: this.dispatch});
+			this.dispatch.on("saveLayout:success", this.addURL, this);
 		},
 		routes: {
 			"layout/:layoutUid": "loadLayout",
@@ -765,7 +819,6 @@ $(function(){
 				type: "POST"
 			}).done(function (data) {
 				data = $.parseJSON(data);
-				console.log($.parseJSON(data.elements));
 				self.appView.widthsCollection.cleanReset($.parseJSON(data.dimensions));
 				self.appView.elementsCollectionView.width = self.appView.widthsCollection.first().get("xmax");
 				self.appView.elementsCollectionView.height = self.appView.widthsCollection.first().get("y");
@@ -779,11 +832,11 @@ $(function(){
 							{xmin: 481, xmax: 767, y: 700, title: "mobile landscape"},
 							{xmin: 768, xmax:979, y: 700, title: "default"},
 							{xmin: 980, xmax:1200, y:700, title: "large display"} ],
-						elements: [{"x":7,"y":4,"width":103,"height":59,"disable":false,"type":"div","content":"Logo","bcolor":"#eee","zindex":"10"},
-							{"x":7,"y":347,"width":242,"height":178,"disable":false,"type":"div","content":"Supplement","bcolor":"#abc","zindex":"10"},
-							{"x":7,"y":69,"width":466,"height":275,"disable":false,"type":"div","content":"Main Content","bcolor":"#dce","zindex":"10"},
-							{"x":113,"y":3,"width":360,"height":60,"disable":false,"type":"div","content":"Navigation","bcolor":"#eee","zindex":"10"},
-							{"x":252,"y":347,"width":221,"height":178,"disable":false,"type":"div","content":"Sidebar","bcolor":"#eee","zindex":"10"}]
+						elements: [{"name": "logo","x":7,"y":4,"width":103,"height":59,"disable":false,"type":"div","content":"Logo","bcolor":"#eee","zindex":"10"},
+							{"name": "supplement","x":7,"y":347,"width":242,"height":178,"disable":false,"type":"div","content":"Supplement","bcolor":"#abc","zindex":"10"},
+							{"name": "main","x":7,"y":69,"width":466,"height":275,"disable":false,"type":"div","content":"Main Content","bcolor":"#dce","zindex":"10"},
+							{"name": "nav","x":113,"y":3,"width":360,"height":60,"disable":false,"type":"div","content":"Navigation","bcolor":"#eee","zindex":"10"},
+							{"name": "sidebar","x":252,"y":347,"width":221,"height":178,"disable":false,"type":"div","content":"Sidebar","bcolor":"#eee","zindex":"10"}]
 						};
 
 			this.appView.widthsCollection.add(data.dimensions);
@@ -791,12 +844,14 @@ $(function(){
 			this.appView.elementsCollectionView.height = this.appView.widthsCollection.first().get("y");
 			this.appView.elementsCollectionView.render();
 			this.appView.elementsCollection.add(data.elements);
+		},
+		addURL: function (payload) {
+			this.navigate("layout/"+payload.url);
 		}
 	});
 
 	app= new App();
 	Backbone.history.start();
 });
-
-//TODO: add notification system
-//TODO: on save update URL
+//TODO: add color picker and WYSIWYG editor (f2)
+//TODO: fix width error after sorting when higher width becomes the narrowest width

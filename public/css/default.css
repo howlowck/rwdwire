@@ -1,20 +1,30 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,700);
-/* line 42, ../scss/default.scss */
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   font-family: 'Roboto', sans-serif;
 }
 
-/* line 48, ../scss/default.scss */
+input, textarea {
+  -webkit-user-select: all;
+  -khtml-user-select: all;
+  -moz-user-select: all;
+  -ms-user-select: all;
+  user-select: all;
+}
+
 body {
   background-color: white;
 }
 
-/* line 51, ../scss/default.scss */
 .container {
   margin-left: 30px;
   position: relative;
@@ -22,77 +32,91 @@ body {
   background-color: white;
 }
 
-/* line 59, ../scss/default.scss */
 #main-title #version {
   font-size: 15px;
 }
 
-/* line 64, ../scss/default.scss */
 button {
   cursor: pointer;
+  background: none;
+  border: none;
+  margin: 5px;
+  padding: 5px;
+  -webkit-transition: width 0.5s, height 0.5s, background-color 0.5s;
+  /* Safari and Chrome */
+  -moz-transition: width 0.5s, height 0.5s, background-color 0.5s;
+  /* Firefox 4 */
+  -ms-transition: width 0.5s, height 0.5s, background-color 0.5s;
+  /* MS */
+  -o-transition: width 0.5s, height 0.5s, background-color 0.5s;
+  /* Opera */
+  transition: width 0.5s, height 0.5s, background-color 0.5s;
+  background-color: #eeeeee;
 }
 
-/* line 67, ../scss/default.scss */
+button:hover {
+  background-color: #dddddd;
+}
+
+button:active {
+  background-color: #cccccc;
+}
+
+button.danger {
+  background-color: #fbb450;
+}
+
 .main-menu {
   position: absolute;
   left: 50%;
-  top: 20px;
-  min-width: 400px;
+  top: 10px;
+  min-width: 450px;
 }
-/* line 72, ../scss/default.scss */
 .main-menu button {
   display: inline-block;
   width: 100px;
   font-size: 20px;
 }
 
-/* line 79, ../scss/default.scss */
 .notification {
   position: absolute;
+  width: 400px;
   right: 20px;
   top: 0;
 }
-/* line 84, ../scss/default.scss */
 .notification .notification-item {
   position: relative;
   padding: 20px;
   opacity: 0.8;
+  cursor: pointer;
 }
-/* line 88, ../scss/default.scss */
 .notification .notification-item .notification-type {
   font-size: 2em;
   font-weight: bolder;
 }
-/* line 92, ../scss/default.scss */
 .notification .notification-item .notification-message {
   font-size: 1.5em;
 }
-/* line 95, ../scss/default.scss */
 .notification .notification-item .close {
   position: absolute;
   top: 20;
   right: 20;
   padding: 5px;
 }
-/* line 102, ../scss/default.scss */
 .notification .error {
   background-color: #fbb450;
 }
-/* line 105, ../scss/default.scss */
 .notification .info {
   background-color: #5bc0de;
 }
-/* line 108, ../scss/default.scss */
 .notification .success {
   background-color: #62c462;
 }
 
-/* line 113, ../scss/default.scss */
 #sizes {
   height: 4em;
 }
 
-/* line 117, ../scss/default.scss */
 .width-view {
   position: relative;
   background-color: #708a74;
@@ -105,61 +129,52 @@ button {
   white-space: nowrap;
   height: 100%;
 }
-/* line 128, ../scss/default.scss */
 .width-view .max {
   float: right;
 }
 
-/* line 133, ../scss/default.scss */
 .main-view {
   height: 700px;
   background-color: #f79871;
   position: relative;
-  -webkit-transition: width 0.5s, height 0.5s;
+  -webkit-transition: width 0.5s, height 0.5s, background-color 0.5s;
   /* Safari and Chrome */
-  -moz-transition: width 0.5s, height 0.5s;
+  -moz-transition: width 0.5s, height 0.5s, background-color 0.5s;
   /* Firefox 4 */
-  -ms-transition: width 0.5s, height 0.5s;
+  -ms-transition: width 0.5s, height 0.5s, background-color 0.5s;
   /* MS */
-  -o-transition: width 0.5s, height 0.5s;
+  -o-transition: width 0.5s, height 0.5s, background-color 0.5s;
   /* Opera */
-  transition: width 0.5s, height 0.5s;
+  transition: width 0.5s, height 0.5s, background-color 0.5s;
 }
 
-/* line 141, ../scss/default.scss */
 .element-view {
-  border: 2px black solid;
+  border: 1px gray solid;
   overflow: hidden;
   z-index: 4;
   cursor: move;
 }
-/* line 147, ../scss/default.scss */
 .element-view .top {
   vertical-align: top;
 }
-/* line 150, ../scss/default.scss */
 .element-view .inner {
   position: relative;
 }
-/* line 153, ../scss/default.scss */
 .element-view .inner .content {
   position: inherit;
 }
-/* line 157, ../scss/default.scss */
 .element-view .inner .edit-element {
   position: absolute;
   top: 0;
   right: 0;
   z-index: 10;
 }
-/* line 164, ../scss/default.scss */
 .element-view .remove-element {
   background-color: orange;
   padding: 5px;
 }
 
 /** Overlay Stuff **/
-/* line 174, ../scss/default.scss */
 .overlay {
   position: fixed;
   top: 0;
@@ -169,7 +184,6 @@ button {
   background-image: url("opacity50.png");
   z-index: 100;
 }
-/* line 182, ../scss/default.scss */
 .overlay .window {
   min-width: 300px;
   max-width: 600px;
@@ -179,33 +193,28 @@ button {
   margin-top: 130px;
   padding: 10px;
 }
-/* line 190, ../scss/default.scss */
 .overlay .window .error {
   background-color: #fbb450;
   padding: 5px;
 }
-/* line 194, ../scss/default.scss */
 .overlay .window .close {
   padding: 5px;
   position: absolute;
   top: 0;
   right: 0;
 }
-/* line 201, ../scss/default.scss */
 .overlay button {
   padding: 5px;
+  font-size: 1em;
 }
-/* line 204, ../scss/default.scss */
 .overlay .btn-large {
   padding: 10px;
   font-size: 1.25em;
 }
 
-/* line 210, ../scss/default.scss */
 .element-overlay {
   cursor: crosshair;
 }
-/* line 212, ../scss/default.scss */
 .element-overlay .close {
   position: absolute;
   right: 0px;
@@ -213,32 +222,27 @@ button {
   font-size: 20px;
 }
 
-/* line 220, ../scss/default.scss */
 .width-form-item {
   margin: 10px;
   padding: 10px;
   background-color: #fff;
   position: relative;
 }
-/* line 225, ../scss/default.scss */
 .width-form-item .remove-width {
   position: absolute;
   top: 10px;
   right: 10px;
 }
 
-/* line 233, ../scss/default.scss */
 .projects .project-name {
   margin-right: 30px;
 }
 
-/* line 242, ../scss/default.scss */
 .shadow-element {
   border: 2px black solid;
   z-index: 4;
 }
 
-/* line 247, ../scss/default.scss */
 .ui-resizable-ghost {
   -webkit-transition: none !important;
   /* Safari and Chrome */
@@ -251,14 +255,11 @@ button {
   transition: none !important;
 }
 
-/* line 251, ../scss/default.scss */
 .hidden {
   display: none;
 }
 
-/* line 255, ../scss/default.scss */
 .no-select {
-  -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;

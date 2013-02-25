@@ -44,6 +44,7 @@
 
 		<div class="width-overlay hidden overlay"></div>
 
+		<div class="edit-overlay hidden overlay"></div>
 		<!-- Templates -->
 		<script id="widthViewTemp" type="text/template">
 		 	<span class="min"><%= xmin %>px </span>
@@ -55,21 +56,12 @@
 		</script>
 
 		<script id="elementViewTemp" type="text/template">
-			<div class="edit-element">
-				<button class="edit-content"><i class="icon-pencil icon-2x"></i></button>
-				<button class="save-content hidden"><i class="icon-save icon-2x"></i></button>
-			</div>
 			<div class="content">
 				<%= content %>
 			</div>
 			<div class="edit hidden">
 				
-				<span class="top">Content: <textarea class="input-content"></textarea></span>
-				<br>
-				<!--Disable: <input class="input-disable" type="checkbox">-->
-				BColor: <input class="input-color" type="text" size="7">
-				Zindex: <input class="input-zindex" type="text" size="4">
-				<button class="remove-element"> <i class="icon-remove-circle"></i> Remove Element</button>
+			</div>
 		</script>
 
 		<script id="loginOverlayTemp" type="text/template">
@@ -137,13 +129,28 @@
 			Width: <input type="text" value="<%= xmax %>" class="edit-width" /> <br>
 			Height: <input type="text" value="<%=y%>" class="edit-height"/> <br>
 			Title: <input type="text" value="<%=title%>" class="edit-title"/> <br>
-			<button class="remove-width" title="Remove This Width">Remove</button>
+			<button class="remove-width danger" title="Remove This Width">Remove</button>
 			</div>
 		</script>
+		<script id="editELementItemTemp" type="text/template">
+			<div class="window">
+				<h3>Edit Element</h3>
+				<form id="editElementForm">
+					Name: <input type="text" class="input-name" value="<%=name%>"/><br>
+					<span class="top">Content: <textarea class="input-content" ><%=content%></textarea></span>
+					<br>
+					BColor: <input class="input-bcolor" type="text" size="7" value="<%= bcolor %>">
+					Zindex: <input class="input-zindex" type="text" size="4" value="<%= zindex %>">
+					<br>
+					<button class="remove-element danger"> <i class="icon-remove-circle"></i> Remove Element</button>
+					<button class="cancel"> <i class="icon-circle-arrow-left"></i> Cancel </button>
+					<button class="save-content" type="submit"><i class="icon-save"></i> Save</button>
+				</form>
 
+			</div>
+		</script>
 		<script id="notificationItemTemp" type="text/template">
-			<div class="notification-item <%=className%>">
-				<button class="close"><i class="icon-remove"></i></button>
+			<div class="notification-item <%=className%>" title="Click to dismiss">
 				<p class="notification-type"><%=type%> </p>
 				<p class="notification-message"> <%=message%></p>
 			</div>

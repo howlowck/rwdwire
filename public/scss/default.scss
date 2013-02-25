@@ -9,6 +9,12 @@ $width-border-color: #E0C7A4;
 $info-color: #5bc0de;
 $success-color: #62c462;
 $error-color: #fbb450;
+$button-color-default: #eee;
+$button-color-hover: #ddd;
+$button-color-active: #ccc;
+$button-danger-default: #fbb450;
+$button-danger-hover: #fbb450;
+$button-danger-active: #fbb450;
 //Mixins
 @mixin borderbox {
 	box-sizing:border-box;
@@ -17,19 +23,18 @@ $error-color: #fbb450;
 }
 
 @mixin transition($duration:0.5s) {
-	-webkit-transition: width $duration, height $duration; /* Safari and Chrome */
-	-moz-transition: width $duration, height $duration; /* Firefox 4 */
-	-ms-transition: width $duration, height $duration; /* MS */
-	-o-transition: width $duration, height $duration; /* Opera */
-	transition: width $duration, height $duration;
+	-webkit-transition: width $duration, height $duration, background-color $duration; /* Safari and Chrome */
+	-moz-transition: width $duration, height $duration, background-color $duration; /* Firefox 4 */
+	-ms-transition: width $duration, height $duration, background-color $duration; /* MS */
+	-o-transition: width $duration, height $duration, background-color $duration; /* Opera */
+	transition: width $duration, height $duration, background-color $duration;
 }
-@mixin no-select {
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
+@mixin select ($opt:none) {
+	-webkit-user-select: $opt;
+	-khtml-user-select: $opt;
+	-moz-user-select: $opt;
+	-ms-user-select: $opt;
+	user-select: $opt;
 }
 @mixin no-transition {
 	-webkit-transition: none !important; /* Safari and Chrome */
@@ -43,7 +48,11 @@ $error-color: #fbb450;
 	padding: 0;
 	margin: 0;
 	@include borderbox;
+	@include select();
 	font-family: 'Roboto', sans-serif;
+}
+input, textarea{
+	@include select(all);
 }
 body{
 	background-color: $container-color;
@@ -63,12 +72,29 @@ body{
 
 button{
 	cursor: pointer;
+    background  : none;
+    border  : none;
+    margin      : 5px;
+    padding     : 5px;
+    @include transition(0.5s);
+    background-color: $button-color-default;
+}
+
+button:hover{
+	background-color: $button-color-hover;
+}
+button:active{
+	background-color: $button-color-active;
+}
+
+button.danger{
+	background-color: $button-danger-default;
 }
 .main-menu {
 	position: absolute;
 	left: 50%;
-	top: 20px;
-	min-width: 400px;
+	top: 10px;
+	min-width: 450px;
 	button {
 		display: inline-block;
 		width: 100px;
@@ -78,6 +104,7 @@ button{
 
 .notification {
 	position: absolute;
+	width: 400px;
 	right: 20px;
 	top: 0;
 
@@ -85,6 +112,7 @@ button{
 		position: relative;
 		padding: 20px;
 		opacity: 0.8;
+		cursor: pointer;
 		.notification-type{
 			font-size: 2em;
 			font-weight: bolder;
@@ -139,7 +167,7 @@ button{
 
 
 .element-view {
-	border: 2px black solid;
+	border: 1px gray solid;
 	overflow: hidden;
 	z-index: 4;
 	cursor: move;
@@ -200,6 +228,7 @@ button{
 	}
 	button{
 		padding: 5px;
+		font-size: 1em;
 	}
 	.btn-large{
 		padding: 10px;
@@ -253,5 +282,5 @@ button{
 }
 
 .no-select {
-	@include no-select;
+	@include select();
 }
