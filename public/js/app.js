@@ -717,7 +717,7 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 
 			//save current state
 			this.elementsCollection.each( function (model) {
-				//model.updateCurrentState(self.widthsCollectionView.width + '');
+				model.saveCurrentState();
 			});
 
 			data.key = this.user.get("api_key");
