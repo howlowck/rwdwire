@@ -3,14 +3,14 @@
 	"version" : "0.0.1",
 	"main" : "public/css/default.css",
 	"dependencies" : {
-		"requirejs" : ">=0.0.1",
-		"jquery" : ">=0.0.1",
-		"jquery-ui" : ">=0.0.1",
-		"underscore" : ">=0.0.1",
-		"backbone" : ">=0.0.1",
-		"font-awesome" : ">=0.0.1",
-		"jquery-timeago" : ">=0.0.1",
-		"spectrum" : ">=0.0.1",
-		"CKEditor": "git://github.com/ckeditor/ckeditor-releases.git"
+		"requirejs" : "https://github.com/jrburke/requirejs.git",
+		"jquery" : "https://github.com/components/jquery.git",
+		"jquery-ui" : "https://github.com/components/jqueryui.git",
+		"underscore" : "https://github.com/documentcloud/underscore.git",
+		"backbone" : "https://github.com/documentcloud/backbone.git",
+		"font-awesome" : "https://github.com/FortAwesome/Font-Awesome.git",
+		"jquery-timeago" : "https://github.com/rmm5t/jquery-timeago.git",
+		"spectrum" : "https://github.com/bgrins/spectrum.git",
+		"CKEditor": "https://github.com/ckeditor/ckeditor-releases.git"
 	}
 }
