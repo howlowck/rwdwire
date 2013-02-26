@@ -4,13 +4,12 @@
 	"main" : "public/css/default.css",
 	"dependencies" : {
 		"requirejs" : "https://github.com/jrburke/requirejs.git",
-		"jquery" : "https://github.com/components/jquery.git",
+		"jquery" : "https://raw.github.com/components/jquery/master/jquery.min.js",
 		"jquery-ui" : "https://github.com/components/jqueryui.git",
 		"underscore" : "https://github.com/documentcloud/underscore.git",
 		"backbone" : "https://github.com/documentcloud/backbone.git",
 		"font-awesome" : "https://github.com/FortAwesome/Font-Awesome.git",
 		"jquery-timeago" : "https://github.com/rmm5t/jquery-timeago.git",
-		"spectrum" : "https://github.com/bgrins/spectrum.git",
-		"CKEditor": "https://github.com/ckeditor/ckeditor-releases.git"
+		"spectrum" : "https://github.com/bgrins/spectrum.git"
 	}
 }
