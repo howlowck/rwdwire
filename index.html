@@ -125,6 +125,7 @@
 			Width: <input type="text" value="<%= xmax %>" class="edit-width" /> <br>
 			Height: <input type="text" value="<%=y%>" class="edit-height"/> <br>
 			Title: <input type="text" value="<%=title%>" class="edit-title"/> <br>
+			Color: <input type="color" value="<%=viewportColor%>" class="edit-vcolor"/> <br>
 			<button class="remove-width danger" title="Remove This Width">Remove</button>
 			</div>
 		</script>
@@ -138,7 +139,9 @@
 					<textarea name="element-content" class="input-content" ><%=content%></textarea>
 
 					<br>
-					BColor: <input class="input-bcolor" type="color" size="7" value="<%= bcolor %>">
+					Background Color: <input class="input-bcolor" type="color" size="7" value="<%= bcolor %>">
+					<br>
+					Opacity: <input class="input-opacity" type="text" value="<%= opacity %>" size="4"/>
 					<br>
 					Zindex: <input class="input-zindex" type="text" size="4" value="<%= zindex %>">
 					<br>
