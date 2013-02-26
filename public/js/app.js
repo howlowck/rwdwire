@@ -1,4 +1,4 @@
-define(["jquery","underscore", "backbone","crypto","nicEdit", "jqueryui","timeago", "spectrum"], function($,_,Backbone, CryptoJS, nicEditors){
+define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timeago", "spectrum"], function($,_,Backbone, CryptoJS, CKEDITOR){
 
 	function passwordHash(raw){
 		return CryptoJS.SHA256(raw).toString().substring(0,15);
@@ -76,6 +76,8 @@ define(["jquery","underscore", "backbone","crypto","nicEdit", "jqueryui","timeag
 				function(model){
 					if (prevMax !== 0) {
 						model.set("xmin", prevMax + 1);
+					} else {
+						model.set("xmin", 0);
 					}
 					prevMax = model.get("xmax");
 				}
@@ -236,15 +238,14 @@ define(["jquery","underscore", "backbone","crypto","nicEdit", "jqueryui","timeag
 			zindex: 10
 		},
 		updateCurrentState: function (width) {
+			/* save the model config on the prevous state and updates the model to the current state. */
+
 			//Store dimension to current (soon previous state)
-			if (this.currentState !== "defaults") {
-				this.set(this.currentState+"_x",  this.get("x"))
-					.set(this.currentState+"_y",  this.get("y"))
-					.set(this.currentState+"_width", this.get("width"))
-					.set(this.currentState+"_height", this.get("height"))
-					.set(this.currentState+"_zindex", this.get("zindex"));
-			}
+			
 			this.previousState = this.currentState;
+
+			this.savePrevState();
+
 			//change current state and set dimension to stored dimension if exists
 			this.currentState = "state"+width.toString();
 			if (!!this.get(this.currentState+"_width")) {
@@ -256,6 +257,22 @@ define(["jquery","underscore", "backbone","crypto","nicEdit", "jqueryui","timeag
 						zindex: this.get(this.currentState+"_zindex")
 					});
 			}
+		},
+		savePrevState: function () {
+			if (this.previousState !== "defaults") {
+				this.set(this.previousState+"_x",  this.get("x"))
+					.set(this.previousState+"_y",  this.get("y"))
+					.set(this.previousState+"_width", this.get("width"))
+					.set(this.previousState+"_height", this.get("height"))
+					.set(this.previousState+"_zindex", this.get("zindex"));
+			}
+		},
+		saveCurrentState: function () {
+			this.set(this.currentState+"_x",  this.get("x"))
+				.set(this.currentState+"_y",  this.get("y"))
+				.set(this.currentState+"_width", this.get("width"))
+				.set(this.currentState+"_height", this.get("height"))
+				.set(this.currentState+"_zindex", this.get("zindex"));
 		}
 	});
 
@@ -497,7 +514,8 @@ define(["jquery","underscore", "backbone","crypto","nicEdit", "jqueryui","timeag
 		},
 		render: function () {
 			this.$el.html(this.template(this.model.toJSON()));
-			this.$el.find(".input-content").height(this.model.get("height")).width(this.model.get("width"));
+			//this.$el.find(".input-content").height(this.model.get("height")).width(this.model.get("width"));
+			CKEDITOR.replace("element-content");
 			this.$el.removeClass("hidden");
 			return this;
 		}
@@ -699,7 +717,7 @@ define(["jquery","underscore", "backbone","crypto","nicEdit", "jqueryui","timeag
 
 			//save current state
 			this.elementsCollection.each( function (model) {
-				model.updateCurrentState(self.widthsCollectionView.width + '');
+				//model.updateCurrentState(self.widthsCollectionView.width + '');
 			});
 
 			data.key = this.user.get("api_key");
@@ -835,6 +853,4 @@ define(["jquery","underscore", "backbone","crypto","nicEdit", "jqueryui","timeag
 
 });
 
-//TODO: add color picker and WYSIWYG editor (f2)
-//TODO: fix width error after sorting when higher width becomes the narrowest width
 

@@ -18,10 +18,10 @@ $button-danger-active: #bd362f;
 $button-success-default: #62c462;
 $button-success-hover: #42c442;
 //Mixins
-@mixin borderbox {
-	box-sizing:border-box;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing:border-box;
+@mixin borderbox ($opt:border-box) {
+	box-sizing:$opt;
+	-moz-box-sizing: $opt;
+	-webkit-box-sizing:$opt;
 }
 
 @mixin transition($duration:0.5s) {
@@ -49,7 +49,7 @@ $button-success-hover: #42c442;
 * {
 	padding: 0;
 	margin: 0;
-	@include borderbox;
+	@include borderbox();
 	@include select(none);
 	font-family: 'Roboto', sans-serif;
 }
@@ -186,6 +186,7 @@ button.danger:hover{
 		position: relative;
 
 		.content {
+			font-family: Arial, Helvetica, sans-serif;
 			position: inherit;
 		}
 	}
@@ -208,12 +209,10 @@ button.danger:hover{
 	background-image: url('opacity50.png');
 	z-index: 100;
 	.window{
-		//min-width: 300px;
-		//max-width: 600px;
+		width: 800px;
 		background-color: $overlay-window-color; 
 		position: relative;
 		margin: 0 auto;
-		margin-top: 130px;
 		padding: 10px;
 		.error{
 			background-color: #fbb450;
@@ -237,13 +236,14 @@ button.danger:hover{
 }
 .edit-overlay{
 	.window{
-		min-height: 300px;
-		max-height: 800px;
+		position: absolute;
+		top: 10%;
+		left: 50%;
+		margin-left: -400px;
+		height: 80%;
 		overflow:auto;
-		.nicEdit-main{
-			@include select(all);
-			overflow: auto;
-		}
+		padding-right: 20px;
+
 		.remove-element{
 			margin-left: 0;
 			font-size: 0.8em;

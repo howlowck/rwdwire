@@ -9,7 +9,7 @@ require.config({
 		jqueryui: "../assets/jquery-ui/ui/minified/jquery-ui.custom.min",
 		timeago: "../assets/jquery-timeago/jquery.timeago",
 		spectrum: "../assets/spectrum/spectrum",
-		nicEdit: "http://js.nicedit.com/nicEdit-latest",
+		CKEditor: "../assets/CKEditor/ckeditor",
 		app: "../js/app"
 	},
 	shim:{
@@ -25,8 +25,8 @@ require.config({
 		},
 		jqueryui : ['jquery'],
 		timeago: ['jquery'],
-		nicEdit: {
-			exports: "nicEditors"
+		CKEditor: {
+			exports: "CKEDITOR"
 		},
 		spectrum: ['jquery']
 	}
