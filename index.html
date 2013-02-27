@@ -31,6 +31,21 @@
 		</div>
 		<div class="elements-preview">
 			<div class="preview-handle"></div>
+			<div class="preview-content">
+				<h3> Preview Elements </h3>
+				<p class="notes"> Here you can order the element layers for a particular view. <br>
+				<strong> Also, you can disable elements for a particular view.</strong> </p>
+				<br> 
+				<h4>Visible</h4>
+				<ul id="previewVisible" class="preview-list">
+					<!-- Visible Element Preview goes in here -->
+				</ul>
+				<br>
+				<h4>Invisible</h4>
+				<ul id="previewDisable" class="preview-list">
+					<!-- Invisible Element Preview goes in here -->
+				</ul>
+			</div>
 		</div>
 		<!-- Overlays -->
 		<div class="element-overlay hidden overlay">
@@ -110,9 +125,9 @@
 		</script>
 		<script id="widthOverlayTemp" type="text/template">
 			<div class="window">
-				<h3>Edit Viewport Dimensions </h3>
+				<h3>Edit Viewport Settings </h3>
 				<button class="close" title="close window"><i class="icon-remove"></i></button>
-				<div class="notice"> Everything updates instanteously.  So just change and close :) </div>
+				<div class="notes"> Everything updates instanteously.  So just change and close :) </div>
 				<div class="error hidden"><i class="icon-remove"></i></div>
 				<div class="width-form-items">
 					<!-- The width items will be inserted here (see below) -->
@@ -129,10 +144,15 @@
 			<button class="remove-width danger" title="Remove This Width">Remove</button>
 			</div>
 		</script>
-		<script id="editELementItemTemp" type="text/template">
+		<script id="editElementItemTemp" type="text/template">
 			<div class="window">
 				<button class="close"><i class="icon-remove"></i></button>
 				<h3>Edit Element</h3>
+				<p class="notes"> All the setting here, except for opacity, are persistent across all viewports. 
+					<br>
+					(In other words, once you change it, it will change in all viewports.  But when you change opacity, it will only change for the current viewport.)
+				</p> 
+				<br>
 				<form id="editElementForm">
 					Name: <input type="text" class="input-name" value="<%=name%>"/><br>
 					<span class="top">Content: </span><br>
@@ -140,11 +160,9 @@
 
 					<br>
 					Background Color: <input class="input-bcolor" type="color" size="7" value="<%= bcolor %>">
-					<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					Opacity: <input class="input-opacity" type="text" value="<%= opacity %>" size="4"/>
-					<br>
-					Zindex: <input class="input-zindex" type="text" size="4" value="<%= zindex %>">
-					<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<button class="remove-element danger"> <i class="icon-exclamation-sign"></i> Remove Element</button>
 					<br>
 					<button class="cancel btn-large" type="button"> <i class="icon-circle-arrow-left"></i> Cancel </button>
@@ -152,6 +170,9 @@
 				</form>
 
 			</div>
+		</script>
+		<script id="previewElementItemTemp" type="text/template">
+			<li class="preview-element-item" id="<%=cid%>"><%= name %></li>
 		</script>
 		<script id="notificationItemTemp" type="text/template">
 			<div class="notification-item <%=className%>" title="Click to dismiss">

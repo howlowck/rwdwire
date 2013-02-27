@@ -97,6 +97,9 @@ button{
 		background-color: $button-danger-hover;
 	}
 }
+.notes{
+	font-size: 0.9em;
+}
 .main-menu {
 	position: absolute;
 	left: 50%;
@@ -198,6 +201,7 @@ button{
 
 $handleWidth : 20px;
 $previewWidth: 200px;
+$previewContentWidth: $previewWidth - $handleWidth;
 .elements-preview{
 	position: fixed;
 	right:  $handleWidth - $previewWidth;
@@ -217,6 +221,35 @@ $previewWidth: 200px;
 		height: 100%;
 		left: 0;
 		cursor: pointer;
+		@include transition(0.5s);
+		&:hover{
+			background-color: $info-color;
+		};
+	}
+	.preview-content{
+		position: absolute;
+		right: 0;
+		width: $previewContentWidth;
+		padding: 10px;
+	}
+	ul{
+		list-style-type: none;
+		.preview-element-item{
+			display: block;
+			padding: 5px;
+			margin: 2px;
+			background-color: #eeeeee;
+			cursor: pointer;
+		}
+		&#previewVisible{
+			min-height: 30px;
+			background-color: #eeeeee;
+		}
+		&#previewDisable{
+			min-height: 30px;
+			background-color: #efefef;
+			opacity: 0.5;
+		}
 	}
 }
 

@@ -289,15 +289,12 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 	var ElementView = Backbone.View.extend({
 		className: "element-view",
 		template: _.template($("#elementViewTemp").html()),
-		// attributes: {
-		// 	"draggable" : "true"
-		// },
 		cssAnimateSetting:{
-			"-webkit-transition": "top 0.5s, left 0.5s, width 0.5s, height 0.5s", /* Safari and Chrome */
-			"-moz-transition": "top 0.5s, left 0.5s, width 0.5s, height 0.5s", /* Firefox 4 */
-			"-ms-transition": "top 0.5s, left 0.5s, width 0.5s, height 0.5s", /* MS */
-			"-o-transition": "top 0.5s, left 0.5s, width 0.5s, height 0.5s", /* Opera */
-			"transition": "top 0.5s, left 0.5s, width 0.5s, height 0.5s"
+			"-webkit-transition": "top 0.5s, left 0.5s, width 0.5s, height 0.5s, opacity 0.5s", /* Safari and Chrome */
+			"-moz-transition": "top 0.5s, left 0.5s, width 0.5s, height 0.5s, opacity 0.5s", /* Firefox 4 */
+			"-ms-transition": "top 0.5s, left 0.5s, width 0.5s, height 0.5s, opacity 0.5s", /* MS */
+			"-o-transition": "top 0.5s, left 0.5s, width 0.5s, height 0.5s, opacity 0.5s", /* Opera */
+			"transition": "top 0.5s, left 0.5s, width 0.5s, height 0.5s, opacity 0.5s"
 		},
 		events: {
 			"click .remove-element" : "removeElement",
@@ -314,7 +311,6 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 			this.render();
 
 			this.$el.css({"position": "absolute"}).css(this.cssAnimateSetting);
-
 		},
 		dispatcherTriggerResize: function (ui) {
 			this.dispatch.trigger("ElementView:resize", {cid: this.model.cid, ui: ui});
@@ -334,9 +330,9 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 		render: function () {
 			var self = this,
 				visibleValue = this.model.get("disable")? "hidden" :"visible";
-			this.$el.children(".inner").html(this.template(this.model.toJSON()));
-			this.$el.position({left: this.model.get("x"), top: this.model.get("y")});
-			this.$el.css({
+			this.$el.children(".inner").html(this.template(this.model.toJSON()))
+					.position({left: this.model.get("x"), top: this.model.get("y")});
+			this.$el.attr("title", this.model.get("name")).css({
 				"background-color": this.model.get("bcolor"),
 				"left" : this.model.get("x"),
 				"top" : this.model.get("y"),
@@ -374,6 +370,9 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 
 	var ElementsCollection = Backbone.Collection.extend({
 		model: Element,
+		comparator: function (model) {
+			return -model.get("zindex");
+		},
 		cleanReset: function (data) {
 			var model;
 			while (!!(model = this.pop())) {
@@ -394,7 +393,6 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 			this.listenTo(this.collection, 'add', this.initRenderElement);
 			this.listenTo(this.collection, 'reset', this.resetElementsCollection);
 		},
-
 		initRenderElement: function (model , collection , options) {
 			model.updateCurrentState(this.width);
 			var modelView = new ElementView({model: model, dispatch: this.dispatch});
@@ -500,7 +498,7 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 			"click .close" : "close",
 			"click .cancel" : "close"
 		},
-		template: _.template($("#editELementItemTemp").html()),
+		template: _.template($("#editElementItemTemp").html()),
 		initialize: function (options) {
 			this.dispatch = options.dispatch;
 		},
@@ -537,13 +535,16 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 	});
 	var PreviewElementsCollectionView = Backbone.View.extend({
 		el: $(".elements-preview"),
+		template: _.template($("#previewElementItemTemp").html()),
 		opened: false,
 		events: {
-			"click .preview-handle":"toggleOpenState"
+			"click .preview-handle":"toggleOpenState",
+			"sortupdate .preview-list": "updateSort"
 		},
+
 		initialize: function (options) {
 			this.dispatch = options.dispatch;
-			this.render();
+			this.listenTo(this.collection, "sort destroy", this.render);
 		},
 		toggleOpenState: function () {
 			if (!this.opened) {
@@ -554,8 +555,29 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 				this.opened = false;
 			}
 		},
+		updateSort: function (e, ui){
+			this.dispatch.trigger("PreviewElementCollection:sortupdate", {visible: $("#previewVisible").sortable("toArray"), disable: $("#previewDisable").sortable("toArray")});
+		},
 		render: function () {
-			return this;
+			var self = this,
+				visOutput = "",
+				invisOutput = "";
+			self.collection.each(function (model) {
+				var data = model.toJSON();
+				data.cid = model.cid;
+				if (model.get("zindex") >= 0) {
+					visOutput += self.template(data);
+				} else {
+					invisOutput += self.template(data);
+				}
+				
+			});
+			self.$el.find("#previewVisible").html(visOutput);
+			self.$el.find("#previewDisable").html(invisOutput);
+			self.$el.find( "#previewVisible, #previewDisable" ).sortable({
+				connectWith: ".preview-list"
+			});
+			return self;
 		}
 
 	});
@@ -736,8 +758,9 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 			this.dispatch.on("WidthView:click", this.updateViewport, this);
 			this.dispatch.on("WidthCollection/viewportColor:change", this.changeViewportColor, this);
 			this.dispatch.on("ElementsCollectionView/width:change", this.updateElementsState, this);
+			this.dispatch.on("PreviewElementCollection:sortupdate", this.sortElements, this);
+
 			this.dispatch.on("CreateElementOverlayView:createElement", this.createElement, this);
-			
 			this.dispatch.on("ElementView:resize", this.resizeElement, this);
 			this.dispatch.on("ElementView:move", this.moveElement, this);
 			this.dispatch.on("UserLogin:success", this.successLogin, this);
@@ -762,8 +785,8 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 			data.uid = this.uid;
 			data.widths = JSON.stringify(this.widthsCollection.toJSON());
 			data.elements= JSON.stringify(this.elementsCollection.toJSON());
-			//$.parseJSON(string)
 
+			//$.parseJSON(string)
 			$.ajax({
 				url: this.urlRoot + "save_layout",
 				data: data,
@@ -779,9 +802,6 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 				self.uid = json.url;
 				console.log(json.url);
 			});
-
-			
-			//console.log(data);
 		},
 		showLogin: function (payload) {
 			this.userOverlayView.renderLogin();
@@ -807,14 +827,26 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 			this.elementsCollection.each( function (model) {
 				model.updateCurrentState(payload.width);
 			});
+			this.elementsCollection.sort();
+		},
+		sortElements: function (payload) {
+			var self = this,
+				count = payload.visible.length;
+			_.each(payload.visible, function(value){
+				self.elementsCollection.get(value).set("zindex", count);
+				count--;
+			});
+			_.each(payload.disable, function(value){
+				self.elementsCollection.get(value).set("zindex", -1);
+			});
 		},
 		createElement: function (payload) {
-			var modelSpec = (function (self) {
+			var modelSpec = (function () {
 				var x = payload.rawx - this.elementsCollectionView.$el.offset().left,
 					y = payload.rawy - this.elementsCollectionView.$el.offset().top,
 					width = payload.width,
 					height = payload.height;
-				return {x: x, y: y, width: width, height: height, disable: false};
+				return {x: x, y: y, width: width, height: height, disable: false, zindex: this.elementsCollection.length+1};
 			}).call(this);
 			this.elementsCollection.add(modelSpec);
 		},
@@ -864,6 +896,7 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 				self.appView.elementsCollectionView.changeColor(self.appView.widthsCollection.first().get("viewportColor"));
 				self.appView.elementsCollection.cleanReset($.parseJSON(data.elements));
 				self.appView.elementsCollectionView.render();
+				self.appView.previewElementsCollectionView.render();
 			});
 		},
 		defaultAction: function () {
@@ -883,6 +916,7 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 			this.appView.elementsCollectionView.changeColor(this.appView.widthsCollection.first().get("viewportColor"));
 			this.appView.elementsCollectionView.render();
 			this.appView.elementsCollection.add(data.elements);
+			this.appView.previewElementsCollectionView.render();
 		},
 		addURL: function (payload) {
 			this.navigate("layout/"+payload.url);
@@ -894,5 +928,3 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 	
 	return app;
 });
-
-//TODO: sanitize form input
