@@ -10,7 +10,11 @@
 		
 	</head>
 	<body>
-
+		<div class="overlay loading">
+			<div class="loading-content">
+				Loading...
+			</div>
+		</div>
 		<div class="container">
 			<br>
 			<h1 id="main-title">
@@ -165,8 +169,10 @@
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<button class="remove-element danger"> <i class="icon-exclamation-sign"></i> Remove Element</button>
 					<br>
-					<button class="cancel btn-large" type="button"> <i class="icon-circle-arrow-left"></i> Cancel </button>
-					<button class="save btn-large" type="submit"><i class="icon-save"></i> Save</button>
+					<div class="submit-bar">
+						<button class="cancel btn-large" type="button"> <i class="icon-circle-arrow-left"></i> Cancel </button>
+						<button class="save btn-large" type="submit"><i class="icon-save"></i> Save</button>
+					</div>
 				</form>
 
 			</div>
@@ -179,6 +185,20 @@
 				<p class="notification-type"><%=type%> </p>
 				<p class="notification-message"> <%=message%></p>
 			</div>
+		</script>
+
+		<!--Google Analytics -->
+		<script type="text/javascript">
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-32998844-1']);
+		  _gaq.push(['_setDomainName', 'lifeishao.com']);
+		  _gaq.push(['_trackPageview']);
+
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
 		</script>
 	</body>
 </html>

@@ -852,7 +852,7 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 		},
 
 		resizeElement: function (payload) {
-			var modelSpec = (function (self) {
+			var modelSpec = (function () {
 				var x = payload.ui.position.left - this.elementsCollectionView.$el.offset().left,
 					y = payload.ui.position.top- this.elementsCollectionView.$el.offset().top,
 					width = payload.ui.size.width,
@@ -926,5 +926,6 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 	var app= new App();
 	Backbone.history.start();
 	
+	$(".loading").addClass("hidden");
 	return app;
 });

@@ -61,6 +61,7 @@ input, textarea{
 body{
 	background-color: $container-color;
 }
+
 .container {
 	margin-left: 30px;
 	position: relative;
@@ -289,6 +290,19 @@ $previewContentWidth: $previewWidth - $handleWidth;
 		font-size: 1.25em;
 	}
 }
+.loading{
+	background-image: url('opacity10.png');
+	.loading-content{
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		margin-left: -50px;
+		margin-top: -50px;
+		width: 100px;
+		height: 100px;
+		margin: 0 auto;
+	}
+}
 .edit-overlay{
 	.window{
 		position: absolute;
@@ -303,9 +317,13 @@ $previewContentWidth: $previewWidth - $handleWidth;
 			margin-left: 0;
 			font-size: 0.8em;
 		}
-		.save{
-			background-color: $button-success-default;
+		.submit-bar{
+			float: right;
+			.save{
+				background-color: $button-success-default;
+			}
 		}
+		
 	}
 }
 
