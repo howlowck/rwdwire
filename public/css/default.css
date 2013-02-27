@@ -56,6 +56,22 @@ button {
   button.danger:hover {
     background-color: #bd362f; }
 
+button:hover {
+  background-color: #dddddd;
+}
+
+button:active {
+  background-color: #cccccc;
+}
+
+button.danger {
+  background-color: #ee5f5b;
+}
+
+button.danger:hover {
+  background-color: #bd362f;
+}
+
 .main-menu {
   position: absolute;
   left: 50%;
@@ -65,6 +81,12 @@ button {
     display: inline-block;
     width: 100px;
     font-size: 20px; }
+.main-menu button {
+  display: inline-block;
+  width: 100px;
+  font-size: 20px;
+}
+
 
 .notification {
   position: absolute;
@@ -93,6 +115,36 @@ button {
   .notification .success {
     background-color: #62c462; }
 
+.notification .notification-item {
+  position: relative;
+  padding: 20px;
+  opacity: 0.8;
+  cursor: pointer;
+}
+.notification .notification-item .notification-type {
+  font-size: 2em;
+  font-weight: bolder;
+}
+.notification .notification-item .notification-message {
+  font-size: 1.5em;
+}
+.notification .notification-item .close {
+  position: absolute;
+  top: 20;
+  right: 20;
+  padding: 5px;
+}
+.notification .error {
+  background-color: #fbb450;
+}
+.notification .info {
+  background-color: #5bc0de;
+}
+.notification .success {
+  background-color: #62c462;
+}
+
+
 #sizes {
   height: 4em; }
 
@@ -110,9 +162,15 @@ button {
   .width-view .max {
     float: right; }
 
+}
+.width-view .max {
+  float: right;
+}
+
+
 .main-view {
   width: 1px;
-  background-color: #f79871;
+  background-color: #eeeeee;
   position: relative;
   -webkit-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
   /* Safari and Chrome */
@@ -167,6 +225,21 @@ button {
     left: 0;
     cursor: pointer; }
 
+.element-view .top {
+  vertical-align: top;
+}
+.element-view .inner {
+  position: relative;
+}
+.element-view .inner .content {
+  font-family: Arial, Helvetica, sans-serif;
+  position: inherit;
+}
+.element-view .remove-element {
+  background-color: orange;
+  padding: 5px;
+}
+
 /** Overlay Stuff **/
 .overlay {
   position: fixed;
@@ -197,6 +270,32 @@ button {
     padding: 10px;
     font-size: 1.25em; }
 
+.overlay .window {
+  width: 800px;
+  background-color: #eeeeee;
+  position: relative;
+  margin: 0 auto;
+  padding: 10px;
+}
+.overlay .window .error {
+  background-color: #fbb450;
+  padding: 5px;
+}
+.overlay .window .close {
+  padding: 5px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.overlay button {
+  padding: 5px;
+  font-size: 1em;
+}
+.overlay .btn-large {
+  padding: 10px;
+  font-size: 1.25em;
+}
+
 .edit-overlay .window {
   position: absolute;
   top: 10%;
@@ -205,6 +304,7 @@ button {
   height: 80%;
   overflow: auto;
   padding-right: 20px; }
+
   .edit-overlay .window .remove-element {
     margin-left: 0;
     font-size: 0.8em; }
@@ -218,6 +318,24 @@ button {
     right: 0px;
     top: 0px;
     font-size: 20px; }
+
+.edit-overlay .window .remove-element {
+  margin-left: 0;
+  font-size: 0.8em;
+}
+.edit-overlay .window .save {
+  background-color: #62c462;
+}
+
+.element-overlay {
+  cursor: crosshair;
+}
+.element-overlay .close {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  font-size: 20px;
+}
 
 .width-form-item {
   margin: 10px;

@@ -5,7 +5,7 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 	}
 
 	var Width = Backbone.Model.extend({
-		defaults: {xmax: 1300, xmin: "0", y: "700", title :"What device am I supposed to be?"}
+		defaults: {xmax: 1300, xmin: "0", y: "700", title :"What device am I supposed to be?", viewportColor: "#eeeeee"}
 	});
 
 	var WidthView = Backbone.View.extend({
@@ -24,7 +24,7 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 			return this.model.get("xmax") - this.model.get("xmin");
 		},
 		updateViewportDim: function () {
-			this.dispatch.trigger("WidthView:click", {width: this.model.get("xmax"), height: this.model.get("y")});
+			this.dispatch.trigger("WidthView:click", {width: this.model.get("xmax"), height: this.model.get("y"), color: this.model.get("viewportColor")});
 		},
 		render: function () {
 			this.$el.html(this.template(this.model.toJSON()));
@@ -94,13 +94,14 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 		template: _.template($("#widthOverlayTemp").html()),
 		formItemTemplate: _.template($("#widthFormItemTemp").html()),
 		events: {
-			"keypress" :"keyEvents",
-			"click .close": "closeOverlay",
-			"click .remove-width": "removeWidth",
-			"click .add-width": "addWidth",
-			"change .edit-width": "editWidth",
-			"change .edit-height": "editHeight",
-			"change .edit-title": "editTitle"
+			"keypress" : "keyEvents",
+			"click .close" : "closeOverlay",
+			"click .remove-width" : "removeWidth",
+			"click .add-width" : "addWidth",
+			"change .edit-width" : "editWidth",
+			"change .edit-height" : "editHeight",
+			"change .edit-title" : "editTitle",
+			"change .edit-vcolor": "editViewportColor"
 		},
 		initialize: function (options) {
 			this.dispatch = options.dispatch;
@@ -111,7 +112,7 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 			
 		},
 		removeWidth: function (e){
-			$removeElement = $(e.target).parent();
+			var $removeElement = $(e.target).parent();
 			this.collection.get($removeElement.attr("data-cid")).destroy();
 			$removeElement.remove();
 		},
@@ -119,18 +120,23 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 			this.collection.add({});
 		},
 		editWidth: function (e) {
-			$editElement = $(e.target).parent();
+			var $editElement = $(e.target).parent();
 			this.collection.get($editElement.attr("data-cid")).set("xmax", parseInt($(e.target).val(),10));
 		},
 		editHeight: function (e) {
-			$editElement = $(e.target).parent();
+			var $editElement = $(e.target).parent();
 			this.collection.get($editElement.attr("data-cid")).set("y", parseInt($(e.target).val(),10));
 		},
 		editTitle: function (e) {
-			$editElement = $(e.target).parent();
+			var $editElement = $(e.target).parent();
 			this.collection.get($editElement.attr("data-cid")).set("title", $(e.target).val());
 		},
-
+		editViewportColor: function (e) {
+			var $editElement = $(e.target).parent();
+			var widthModel = this.collection.get($editElement.attr("data-cid"));
+			widthModel.set("viewportColor", $(e.target).val());
+			this.dispatch.trigger("WidthCollection/viewportColor:change",{width: widthModel.get("xmax"), color: $(e.target).val()});
+		},
 		closeOverlay: function () {
 			this.$el.addClass("hidden");
 		},
@@ -235,7 +241,8 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 			type: "div",
 			content: "Hi! I'm a new Element.  Edit me.",
 			bcolor: "#eeeeee",
-			zindex: 10
+			zindex: 10,
+			opacity: 1
 		},
 		updateCurrentState: function (width) {
 			/* save the model config on the prevous state and updates the model to the current state. */
@@ -254,7 +261,8 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 						height: this.get(this.currentState+"_height"),
 						x: this.get(this.currentState+"_x"),
 						y: this.get(this.currentState+"_y"),
-						zindex: this.get(this.currentState+"_zindex")
+						zindex: this.get(this.currentState+"_zindex"),
+						opacity: this.get(this.currentState+"_opacity")
 					});
 			}
 		},
@@ -264,7 +272,8 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 					.set(this.previousState+"_y",  this.get("y"))
 					.set(this.previousState+"_width", this.get("width"))
 					.set(this.previousState+"_height", this.get("height"))
-					.set(this.previousState+"_zindex", this.get("zindex"));
+					.set(this.previousState+"_zindex", this.get("zindex"))
+					.set(this.previousState+"_opacity", this.get("opacity"));
 			}
 		},
 		saveCurrentState: function () {
@@ -272,7 +281,8 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 				.set(this.currentState+"_y",  this.get("y"))
 				.set(this.currentState+"_width", this.get("width"))
 				.set(this.currentState+"_height", this.get("height"))
-				.set(this.currentState+"_zindex", this.get("zindex"));
+				.set(this.currentState+"_zindex", this.get("zindex"))
+				.set(this.currentState+"_opacity", this.get("opacity"));
 		}
 	});
 
@@ -333,6 +343,7 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 				"width": this.model.get("width"),
 				"height": this.model.get("height"),
 				"z-index": this.model.get("zindex"),
+				"opacity": this.model.get("opacity"),
 				"visibility": visibleValue});
 			
 			this.$el.resizable({
@@ -380,8 +391,6 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 		},
 		initialize: function (options) {
 			this.dispatch = options.dispatch;
-			this.changeDimension(options.width, options.height);
-
 			this.listenTo(this.collection, 'add', this.initRenderElement);
 			this.listenTo(this.collection, 'reset', this.resetElementsCollection);
 		},
@@ -402,8 +411,12 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 			this.dispatch.trigger("ElementsCollectionView/width:change", {width: width});
 			this.render();
 		},
+		changeColor: function (color) {
+			this.color = color;			
+			this.render();
+		},
 		render: function () {
-			this.$el.css({"width": this.width, "height": this.height});
+			this.$el.css({"width": this.width, "height": this.height, "background-color": this.color});
 			return this;
 		}
 	});
@@ -497,6 +510,7 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 			this.model.set("content", this.$el.find(".input-content").val());
 			this.model.set("bcolor", this.$el.find(".input-bcolor").val());
 			this.model.set("zindex", this.$el.find(".input-zindex").val());
+			this.model.set("opacity", this.$el.find(".input-opacity").val());
 			this.close();
 		},
 		removeElement: function (e) {
@@ -719,7 +733,8 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 			this.dispatch.on("UserInfo:click", this.showUserInfo, this);
 
 			this.dispatch.on("element:edit", this.editElement, this);
-			this.dispatch.on("WidthView:click", this.updateViewportDim, this);
+			this.dispatch.on("WidthView:click", this.updateViewport, this);
+			this.dispatch.on("WidthCollection/viewportColor:change", this.changeViewportColor, this);
 			this.dispatch.on("ElementsCollectionView/width:change", this.updateElementsState, this);
 			this.dispatch.on("CreateElementOverlayView:createElement", this.createElement, this);
 			
@@ -779,8 +794,14 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 			var model = this.elementsCollection.get(payload.cid);
 			this.editElementOverlayView.show(model);
 		},
-		updateViewportDim: function (payload) {
+		updateViewport: function (payload) {
 			this.elementsCollectionView.changeDimension(payload.width, payload.height);
+			this.elementsCollectionView.changeColor(payload.color);
+		},
+		changeViewportColor: function (payload) {
+			if (payload.width === this.elementsCollectionView.width) {
+				this.elementsCollectionView.changeColor(payload.color);
+			}
 		},
 		updateElementsState: function (payload) {
 			this.elementsCollection.each( function (model) {
@@ -839,28 +860,27 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 			}).done(function (data) {
 				data = $.parseJSON(data);
 				self.appView.widthsCollection.cleanReset($.parseJSON(data.dimensions));
-				self.appView.elementsCollectionView.width = self.appView.widthsCollection.first().get("xmax");
-				self.appView.elementsCollectionView.height = self.appView.widthsCollection.first().get("y");
+				self.appView.elementsCollectionView.changeDimension(self.appView.widthsCollection.first().get("xmax"),self.appView.widthsCollection.first().get("y"));
+				self.appView.elementsCollectionView.changeColor(self.appView.widthsCollection.first().get("viewportColor"));
 				self.appView.elementsCollection.cleanReset($.parseJSON(data.elements));
 				self.appView.elementsCollectionView.render();
 			});
 		},
 		defaultAction: function () {
 			var self = this,
-				data = {dimensions: [{xmax: 480, y: 700, title: "mobile portrait"},
-							{xmin: 481, xmax: 767, y: 700, title: "mobile landscape"},
-							{xmin: 768, xmax:979, y: 700, title: "default"},
-							{xmin: 980, xmax:1200, y:700, title: "large display"} ],
-						elements: [{"name": "logo","x":7,"y":4,"width":103,"height":59,"disable":false,"type":"div","content":"Logo","bcolor":"#eeeeee","zindex":"10"},
-							{"name": "supplement","x":7,"y":347,"width":242,"height":178,"disable":false,"type":"div","content":"Supplement","bcolor":"#aabbcc","zindex":"10"},
-							{"name": "main","x":7,"y":69,"width":466,"height":275,"disable":false,"type":"div","content":"Main Content","bcolor":"#ddccee","zindex":"10"},
-							{"name": "nav","x":113,"y":3,"width":360,"height":60,"disable":false,"type":"div","content":"Navigation","bcolor":"#eeeeee","zindex":"10"},
-							{"name": "sidebar","x":252,"y":347,"width":221,"height":178,"disable":false,"type":"div","content":"Sidebar","bcolor":"#eeeeee","zindex":"10"}]
+				data = {dimensions: [{xmax: 480, y: 700, title: "mobile portrait", viewportColor: "#eedee0"},
+							{xmin: 481, xmax: 767, y: 700, title: "mobile landscape", viewportColor: "#eedee0"},
+							{xmin: 768, xmax:979, y: 700, title: "default", viewportColor: "#eedee0"},
+							{xmin: 980, xmax:1200, y:700, title: "large display", viewportColor: "#eedee0"}],
+						elements: [{"name": "logo","x":7,"y":4,"width":103,"height":59,"disable":false,"type":"div","content":"Logo","bcolor":"#eeeeee","zindex":"10","opacity":1},
+							{"name": "supplement","x":7,"y":347,"width":242,"height":178,"disable":false,"type":"div","content":"Supplement","bcolor":"#aabbcc","zindex":"10","opacity":1},
+							{"name": "main","x":7,"y":69,"width":466,"height":275,"disable":false,"type":"div","content":"Main Content","bcolor":"#ddccee","zindex":"10","opacity":1},
+							{"name": "nav","x":113,"y":3,"width":360,"height":60,"disable":false,"type":"div","content":"Navigation","bcolor":"#eeeeee","zindex":"10","opacity":1},
+							{"name": "sidebar","x":252,"y":347,"width":221,"height":178,"disable":false,"type":"div","content":"Sidebar","bcolor":"#eeeeee","zindex":"10","opacity":1}]
 						};
-
 			this.appView.widthsCollection.add(data.dimensions);
-			this.appView.elementsCollectionView.width = this.appView.widthsCollection.first().get("xmax");
-			this.appView.elementsCollectionView.height = this.appView.widthsCollection.first().get("y");
+			this.appView.elementsCollectionView.changeDimension(this.appView.widthsCollection.first().get("xmax"),this.appView.widthsCollection.first().get("y"));
+			this.appView.elementsCollectionView.changeColor(this.appView.widthsCollection.first().get("viewportColor"));
 			this.appView.elementsCollectionView.render();
 			this.appView.elementsCollection.add(data.elements);
 		},
