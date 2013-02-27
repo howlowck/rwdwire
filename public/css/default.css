@@ -177,7 +177,7 @@ button.danger:hover {
   position: fixed;
   right: -180px;
   top: 0;
-  width: 200px;
+  width: 210px;
   height: 100%;
   background-color: #abc;
   opacity: 0.5;
@@ -197,7 +197,7 @@ button.danger:hover {
 }
 .elements-preview .preview-handle {
   position: absolute;
-  width: 20px;
+  width: 30px;
   height: 100%;
   left: 0;
   cursor: pointer;
@@ -303,10 +303,7 @@ button.danger:hover {
   margin-left: 0;
   font-size: 0.8em;
 }
-.edit-overlay .window .submit-bar {
-  float: right;
-}
-.edit-overlay .window .submit-bar .save {
+.edit-overlay .window .save {
   background-color: #62c462;
 }
 

@@ -18,7 +18,7 @@ $button-danger-active: #bd362f;
 $button-success-default: #62c462;
 $button-success-hover: #42c442;
 //Mixins
-@mixin borderbox ($opt:border-box) {
+@mixin box-sizing ($opt:border-box) {
 	box-sizing:$opt;
 	-moz-box-sizing: $opt;
 	-webkit-box-sizing:$opt;
@@ -49,7 +49,7 @@ $button-success-hover: #42c442;
 * {
 	padding: 0;
 	margin: 0;
-	@include borderbox();
+	@include box-sizing();
 	@include select(none);
 	font-family: 'Roboto', sans-serif;
 }
@@ -200,8 +200,8 @@ button{
 	}
 }
 
-$handleWidth : 20px;
-$previewWidth: 200px;
+$handleWidth : 30px;
+$previewWidth: 210px;
 $previewContentWidth: $previewWidth - $handleWidth;
 .elements-preview{
 	position: fixed;
@@ -317,12 +317,11 @@ $previewContentWidth: $previewWidth - $handleWidth;
 			margin-left: 0;
 			font-size: 0.8em;
 		}
-		.submit-bar{
-			float: right;
-			.save{
-				background-color: $button-success-default;
-			}
+		
+		.save{
+			background-color: $button-success-default;
 		}
+		
 		
 	}
 }

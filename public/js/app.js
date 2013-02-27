@@ -1,4 +1,4 @@
-define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timeago", "spectrum"], function($,_,Backbone, CryptoJS, CKEDITOR){
+define(["backbone","crypto","CKEditor", "jqueryui","timeago", "spectrum"], function(Backbone, CryptoJS, CKEDITOR){
 
 	function passwordHash(raw){
 		return CryptoJS.SHA256(raw).toString().substring(0,15);
@@ -905,11 +905,11 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 							{xmin: 481, xmax: 767, y: 700, title: "mobile landscape", viewportColor: "#eedee0"},
 							{xmin: 768, xmax:979, y: 700, title: "default", viewportColor: "#eedee0"},
 							{xmin: 980, xmax:1200, y:700, title: "large display", viewportColor: "#eedee0"}],
-						elements: [{"name": "logo","x":7,"y":4,"width":103,"height":59,"disable":false,"type":"div","content":"Logo","bcolor":"#eeeeee","zindex":"10","opacity":1},
-							{"name": "supplement","x":7,"y":347,"width":242,"height":178,"disable":false,"type":"div","content":"Supplement","bcolor":"#aabbcc","zindex":"10","opacity":1},
-							{"name": "main","x":7,"y":69,"width":466,"height":275,"disable":false,"type":"div","content":"Main Content","bcolor":"#ddccee","zindex":"10","opacity":1},
-							{"name": "nav","x":113,"y":3,"width":360,"height":60,"disable":false,"type":"div","content":"Navigation","bcolor":"#eeeeee","zindex":"10","opacity":1},
-							{"name": "sidebar","x":252,"y":347,"width":221,"height":178,"disable":false,"type":"div","content":"Sidebar","bcolor":"#eeeeee","zindex":"10","opacity":1}]
+						elements: [{"name": "logo","x":7,"y":4,"width":103,"height":59,"disable":false,"type":"div","content":"Logo","bcolor":"#eeeeee","zindex":"1","opacity":1},
+							{"name": "nav","x":113,"y":3,"width":360,"height":60,"disable":false,"type":"div","content":"Navigation","bcolor":"#eeeeee","zindex":"2","opacity":1},
+							{"name": "main","x":7,"y":69,"width":466,"height":275,"disable":false,"type":"div","content":"Main Content","bcolor":"#ddccee","zindex":"3","opacity":1},
+							{"name": "supplement","x":7,"y":347,"width":242,"height":178,"disable":false,"type":"div","content":"Supplement","bcolor":"#aabbcc","zindex":"4","opacity":1},
+							{"name": "sidebar","x":252,"y":347,"width":221,"height":178,"disable":false,"type":"div","content":"Sidebar","bcolor":"#eeeeee","zindex":"5","opacity":1}]
 						};
 			this.appView.widthsCollection.add(data.dimensions);
 			this.appView.elementsCollectionView.changeDimension(this.appView.widthsCollection.first().get("xmax"),this.appView.widthsCollection.first().get("y"));
