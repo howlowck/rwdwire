@@ -1,5 +1,4 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,700);
-/* line 49, ../scss/default.scss */
 * {
   padding: 0;
   margin: 0;
@@ -11,138 +10,92 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  font-family: 'Roboto', sans-serif;
-}
+  font-family: 'Roboto', sans-serif; }
 
-/* line 57, ../scss/default.scss */
 input, textarea {
   -webkit-user-select: all;
   -khtml-user-select: all;
   -moz-user-select: all;
   -ms-user-select: all;
-  user-select: all;
-}
+  user-select: all; }
 
-/* line 61, ../scss/default.scss */
 body {
-  background-color: white;
-}
+  background-color: white; }
 
-/* line 64, ../scss/default.scss */
 .container {
   margin-left: 30px;
   position: relative;
   margin-bottom: 30px;
-  background-color: white;
-}
+  background-color: white; }
 
-/* line 72, ../scss/default.scss */
 #main-title #version {
-  font-size: 15px;
-}
+  font-size: 15px; }
 
-/* line 77, ../scss/default.scss */
 button {
   cursor: pointer;
   background: none;
   border: none;
   margin: 5px;
   padding: 5px;
-  -webkit-transition: width 0.5s, height 0.5s, background-color 0.5s;
+  -webkit-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
   /* Safari and Chrome */
-  -moz-transition: width 0.5s, height 0.5s, background-color 0.5s;
+  -moz-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
   /* Firefox 4 */
-  -ms-transition: width 0.5s, height 0.5s, background-color 0.5s;
+  -ms-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
   /* MS */
-  -o-transition: width 0.5s, height 0.5s, background-color 0.5s;
+  -o-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
   /* Opera */
-  transition: width 0.5s, height 0.5s, background-color 0.5s;
-  background-color: #eeeeee;
-}
+  transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
+  background-color: #eeeeee; }
+  button:hover {
+    background-color: #dddddd; }
+  button:active {
+    background-color: #cccccc; }
+  button.danger {
+    background-color: #ee5f5b; }
+  button.danger:hover {
+    background-color: #bd362f; }
 
-/* line 87, ../scss/default.scss */
-button:hover {
-  background-color: #dddddd;
-}
-
-/* line 90, ../scss/default.scss */
-button:active {
-  background-color: #cccccc;
-}
-
-/* line 94, ../scss/default.scss */
-button.danger {
-  background-color: #ee5f5b;
-}
-
-/* line 97, ../scss/default.scss */
-button.danger:hover {
-  background-color: #bd362f;
-}
-
-/* line 100, ../scss/default.scss */
 .main-menu {
   position: absolute;
   left: 50%;
   top: 10px;
-  min-width: 450px;
-}
-/* line 105, ../scss/default.scss */
-.main-menu button {
-  display: inline-block;
-  width: 100px;
-  font-size: 20px;
-}
+  min-width: 450px; }
+  .main-menu button {
+    display: inline-block;
+    width: 100px;
+    font-size: 20px; }
 
-/* line 112, ../scss/default.scss */
 .notification {
   position: absolute;
   width: 400px;
   right: 20px;
-  top: 0;
-}
-/* line 118, ../scss/default.scss */
-.notification .notification-item {
-  position: relative;
-  padding: 20px;
-  opacity: 0.8;
-  cursor: pointer;
-}
-/* line 123, ../scss/default.scss */
-.notification .notification-item .notification-type {
-  font-size: 2em;
-  font-weight: bolder;
-}
-/* line 127, ../scss/default.scss */
-.notification .notification-item .notification-message {
-  font-size: 1.5em;
-}
-/* line 130, ../scss/default.scss */
-.notification .notification-item .close {
-  position: absolute;
-  top: 20;
-  right: 20;
-  padding: 5px;
-}
-/* line 137, ../scss/default.scss */
-.notification .error {
-  background-color: #fbb450;
-}
-/* line 140, ../scss/default.scss */
-.notification .info {
-  background-color: #5bc0de;
-}
-/* line 143, ../scss/default.scss */
-.notification .success {
-  background-color: #62c462;
-}
+  top: 0; }
+  .notification .notification-item {
+    position: relative;
+    padding: 20px;
+    opacity: 0.8;
+    cursor: pointer; }
+    .notification .notification-item .notification-type {
+      font-size: 2em;
+      font-weight: bolder; }
+    .notification .notification-item .notification-message {
+      font-size: 1.5em; }
+    .notification .notification-item .close {
+      position: absolute;
+      top: 20;
+      right: 20;
+      padding: 5px; }
+  .notification .error {
+    background-color: #fbb450; }
+  .notification .info {
+    background-color: #5bc0de; }
+  .notification .success {
+    background-color: #62c462; }
 
-/* line 148, ../scss/default.scss */
 #sizes {
-  height: 4em;
-}
+  height: 4em; }
 
-/* line 152, ../scss/default.scss */
 .width-view {
   position: relative;
   background-color: #708a74;
@@ -153,57 +106,68 @@ button.danger:hover {
   padding: 10px;
   overflow: auto;
   white-space: nowrap;
-  height: 100%;
-}
-/* line 163, ../scss/default.scss */
-.width-view .max {
-  float: right;
-}
+  height: 100%; }
+  .width-view .max {
+    float: right; }
 
-/* line 168, ../scss/default.scss */
 .main-view {
   width: 1px;
   background-color: #f79871;
   position: relative;
-  -webkit-transition: width 0.5s, height 0.5s, background-color 0.5s;
+  -webkit-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
   /* Safari and Chrome */
-  -moz-transition: width 0.5s, height 0.5s, background-color 0.5s;
+  -moz-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
   /* Firefox 4 */
-  -ms-transition: width 0.5s, height 0.5s, background-color 0.5s;
+  -ms-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
   /* MS */
-  -o-transition: width 0.5s, height 0.5s, background-color 0.5s;
+  -o-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
   /* Opera */
-  transition: width 0.5s, height 0.5s, background-color 0.5s;
-}
+  transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s; }
 
-/* line 176, ../scss/default.scss */
 .element-view {
   border: 1px gray solid;
   overflow: hidden;
   z-index: 4;
-  cursor: move;
-}
-/* line 182, ../scss/default.scss */
-.element-view .top {
-  vertical-align: top;
-}
-/* line 185, ../scss/default.scss */
-.element-view .inner {
-  position: relative;
-}
-/* line 188, ../scss/default.scss */
-.element-view .inner .content {
-  font-family: Arial, Helvetica, sans-serif;
-  position: inherit;
-}
-/* line 193, ../scss/default.scss */
-.element-view .remove-element {
-  background-color: orange;
-  padding: 5px;
-}
+  cursor: move; }
+  .element-view .top {
+    vertical-align: top; }
+  .element-view .inner {
+    position: relative; }
+    .element-view .inner .content {
+      font-family: Arial, Helvetica, sans-serif;
+      position: inherit; }
+  .element-view .remove-element {
+    background-color: orange;
+    padding: 5px; }
+
+.elements-preview {
+  position: fixed;
+  right: -180px;
+  top: 0;
+  width: 200px;
+  height: 100%;
+  background-color: #abc;
+  opacity: 0.5;
+  -webkit-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
+  /* Safari and Chrome */
+  -moz-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
+  /* Firefox 4 */
+  -ms-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
+  /* MS */
+  -o-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
+  /* Opera */
+  transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s; }
+  .elements-preview.opened {
+    opacity: 1;
+    right: 0; }
+  .elements-preview .preview-handle {
+    position: absolute;
+    width: 20px;
+    height: 100%;
+    left: 0;
+    cursor: pointer; }
 
 /** Overlay Stuff **/
-/* line 203, ../scss/default.scss */
 .overlay {
   position: fixed;
   top: 0;
@@ -211,40 +175,28 @@ button.danger:hover {
   width: 100%;
   height: 100%;
   background-image: url("opacity50.png");
-  z-index: 100;
-}
-/* line 211, ../scss/default.scss */
-.overlay .window {
-  width: 800px;
-  background-color: #eeeeee;
-  position: relative;
-  margin: 0 auto;
-  padding: 10px;
-}
-/* line 217, ../scss/default.scss */
-.overlay .window .error {
-  background-color: #fbb450;
-  padding: 5px;
-}
-/* line 221, ../scss/default.scss */
-.overlay .window .close {
-  padding: 5px;
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-/* line 228, ../scss/default.scss */
-.overlay button {
-  padding: 5px;
-  font-size: 1em;
-}
-/* line 232, ../scss/default.scss */
-.overlay .btn-large {
-  padding: 10px;
-  font-size: 1.25em;
-}
+  z-index: 100; }
+  .overlay .window {
+    width: 800px;
+    background-color: #eeeeee;
+    position: relative;
+    margin: 0 auto;
+    padding: 10px; }
+    .overlay .window .error {
+      background-color: #fbb450;
+      padding: 5px; }
+    .overlay .window .close {
+      padding: 5px;
+      position: absolute;
+      top: 0;
+      right: 0; }
+  .overlay button {
+    padding: 5px;
+    font-size: 1em; }
+  .overlay .btn-large {
+    padding: 10px;
+    font-size: 1.25em; }
 
-/* line 238, ../scss/default.scss */
 .edit-overlay .window {
   position: absolute;
   top: 10%;
@@ -252,56 +204,38 @@ button.danger:hover {
   margin-left: -400px;
   height: 80%;
   overflow: auto;
-  padding-right: 20px;
-}
-/* line 247, ../scss/default.scss */
-.edit-overlay .window .remove-element {
-  margin-left: 0;
-  font-size: 0.8em;
-}
-/* line 251, ../scss/default.scss */
-.edit-overlay .window .save {
-  background-color: #62c462;
-}
+  padding-right: 20px; }
+  .edit-overlay .window .remove-element {
+    margin-left: 0;
+    font-size: 0.8em; }
+  .edit-overlay .window .save {
+    background-color: #62c462; }
 
-/* line 257, ../scss/default.scss */
 .element-overlay {
-  cursor: crosshair;
-}
-/* line 259, ../scss/default.scss */
-.element-overlay .close {
-  position: absolute;
-  right: 0px;
-  top: 0px;
-  font-size: 20px;
-}
+  cursor: crosshair; }
+  .element-overlay .close {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    font-size: 20px; }
 
-/* line 267, ../scss/default.scss */
 .width-form-item {
   margin: 10px;
   padding: 10px;
   background-color: #fff;
-  position: relative;
-}
-/* line 272, ../scss/default.scss */
-.width-form-item .remove-width {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
+  position: relative; }
+  .width-form-item .remove-width {
+    position: absolute;
+    top: 10px;
+    right: 10px; }
 
-/* line 280, ../scss/default.scss */
 .projects .project-name {
-  margin-right: 30px;
-}
+  margin-right: 30px; }
 
-/* line 289, ../scss/default.scss */
 .shadow-element {
   border: 2px black solid;
-  z-index: 4;
-}
+  z-index: 4; }
 
-/* line 294, ../scss/default.scss */
 .ui-resizable-ghost {
   -webkit-transition: none !important;
   /* Safari and Chrome */
@@ -311,19 +245,14 @@ button.danger:hover {
   /* MS */
   -o-transition: none !important;
   /* Opera */
-  transition: none !important;
-}
+  transition: none !important; }
 
-/* line 298, ../scss/default.scss */
 .hidden {
-  display: none;
-}
+  display: none; }
 
-/* line 302, ../scss/default.scss */
 .no-select {
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  user-select: none;
-}
+  user-select: none; }

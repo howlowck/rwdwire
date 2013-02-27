@@ -25,11 +25,11 @@ $button-success-hover: #42c442;
 }
 
 @mixin transition($duration:0.5s) {
-	-webkit-transition: width $duration, height $duration, background-color $duration; /* Safari and Chrome */
-	-moz-transition: width $duration, height $duration, background-color $duration; /* Firefox 4 */
-	-ms-transition: width $duration, height $duration, background-color $duration; /* MS */
-	-o-transition: width $duration, height $duration, background-color $duration; /* Opera */
-	transition: width $duration, height $duration, background-color $duration;
+	-webkit-transition: width $duration, height $duration, background-color $duration, left $duration, right $duration, top $duration, opacity $duration; /* Safari and Chrome */
+	-moz-transition: width $duration, height $duration, background-color $duration, left $duration, right $duration, top $duration, opacity $duration; /* Firefox 4 */
+	-ms-transition: width $duration, height $duration, background-color $duration, left $duration, right $duration, top $duration, opacity $duration; /* MS */
+	-o-transition: width $duration, height $duration, background-color $duration, left $duration, right $duration, top $duration, opacity $duration; /* Opera */
+	transition: width $duration, height $duration, background-color $duration, left $duration, right $duration, top $duration, opacity $duration;
 }
 @mixin select ($opt) {
 	-webkit-user-select: $opt;
@@ -82,20 +82,20 @@ button{
     padding     : 5px;
     @include transition(0.5s);
     background-color: $button-color-default;
-}
 
-button:hover{
-	background-color: $button-color-hover;
-}
-button:active{
-	background-color: $button-color-active;
-}
+	&:hover{
+		background-color: $button-color-hover;
+	}
+	&:active{
+		background-color: $button-color-active;
+	}
 
-button.danger{
-	background-color: $button-danger-default;
-}
-button.danger:hover{
-	background-color: $button-danger-hover;
+	&.danger{
+		background-color: $button-danger-default;
+	}
+	&.danger:hover{
+		background-color: $button-danger-hover;
+	}
 }
 .main-menu {
 	position: absolute;
@@ -196,7 +196,29 @@ button.danger:hover{
 	}
 }
 
-
+$handleWidth : 20px;
+$previewWidth: 200px;
+.elements-preview{
+	position: fixed;
+	right:  $handleWidth - $previewWidth;
+	top: 0;
+	width: $previewWidth;
+	height: 100%;
+	background-color: #abc;
+	opacity: 0.5;
+	@include transition(0.5s);
+	&.opened{
+		opacity: 1;
+		right: 0;
+	}
+	.preview-handle{
+		position: absolute;
+		width: $handleWidth;
+		height: 100%;
+		left: 0;
+		cursor: pointer;
+	}
+}
 
 
 /** Overlay Stuff **/

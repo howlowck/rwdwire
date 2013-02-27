@@ -279,9 +279,9 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 	var ElementView = Backbone.View.extend({
 		className: "element-view",
 		template: _.template($("#elementViewTemp").html()),
-		attributes: {
-			"draggable" : "true"
-		},
+		// attributes: {
+		// 	"draggable" : "true"
+		// },
 		cssAnimateSetting:{
 			"-webkit-transition": "top 0.5s, left 0.5s, width 0.5s, height 0.5s", /* Safari and Chrome */
 			"-moz-transition": "top 0.5s, left 0.5s, width 0.5s, height 0.5s", /* Firefox 4 */
@@ -521,7 +521,30 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 		}
 
 	});
+	var PreviewElementsCollectionView = Backbone.View.extend({
+		el: $(".elements-preview"),
+		opened: false,
+		events: {
+			"click .preview-handle":"toggleOpenState"
+		},
+		initialize: function (options) {
+			this.dispatch = options.dispatch;
+			this.render();
+		},
+		toggleOpenState: function () {
+			if (!this.opened) {
+				this.$el.addClass("opened");
+				this.opened = true;
+			} else {
+				this.$el.removeClass("opened");
+				this.opened = false;
+			}
+		},
+		render: function () {
+			return this;
+		}
 
+	});
 	var User = Backbone.Model.extend({
 		urlRoot : '../rwdwire-server/users',
 		loginUrl: "/login",
@@ -634,7 +657,6 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 
 			_(data).each(function(data){
 				var datetime =  new Date((Date.parse(data.ts)/60000 - new Date().getTimezoneOffset())*60000).toISOString();
-					$oneProject = $("<div></div>").addClass("project");
 				projectItems += "<div class=\"project\">" 
 								+"<a class='project-name' href='"+"#/layout/"+data.name+"'>"+data.name+"</a>"
 								+ "<abbr class='project-time timeago' title='"+datetime+"'></abbr>"
@@ -673,6 +695,7 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 			});
 			this.createElementOverlayView = new CreateElementOverlayView({dispatch: this.dispatch});
 			this.editElementOverlayView = new EditElementOverlayView({dispatch: this.dispatch});
+			this.previewElementsCollectionView = new PreviewElementsCollectionView({dispatch: this.dispatch, collection : this.elementsCollection});
 			this.user = new User();
 			this.userOverlayView = new UserOverlayView({model: this.user, dispatch: this.dispatch});
 		},
@@ -850,7 +873,6 @@ define(["jquery","underscore", "backbone","crypto","CKEditor", "jqueryui","timea
 	Backbone.history.start();
 	
 	return app;
-
 });
 
-
+//TODO: sanitize form input
