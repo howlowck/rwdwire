@@ -50,12 +50,11 @@ $button-success-hover: #42c442;
 	padding: 0;
 	margin: 0;
 	@include box-sizing();
-	@include select(none);
 	font-family: 'Roboto', sans-serif;
 }
 
-input, textarea{
-	@include select(all);
+div{
+	//@include select(none);
 }
 
 body{

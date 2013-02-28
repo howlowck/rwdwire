@@ -521,7 +521,6 @@ define(["backbone","crypto","CKEditor", "jqueryui","timeago", "spectrum"], funct
 			this.render();
 		},
 		close: function (e) {
-			console.log(e);
 			this.$el.addClass("hidden");
 		},
 		render: function () {
@@ -692,7 +691,7 @@ define(["backbone","crypto","CKEditor", "jqueryui","timeago", "spectrum"], funct
 			$projects.empty();
 
 			_(data).each(function(data){
-				var datetime =  new Date((Date.parse(data.ts)/60000 - new Date().getTimezoneOffset())*60000).toISOString();
+				var datetime =  new Date((Date.parse(data.ts.replace(" ","T"))/60000 - new Date().getTimezoneOffset())*60000).toISOString();
 				projectItems += "<div class=\"project\">" 
 								+"<a class='project-name' href='"+"#/layout/"+data.name+"'>"+data.name+"</a>"
 								+ "<abbr class='project-time timeago' title='"+datetime+"'></abbr>"
@@ -800,7 +799,6 @@ define(["backbone","crypto","CKEditor", "jqueryui","timeago", "spectrum"], funct
 				self.dispatch.trigger("saveLayout:success", {url:json.url});
 				self.notify("Yay!",json.success, {"class":"success"});
 				self.uid = json.url;
-				console.log(json.url);
 			});
 		},
 		showLogin: function (payload) {
