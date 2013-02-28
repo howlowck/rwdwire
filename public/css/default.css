@@ -74,6 +74,7 @@ button.danger:hover {
   width: 400px;
   right: 20px;
   top: 0;
+  z-index: 999;
 }
 .notification .notification-item {
   position: relative;
@@ -168,6 +169,7 @@ button.danger:hover {
   height: 100%;
   background-color: #abc;
   opacity: 0.5;
+  z-index: 800;
   -webkit-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
   /* Safari and Chrome */
   -moz-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;

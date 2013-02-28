@@ -117,6 +117,7 @@ button{
 	width: 400px;
 	right: 20px;
 	top: 0;
+	z-index: 999;
 
 	.notification-item{
 		position: relative;
@@ -210,6 +211,7 @@ $previewContentWidth: $previewWidth - $handleWidth;
 	height: 100%;
 	background-color: #abc;
 	opacity: 0.5;
+	z-index: 800;
 	@include transition(0.5s);
 	&.opened{
 		opacity: 1;
