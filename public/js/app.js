@@ -754,6 +754,7 @@ define(["backbone","crypto","CKEditor", "jqueryui","timeago", "spectrum"], funct
 
 			this.dispatch.on("element:edit", this.editElement, this);
 			this.dispatch.on("WidthView:click", this.updateViewport, this);
+
 			this.dispatch.on("WidthCollection/viewportColor:change", this.changeViewportColor, this);
 			this.dispatch.on("ElementsCollectionView/width:change", this.updateElementsState, this);
 			this.dispatch.on("PreviewElementCollection:sortupdate", this.sortElements, this);
@@ -845,8 +846,10 @@ define(["backbone","crypto","CKEditor", "jqueryui","timeago", "spectrum"], funct
 					height = payload.height;
 				return {x: x, y: y, width: width, height: height, disable: false, zindex: this.elementsCollection.length+1};
 			}).call(this);
-			this.elementsCollection.add(modelSpec);
+			var newElement = new Element(modelSpec);
+			this.elementsCollection.add(newElement);
 			this.elementsCollection.sort();
+			this.editElementOverlayView.show(newElement);
 		},
 
 		resizeElement: function (payload) {
