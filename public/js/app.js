@@ -232,7 +232,7 @@ define(["backbone","crypto","CKEditor", "jqueryui","timeago", "spectrum"], funct
 		previousState : "",
 		currentState : "defaults",
 		defaults: {
-			name: "generic",
+			name: "change me",
 			disable: false,
 			width: 200,
 			height: 200,
@@ -507,7 +507,6 @@ define(["backbone","crypto","CKEditor", "jqueryui","timeago", "spectrum"], funct
 			this.model.set("name", this.$el.find(".input-name").val());
 			this.model.set("content", this.$el.find(".input-content").val());
 			this.model.set("bcolor", this.$el.find(".input-bcolor").val());
-			this.model.set("zindex", this.$el.find(".input-zindex").val());
 			this.model.set("opacity", this.$el.find(".input-opacity").val());
 			this.close();
 		},
@@ -543,7 +542,7 @@ define(["backbone","crypto","CKEditor", "jqueryui","timeago", "spectrum"], funct
 
 		initialize: function (options) {
 			this.dispatch = options.dispatch;
-			this.listenTo(this.collection, "sort destroy", this.render);
+			this.listenTo(this.collection, "sort destroy change", this.render);
 		},
 		toggleOpenState: function () {
 			if (!this.opened) {
@@ -847,6 +846,7 @@ define(["backbone","crypto","CKEditor", "jqueryui","timeago", "spectrum"], funct
 				return {x: x, y: y, width: width, height: height, disable: false, zindex: this.elementsCollection.length+1};
 			}).call(this);
 			this.elementsCollection.add(modelSpec);
+			this.elementsCollection.sort();
 		},
 
 		resizeElement: function (payload) {
