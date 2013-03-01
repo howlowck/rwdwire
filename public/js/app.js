@@ -29,7 +29,7 @@ define(["backbone","crypto","CKEditor", "jqueryui","timeago", "spectrum"], funct
 		render: function () {
 			this.$el.html(this.template(this.model.toJSON()));
 			this.$el.css({"width": this.dimension()});
-			this.$el.attr("title", this.model.get("title"));
+			this.$el.attr("title", this.model.get("title")+ " (click to activate)");
 			return this;
 		}
 	});
@@ -332,7 +332,7 @@ define(["backbone","crypto","CKEditor", "jqueryui","timeago", "spectrum"], funct
 				visibleValue = this.model.get("disable")? "hidden" :"visible";
 			this.$el.children(".inner").html(this.template(this.model.toJSON()))
 					.position({left: this.model.get("x"), top: this.model.get("y")});
-			this.$el.attr("title", this.model.get("name")).css({
+			this.$el.attr("title", "Double Click to Edit Element").css({
 				"background-color": this.model.get("bcolor"),
 				"left" : this.model.get("x"),
 				"top" : this.model.get("y"),

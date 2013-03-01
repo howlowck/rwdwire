@@ -34,10 +34,10 @@
 		<div class="notification">
 		</div>
 		<div class="elements-preview">
-			<div class="preview-handle"></div>
+			<div class="preview-handle"><span class="rotate90 label">Elements</span></div>
 			<div class="preview-content">
-				<h3> Preview Elements </h3>
-				<p class="notes"> Here you can order the element layers for a particular view. <br>
+				<h3> Order or Disable Elements </h3>
+				<p class="notes"> Here you can order the element layers (think like PS layer order) for a particular view. <br>
 				<strong> Also, you can disable elements for a particular view.</strong> </p>
 				<br> 
 				<h4>Visible</h4>
@@ -45,7 +45,7 @@
 					<!-- Visible Element Preview goes in here -->
 				</ul>
 				<br>
-				<h4>Invisible</h4>
+				<h4>Disable</h4>
 				<ul id="previewDisable" class="preview-list">
 					<!-- Invisible Element Preview goes in here -->
 				</ul>
@@ -54,11 +54,14 @@
 		<!-- Overlays -->
 		<div class="element-overlay hidden overlay">
 			<button class="close no-select">Cancel (or Click Anywhere)</button>
+			<span class="instructions"> Draw Anywhere to Create Element </span>
 			<div class="hidden shadow-element" style="position: absolute; width: 1px; height: 1px;"></div>
 		</div>
 
 
-		<div class="user-overlay hidden overlay"></div>
+		<div class="user-overlay hidden overlay">
+
+		</div>
 
 		<div class="width-overlay hidden overlay"></div>
 

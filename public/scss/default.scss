@@ -45,6 +45,13 @@ $button-success-hover: #42c442;
 	-o-transition: none !important; /* Opera */
 	transition: none !important;
 }
+@mixin rotate($opt){
+	transform: rotate($opt);
+	-ms-transform: rotate($opt); /* IE 9 */
+	-webkit-transform: rotate($opt); /* Safari and Chrome */
+	-o-transform: rotate($opt); /* Opera */
+	-moz-transform: rotate($opt); /* Firefox */
+}
 
 * {
 	padding: 0;
@@ -73,7 +80,10 @@ body{
 		font-size: 15px;
 	}
 }
-
+.rotate90{
+	display: block;
+	@include rotate(90deg)
+}
 button{
 	cursor: pointer;
     background  : none;
@@ -217,6 +227,7 @@ $previewContentWidth: $previewWidth - $handleWidth;
 		opacity: 1;
 		right: 0;
 	}
+
 	.preview-handle{
 		position: absolute;
 		width: $handleWidth;
@@ -226,7 +237,11 @@ $previewContentWidth: $previewWidth - $handleWidth;
 		@include transition(0.5s);
 		&:hover{
 			background-color: $info-color;
-		};
+		}
+		.label{
+			margin-top: 100px;
+			font-size: 2em;
+		}
 	}
 	.preview-content{
 		position: absolute;
@@ -265,6 +280,15 @@ $previewContentWidth: $previewWidth - $handleWidth;
 	height: 100%;
 	background-image: url('opacity50.png');
 	z-index: 100;
+	.instructions{
+		color: white;
+		background-color: black;
+		display: block;
+		font-size: 150%;
+		height: 2em;
+		line-height: 2em;
+		padding-left: 30px;
+	}
 	.window{
 		width: 800px;
 		background-color: $overlay-window-color; 
@@ -297,11 +321,11 @@ $previewContentWidth: $previewWidth - $handleWidth;
 		position: absolute;
 		left: 50%;
 		top: 50%;
-		margin-left: -50px;
-		margin-top: -50px;
-		width: 100px;
-		height: 100px;
-		margin: 0 auto;
+		margin-left: -150px;
+		margin-top: -150px;
+		width: 300px;
+		height: 300px;
+		font-size: 200%;
 	}
 }
 .edit-overlay{

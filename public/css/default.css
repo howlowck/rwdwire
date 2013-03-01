@@ -23,6 +23,19 @@ body {
   font-size: 15px;
 }
 
+.rotate90 {
+  display: block;
+  transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  /* IE 9 */
+  -webkit-transform: rotate(90deg);
+  /* Safari and Chrome */
+  -o-transform: rotate(90deg);
+  /* Opera */
+  -moz-transform: rotate(90deg);
+  /* Firefox */
+}
+
 button {
   cursor: pointer;
   background: none;
@@ -203,6 +216,10 @@ button.danger:hover {
 .elements-preview .preview-handle:hover {
   background-color: #5bc0de;
 }
+.elements-preview .preview-handle .label {
+  margin-top: 100px;
+  font-size: 2em;
+}
 .elements-preview .preview-content {
   position: absolute;
   right: 0;
@@ -239,6 +256,15 @@ button.danger:hover {
   background-image: url("opacity50.png");
   z-index: 100;
 }
+.overlay .instructions {
+  color: white;
+  background-color: black;
+  display: block;
+  font-size: 150%;
+  height: 2em;
+  line-height: 2em;
+  padding-left: 30px;
+}
 .overlay .window {
   width: 800px;
   background-color: #eeeeee;
@@ -272,11 +298,11 @@ button.danger:hover {
   position: absolute;
   left: 50%;
   top: 50%;
-  margin-left: -50px;
-  margin-top: -50px;
-  width: 100px;
-  height: 100px;
-  margin: 0 auto;
+  margin-left: -150px;
+  margin-top: -150px;
+  width: 300px;
+  height: 300px;
+  font-size: 200%;
 }
 
 .edit-overlay .window {
