@@ -254,7 +254,7 @@ button.danger:hover {
   width: 100%;
   height: 100%;
   background-image: url("opacity50.png");
-  z-index: 100;
+  z-index: 1000;
 }
 .overlay .instructions {
   color: white;
