@@ -542,7 +542,7 @@ define(["backbone","crypto","CKEditor", "jqueryui","timeago", "spectrum"], funct
 
 		initialize: function (options) {
 			this.dispatch = options.dispatch;
-			this.listenTo(this.collection, "sort destroy change", this.render);
+			this.listenTo(this.collection, "sort destroy change:name", this.render);
 		},
 		toggleOpenState: function () {
 			if (!this.opened) {
