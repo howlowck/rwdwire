@@ -269,7 +269,16 @@ $previewContentWidth: $previewWidth - $handleWidth;
 		}
 	}
 }
-
+.contact{
+	position: fixed;
+	left: -1.8em;
+	bottom: 50px;
+	@include rotate(-90deg);
+	a{
+		text-decoration: none;
+		color: #333333;
+	}
+}
 
 /** Overlay Stuff **/
 .overlay{

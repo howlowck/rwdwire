@@ -257,6 +257,25 @@ button.danger:hover {
   opacity: 0.5;
 }
 
+.contact {
+  position: fixed;
+  left: -1.8em;
+  bottom: 50px;
+  transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  /* IE 9 */
+  -webkit-transform: rotate(-90deg);
+  /* Safari and Chrome */
+  -o-transform: rotate(-90deg);
+  /* Opera */
+  -moz-transform: rotate(-90deg);
+  /* Firefox */
+}
+.contact a {
+  text-decoration: none;
+  color: #333333;
+}
+
 /** Overlay Stuff **/
 .overlay {
   position: fixed;
