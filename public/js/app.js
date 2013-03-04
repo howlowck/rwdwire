@@ -693,7 +693,7 @@ define(["backbone","crypto","CKEditor", "jqueryui","timeago", "spectrum"], funct
 			_(data).each(function(data){
 				var datetime =  new Date((Date.parse(data.ts.replace(" ","T"))/60000 - new Date().getTimezoneOffset())*60000).toISOString();
 				projectItems += "<div class=\"project\">" 
-								+"<a class='project-name' href='"+"#/layout/"+data.name+"'>"+data.name+"</a>"
+								+"<a class='project-name' href='"+"#layout/"+data.name+"'>"+data.name+"</a>"
 								+ "<abbr class='project-time timeago' title='"+datetime+"'></abbr>"
 								+ "</div>"; 
 				
