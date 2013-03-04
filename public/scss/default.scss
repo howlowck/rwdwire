@@ -332,16 +332,22 @@ $previewContentWidth: $previewWidth - $handleWidth;
 	.content{
 		.instruction-content{
 			margin: 1.25em 0;
-			@include display(flex);
-			@include flex-direction(row);
+			//@include display(flex);
+			//@include flex-direction(row);
 			.instruction-image{
-				@include flex(1);
-				@include display(flex);
-				@include justify-content(center);
+				width: 260px;
+				display: inline-block;
+				vertical-align: top;
+				//@include flex(1);
+				//@include display(flex);
+				//@include justify-content(center);
 				vertical-align: top;
 			}
 			.instruction-message{
-				@include flex(2);
+				width:500px;
+				display: inline-block;
+				vertical-align: top;
+				//@include flex(2);
 			}
 		}
 	}
