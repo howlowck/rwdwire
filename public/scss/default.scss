@@ -1,5 +1,5 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,700);
-
+@import "../assets/scss-mixins/mixin-display-flex.scss";
 //variables
 $container-color: white;
 $viewport-color: #eeeeee;
@@ -112,9 +112,9 @@ button{
 }
 .main-menu {
 	position: absolute;
-	left: 50%;
+	left: 40%;
 	top: 10px;
-	min-width: 450px;
+	min-width: 550px;
 	button {
 		display: inline-block;
 		width: 100px;
@@ -326,6 +326,24 @@ $previewContentWidth: $previewWidth - $handleWidth;
 		width: 300px;
 		height: 300px;
 		font-size: 200%;
+	}
+}
+.instruction-overlay{
+	.content{
+		.instruction-content{
+			margin: 1.25em 0;
+			@include display(flex);
+			@include flex-direction(row);
+			.instruction-image{
+				@include flex(1);
+				@include display(flex);
+				@include justify-content(center);
+				vertical-align: top;
+			}
+			.instruction-message{
+				@include flex(2);
+			}
+		}
 	}
 }
 .edit-overlay{

@@ -84,7 +84,7 @@ define(["backbone","crypto","CKEditor", "jqueryui","timeago", "spectrum"], funct
 			);
 		},
 		addModelToView: function (widthModel) {
-			var tempView = new WidthView( {model: widthModel, dispatch: this.dispatch} );
+			var tempView = new WidthView( {model: widthModel, dispatch: this.dispatch});
 			this.$el.append(tempView.render().el);
 		}
 	});
@@ -178,7 +178,8 @@ define(["backbone","crypto","CKEditor", "jqueryui","timeago", "spectrum"], funct
 			"New Element": "NewElementButton:click",
 			"Save Layout": "SaveLayoutButton:click",
 			"Login": "LoginButton:click",
-			"UserInfo": "UserInfo:click"
+			"UserInfo": "UserInfo:click",
+			"Instructions": "InstructionsButton:click"
 		},
 		events: {
 			"click": "dispatcherTrigger"
@@ -701,7 +702,42 @@ define(["backbone","crypto","CKEditor", "jqueryui","timeago", "spectrum"], funct
 			$projects.find(".timeago").timeago();
 		}
 	});
-
+	var InstructionOverlayView = Backbone.View.extend({
+		el:$(".instruction-overlay"),
+		currentPane: 0,
+		events: {
+			"click .next": "goToNext",
+			"click .close": "close"
+		},
+		getClassName: function (number) {
+			return ".pane-" + number;
+		},
+		goToBeginning: function () {
+			this.currentPane = 0;
+		},
+		goToNext: function (e) {
+			
+			this.$el.find(this.getClassName(this.currentPane)).addClass("hidden");
+			if (this.currentPane===this.$el.find(".pane").length-1) {
+				this.currentPane=0;
+				this.$el.find(".next").html('<i class="icon-arrow-right"></i> Next');
+			} else {
+				this.currentPane=this.currentPane+1;
+			}
+			this.$el.find(this.getClassName(this.currentPane)).removeClass("hidden");
+			if (this.currentPane===this.$el.find(".pane").length-1) {
+				this.$el.find(".next").html('<i class="icon-repeat"></i> Start Over');
+			}
+		},
+		close: function (e) {
+			this.$el.find(this.getClassName(this.currentPane)).addClass("hidden");
+			this.$el.addClass("hidden");
+		},
+		show: function () {
+			this.$el.find(this.getClassName(this.currentPane)).removeClass("hidden");
+			this.$el.removeClass("hidden");
+		}
+	});
 	/** Application View **/
 	var AppView = Backbone.View.extend({
 		el: $("body"),
@@ -712,7 +748,8 @@ define(["backbone","crypto","CKEditor", "jqueryui","timeago", "spectrum"], funct
 
 			this.dispatch = options.dispatch;
 			var data = {
-				tools: [{iconClass: "icon-pencil", name: "Edit Viewports", task: "Edit Widths"},
+				tools: [{iconClass: "icon-question-sign", name: "Show Tutorial", task: "Instructions"},
+						{iconClass: "icon-pencil", name: "Edit Viewports", task: "Edit Widths"},
 						{iconClass: "icon-plus", name: "New Element", task: "New Element"},
 						{iconClass: "icon-save", name: "Save Layout", task: "Save Layout"},
 						{iconClass: "icon-signin", name: "Login Here", task: "Login"}]
@@ -732,6 +769,7 @@ define(["backbone","crypto","CKEditor", "jqueryui","timeago", "spectrum"], funct
 			this.previewElementsCollectionView = new PreviewElementsCollectionView({dispatch: this.dispatch, collection : this.elementsCollection});
 			this.user = new User();
 			this.userOverlayView = new UserOverlayView({model: this.user, dispatch: this.dispatch});
+			this.instructionOverlayView = new InstructionOverlayView({dispatch: this.dispatch});
 		},
 		notify: function (type, message, options){
 			var data = {},
@@ -751,6 +789,7 @@ define(["backbone","crypto","CKEditor", "jqueryui","timeago", "spectrum"], funct
 			this.dispatch.on("SaveLayoutButton:click", this.saveLayout, this);
 			this.dispatch.on("LoginButton:click", this.showLogin, this);
 			this.dispatch.on("UserInfo:click", this.showUserInfo, this);
+			this.dispatch.on("InstructionsButton:click", this.showInstructions, this);
 
 			this.dispatch.on("element:edit", this.editElement, this);
 			this.dispatch.on("WidthView:click", this.updateViewport, this);
@@ -807,7 +846,9 @@ define(["backbone","crypto","CKEditor", "jqueryui","timeago", "spectrum"], funct
 		showUserInfo: function (payload){
 			this.userOverlayView.renderUserInfo({key: this.user.get("api_key")});
 		},
-
+		showInstructions: function (payload){
+			this.instructionOverlayView.show();
+		},
 		editElement: function (payload){
 			var model = this.elementsCollection.get(payload.cid);
 			this.editElementOverlayView.show(model);

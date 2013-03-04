@@ -1,10 +1,11 @@
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>Responsive Wireframes</title>
-		<link rel="stylesheet" href="public/assets/jquery-ui/themes/base/minified/jquery.ui.resizable.min.css">
-		<link rel="stylesheet" href="public/assets/font-awesome/css/font-awesome.min.css">
-		<link rel="stylesheet" href="public/assets/spectrum/spectrum.css">
-		<link rel="stylesheet" href="public/css/default.css">
+		<link rel="stylesheet" href="public/assets/jquery-ui/themes/base/minified/jquery.ui.resizable.min.css"/>
+		<link rel="stylesheet" href="public/assets/font-awesome/css/font-awesome.min.css"/>
+		<link rel="stylesheet" href="public/assets/spectrum/spectrum.css"/>
+		<link rel="stylesheet" href="public/css/default.css"/>
 
 		<script data-main="public/js/main" src="public/assets/requirejs/require.js"></script>
 		
@@ -16,10 +17,10 @@
 			</div>
 		</div>
 		<div class="container">
-			<br>
+			<br/>
 			<h1 id="main-title">
 				RWD Wireframe <span id="version"> (v. Alpha) </span>
-			</h1> <br>
+			</h1> <br/>
 			<div id="sizes">
 			</div>
 
@@ -37,14 +38,14 @@
 			<div class="preview-handle"><span class="rotate90 label">Elements</span></div>
 			<div class="preview-content">
 				<h3> Order or Disable Elements </h3>
-				<p class="notes"> Here you can order the element layers (think like PS layer order) for a particular view. <br>
+				<p class="notes"> Here you can order the element layers (think like PS layer order) for a particular view. <br/>
 				<strong> Also, you can disable elements for a particular view.</strong> </p>
-				<br> 
+				<br/> 
 				<h4>Visible</h4>
 				<ul id="previewVisible" class="preview-list">
 					<!-- Visible Element Preview goes in here -->
 				</ul>
-				<br>
+				<br/>
 				<h4>Disable</h4>
 				<ul id="previewDisable" class="preview-list">
 					<!-- Invisible Element Preview goes in here -->
@@ -58,6 +59,70 @@
 			<div class="hidden shadow-element" style="position: absolute; width: 1px; height: 1px;"></div>
 		</div>
 
+		<div class="instruction-overlay hidden overlay">
+			<div class="window">
+				<button class="close"><i class="icon-remove"></i></button>
+				<div class="content">
+					<div class="pane pane-0 hidden">
+						<h3 class="instruction-title">Welcome!</h3>
+						<div class="instruction-content">
+							<div class="instruction-image"><img src="public/img/step0.png" alt="different types of views"/></div>
+							<div class="instruction-message">Thank you for using RWD Wireframe.  <br><br> This tool is made so designer can more easily design for responsive design.  This tutorial will give you a walk through how to use this app.</div>
+						</div>
+					</div>
+					<div class="pane pane-1 hidden">
+						<h3 class="instruction-title">Edit viewports</h3>
+						<div class="instruction-content">
+							<div class="instruction-image"><img src="public/img/step1.png" alt="different devices equals different dimensions"/></div>
+							<div class="instruction-message">Viewports are the different dimensions of views.  They simulate the devices you want to design for. <br><br> To edit the viewports, click on "Edit Viewports" in the menu.  There you can edit the dimensions of the devices you want to simulate.</div>
+						</div>
+					</div>
+					<div class="pane pane-2 hidden">
+						<h3 class="instruction-title">Edit Elements</h3>
+						<div class="instruction-content">
+							<div class="instruction-image"><img src="public/img/step2.png" alt="Elements"/></div>
+							<div class="instruction-message">The Elements are "regions" in your viewports.  <br><br>You can drag to move the elements, and you can resize the elements by moving the edges.  When you <strong>Double Click</strong> on any of the elements, you can edit the content and other attributes.</div>
+						</div>
+					</div>
+					<div class="pane pane-3 hidden">
+						<h3 class="instruction-title">Add New Elements</h3>
+						<div class="instruction-content">
+							<div class="instruction-image"><img src="public/img/step3.png" alt="Creating an element"/></div>
+							<div class="instruction-message">To add a new elements, simply draw on the page from upper left to lower right.</div>
+						</div>
+					</div>
+					<div class="pane pane-4 hidden">
+						<h3 class="instruction-title">Sort or Disable Elements</h3>
+						<div class="instruction-content">
+							<div class="instruction-image"><img src="public/img/step4.png" alt="Element layers"/></div>
+							<div class="instruction-message">For more complex design, you might need to order the element in layers or disable elements in certain views. <br><br> In the sidebar, you can simple drag and drop the elements to order or disable.  (For developers, it's simply done using zindex.)</div>
+						</div>
+					</div>
+					<div class="pane pane-5 hidden">
+						<h3 class="instruction-title">Change View</h3>
+						<div class="instruction-content">
+							<div class="instruction-image"><img src="public/img/step5.png" alt="Change Views"/></div>
+							<div class="instruction-message">After you are done designing a view, you can click on the viewport bar to resize the viewport, and design the elements on that view.<br/><br> Everytime you change the view, it will save the element settings you have made for that view.  Simply click back to see the elements move back to its proper positions.</div>
+						</div>
+					</div>
+					<div class="pane pane-6 hidden">
+						<h3 class="instruction-title">Save Your Layout</h3>
+						<div class="instruction-content">
+							<div class="instruction-image"><img src="public/img/step6.png" alt="Saving layout"/></div>
+							<div class="instruction-message">After you are done, simply login or register, and save your layout.  You can view all your projects when you click "User Info"</div>
+						</div>
+					</div>
+					<div class="pane pane-7 hidden">
+						<h3 class="instruction-title">Share Your Layout</h3>
+						<div class="instruction-content">
+							<div class="instruction-image"><img src="public/img/step7.png" alt="Sharing layout"/></div>
+							<div class="instruction-message">Once your layout is saved, you can pass the url around for other people to see.  </div>
+						</div>
+					</div>
+				</div>
+				<button class="btn-large next"><i class="icon-arrow-right"></i> Next</button>
+			</div>
+		</div>
 
 		<div class="user-overlay hidden overlay">
 
@@ -85,34 +150,34 @@
 		<script id="loginOverlayTemp" type="text/template">
 			<div class="login-window window">
 				<button class="close"><i class="icon-remove"></i></button>
-				<h3>Login</h3><br>
+				<h3>Login</h3><br/>
 				<div id="loginError" class="error hidden"></div>
 				<form id="loginForm">
 					<label> Email: </label>
-					<input type="email" name="email" id="inputEmail"><br>
+					<input type="email" name="email" id="inputEmail"><br/>
 					<label> Password: </label>
-					<input type="password" name="password" id="inputPass"><br>
-					<br>
+					<input type="password" name="password" id="inputPass"><br/>
+					<br/>
 					<button type="submit" id="loginSubmit" class="btn-large"><i class="icon-ok"></i> Login</button>
 				</form>
 				Or 
-				<br>
+				<br/>
 				<button id="registerButton" class="btn-large"><i class="icon-key"></i> Register </button>
-				<br>
+				<br/>
 			</div>
 		</script>
 		<script id="registerOverlayTemp" type="text/template">
 			<div class="register-window window">
 				<button class="close"><i class="icon-remove"></i></button>
-				<h3>Register</h3><br>
+				<h3>Register</h3><br/>
 				<div id="registerError" class="error hidden"></div>
 				<form id="registerForm">
 					<label> Email: </label>
-					<input type="email" name="email" id="inputRegisterEmail"><br>
+					<input type="email" name="email" id="inputRegisterEmail"><br/>
 					<label> Password: </label>
-					<input type="password" name="password" id="inputRegisterPass"><br>
+					<input type="password" name="password" id="inputRegisterPass"><br/>
 					<label> Confirm Password: </label>
-					<input type="password" name="vpassword" id="vinputRegisterPass"><br><br>
+					<input type="password" name="vpassword" id="vinputRegisterPass"><br/><br/>
 					<button type="submit" class="btn-large"><i class="icon-ok"></i> Submit </button>
 				</form>
 			</div>
@@ -144,10 +209,10 @@
 		</script>
 		<script id="widthFormItemTemp" type="text/template">
 			<div class="width-form-item" data-cid="<%= cid %>">
-			Width: <input type="text" value="<%= xmax %>" class="edit-width" /> <br>
-			Height: <input type="text" value="<%=y%>" class="edit-height"/> <br>
-			Title: <input type="text" value="<%=title%>" class="edit-title"/> <br>
-			Color: <input type="color" value="<%=viewportColor%>" class="edit-vcolor"/> <br>
+			Width: <input type="text" value="<%= xmax %>" class="edit-width" /> <br/>
+			Height: <input type="text" value="<%=y%>" class="edit-height"/> <br/>
+			Title: <input type="text" value="<%=title%>" class="edit-title"/> <br/>
+			Color: <input type="color" value="<%=viewportColor%>" class="edit-vcolor"/> <br/>
 			<button class="remove-width danger" title="Remove This Width">Remove</button>
 			</div>
 		</script>
@@ -156,22 +221,22 @@
 				<button class="close"><i class="icon-remove"></i></button>
 				<h3>Edit Element</h3>
 				<p class="notes"> All the setting here, except for opacity, are persistent across all viewports. 
-					<br>
+					<br/>
 					(In other words, once you change it, it will change in all viewports.  But when you change opacity, it will only change for the current viewport.)
 				</p> 
-				<br>
+				<br/>
 				<form id="editElementForm">
-					Name: <input type="text" class="input-name" value="<%=name%>"/><br>
-					<span class="top">Content: </span><br>
+					Name: <input type="text" class="input-name" value="<%=name%>"/><br/>
+					<span class="top">Content: </span><br/>
 					<textarea name="element-content" class="input-content" ><%=content%></textarea>
 
-					<br>
+					<br/>
 					Background Color: <input class="input-bcolor" type="color" size="7" value="<%= bcolor %>">
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					Opacity: <input class="input-opacity" type="text" value="<%= opacity %>" size="4"/>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<button class="remove-element danger" type="button"> <i class="icon-exclamation-sign"></i> Remove Element</button>
-					<br>
+					<br/>
 					
 					<button class="cancel btn-large" type="button"> <i class="icon-circle-arrow-left"></i> Cancel </button>
 					<button class="save btn-large" type="submit"><i class="icon-save"></i> Save</button>

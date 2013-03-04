@@ -1,4 +1,15 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,700);
+/*
+support:
+W3C: Opera (desktop and mini), Firefox (v20+), Chrome Desktop (with -webkit)
+Previous version: IE10+ (with -ms)
+Oldest version: Safari Desktop and iOS, Chrome in iOS
+
+resources:
+http://css-infos.net/properties/webkit
+http://msdn.microsoft.com/en-us/library/ie/hh673531(v=vs.85).aspx
+http://dev.opera.com/articles/view/flexbox-basics/
+*/
 * {
   padding: 0;
   margin: 0;
@@ -72,9 +83,9 @@ button.danger:hover {
 
 .main-menu {
   position: absolute;
-  left: 50%;
+  left: 40%;
   top: 10px;
-  min-width: 450px;
+  min-width: 550px;
 }
 .main-menu button {
   display: inline-block;
@@ -303,6 +314,40 @@ button.danger:hover {
   width: 300px;
   height: 300px;
   font-size: 200%;
+}
+
+.instruction-overlay .content .instruction-content {
+  margin: 1.25em 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+}
+.instruction-overlay .content .instruction-content .instruction-image {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  vertical-align: top;
+}
+.instruction-overlay .content .instruction-content .instruction-message {
+  -webkit-box-flex: 2;
+  -ms-flex: 2;
+  -webkit-flex: 2;
+  flex: 2;
 }
 
 .edit-overlay .window {
