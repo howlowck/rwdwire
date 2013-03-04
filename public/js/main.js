@@ -1,6 +1,7 @@
 // Require JS boostrap file
 
 require.config({
+	baseURL: "../js",
 	paths:{
 		jquery: "../assets/jquery/jquery.min",
 		underscore: "../assets/underscore/underscore-min",
@@ -10,7 +11,7 @@ require.config({
 		timeago: "../assets/jquery-timeago/jquery.timeago",
 		spectrum: "../assets/spectrum/spectrum",
 		CKEditor: "../assets/CKEditor/ckeditor",
-		app: "../js/app"
+		app: "app"
 	},
 	shim:{
 		underscore:{
