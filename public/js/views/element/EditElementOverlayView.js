@@ -1,4 +1,4 @@
-define(['backbone','CKEditor'], function (Backbone,CKEDITOR)
+define(['backbone'], function (Backbone)
 	{
 		var EditElementOverlayView = Backbone.View.extend({
 			el: $(".edit-overlay"),
@@ -25,17 +25,22 @@ define(['backbone','CKEditor'], function (Backbone,CKEDITOR)
 				this.model.destroy();
 				this.close();
 			},
-			show: function(model){
+			show: function (model) {
 				this.model = model;
 				this.render();
 			},
 			close: function (e) {
 				this.$el.addClass("hidden");
 			},
+			showEditor: function (CKEDITOR) {
+				CKEDITOR.replace("element-content");
+				console.log(this);
+			},
 			render: function () {
 				this.$el.html(this.template(this.model.toJSON()));
 				//this.$el.find(".input-content").height(this.model.get("height")).width(this.model.get("width"));
-				CKEDITOR.replace("element-content");
+				require(["CKEditor"], $.proxy(this.showEditor,this));
+				
 				this.$el.removeClass("hidden");
 				return this;
 			}

@@ -1,4 +1,4 @@
-define(['backbone', 'models/Width', 'collections/WidthCollection','spectrum','jqueryui'], function (Backbone, Width, WidthCollection)
+define(['backbone', 'models/Width', 'collections/WidthCollection','jqueryui'], function (Backbone, Width, WidthCollection)
 	{
 		var WidthCollectionEditView = Backbone.View.extend({
 			el: $(".width-overlay"),

@@ -10,8 +10,7 @@ require.config({
 		jqueryui: "../assets/jquery-ui/ui/minified/jquery-ui.custom.min",
 		timeago: "../assets/jquery-timeago/jquery.timeago",
 		spectrum: "../assets/spectrum/spectrum",
-		CKEditor: "../assets/CKEditor/ckeditor",
-		app: "app"
+		CKEditor: "../assets/CKEditor/ckeditor"
 	},
 	shim:{
 		underscore:{
@@ -33,6 +32,6 @@ require.config({
 	}
 });
 
-define(["app"], function(myApp){
-	rwdwire = myApp;
+define(["app"], function(App){
+	rwdwire = new App();
 });

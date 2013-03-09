@@ -249,6 +249,9 @@ define(["backbone",
 				this.dispatch = _.clone(Backbone.Events);
 				this.appView = new AppView({dispatch: this.dispatch});
 				this.dispatch.on("saveLayout:success", this.addURL, this);
+				
+				Backbone.history.start();
+				$(".loading").addClass("hidden");
 			},
 			routes: {
 				"layout/:layoutUid": "loadLayout",
@@ -296,10 +299,6 @@ define(["backbone",
 				this.navigate("layout/"+payload.url);
 			}
 		});
-
-		var app= new App();
-		Backbone.history.start();
 		
-		$(".loading").addClass("hidden");
-		return app;
+		return App;
 });
