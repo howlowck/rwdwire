@@ -2,6 +2,8 @@
 
 RWD Wireframes was created for designers who want to make responsive web design wireframe quickly and be able to share with others easily.
 
+You can find the live application at [www.lifeishao.com/rwdwire](http://www.lifeishao.com/rwdwire) .
+
 ## Install Note
 
 RWD Wireframes application has a client side and server side component.  This repo is the client side code.  You'll find the server side code by searching "rwdwire-server".
