@@ -35,3 +35,8 @@ require.config({
 define(["app"], function(App){
 	rwdwire = new App();
 });
+
+//TODO: Add share
+//TODO: Update current width when updates
+//TODO: Add dimensions on hover
+//TODO: better notification with humane
