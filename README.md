@@ -11,3 +11,5 @@ RWD Wireframes application has a client side and server side component.  This re
 The client side is functional by itself, it just won't have the login, register, and save functionality.
 
 The main application is mainly located in `public/js`.  The Entry point is `main.js`.
+
+After you clone the repo, you will need [bower](https://github.com/twitter/bower) to install the dependencies.
