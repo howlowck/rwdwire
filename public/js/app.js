@@ -14,7 +14,8 @@ define(["backbone",
 		"views/element/PreviewElementsCollectionView",
 		"models/User",
 		"views/user/UserOverlayView",
-		"views/orphan/InstructionOverlayView"], 
+		"views/orphan/InstructionOverlayView",
+		"views/orphan/ActionsOverlayView"], 
 
 	function (Backbone, 
 			WidthCollection, 
@@ -32,7 +33,8 @@ define(["backbone",
 			PreviewElementsCollectionView,
 			User,
 			UserOverlayView,
-			InstructionOverlayView){
+			InstructionOverlayView,
+			ActionsOverlayView){
 
 		// var Width =
 
@@ -84,7 +86,8 @@ define(["backbone",
 							{iconClass: "icon-pencil", name: "Edit Viewports", task: "Edit Widths"},
 							{iconClass: "icon-plus", name: "New Element", task: "New Element"},
 							{iconClass: "icon-save", name: "Save Layout", task: "Save Layout"},
-							{iconClass: "icon-signin", name: "Login Here", task: "Login"}]
+							{iconClass: "icon-signin", name: "Login Here", task: "Login"},
+							{iconClass: "icon-star", name: "More Actions", task: "More Actions"}]
 				};
 				this.widthsCollection = new WidthCollection();
 				this.widthsCollectionView = new WidthCollectionView({collection: this.widthsCollection, dispatch: this.dispatch});
@@ -102,6 +105,7 @@ define(["backbone",
 				this.user = new User();
 				this.userOverlayView = new UserOverlayView({model: this.user, dispatch: this.dispatch});
 				this.instructionOverlayView = new InstructionOverlayView({dispatch: this.dispatch});
+				this.actionsOverlayView = new ActionsOverlayView({dispatch: this.dispatch});
 			},
 			notify: function (type, message, options){
 				var data = {},
@@ -122,7 +126,7 @@ define(["backbone",
 				this.dispatch.on("LoginButton:click", this.showLogin, this);
 				this.dispatch.on("UserInfo:click", this.showUserInfo, this);
 				this.dispatch.on("InstructionsButton:click", this.showInstructions, this);
-
+				this.dispatch.on("MoreActionsButton:click", this.showMoreActions, this);
 				this.dispatch.on("element:edit", this.editElement, this);
 				this.dispatch.on("WidthView:click", this.updateViewport, this);
 
@@ -180,6 +184,9 @@ define(["backbone",
 			},
 			showInstructions: function (payload){
 				this.instructionOverlayView.show();
+			},
+			showMoreActions: function (payload){
+				this.actionsOverlayView.show();
 			},
 			editElement: function (payload){
 				var model = this.elementsCollection.get(payload.cid);

@@ -56,4 +56,5 @@ images/*
 
 public/assets/*
 
+public/js/facebook.js
 *.sublime-*

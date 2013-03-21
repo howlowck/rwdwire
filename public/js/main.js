@@ -36,7 +36,10 @@ define(["app"], function(App){
 	rwdwire = new App();
 });
 
-//TODO: Add share
+//TODO: Add More Actions
+//TODO: Can't find layout
+//TODO: Add Share
+//TODO: Add Title
 //TODO: Update current width when updates
 //TODO: Add dimensions on hover
 //TODO: better notification with humane

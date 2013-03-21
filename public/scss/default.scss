@@ -17,6 +17,7 @@ $button-danger-hover: #bd362f;
 $button-danger-active: #bd362f;
 $button-success-default: #62c462;
 $button-success-hover: #42c442;
+
 //Mixins
 @mixin box-sizing ($opt:border-box) {
 	box-sizing:$opt;
@@ -114,7 +115,7 @@ button{
 	position: absolute;
 	left: 40%;
 	top: 10px;
-	min-width: 550px;
+	min-width: 750px;
 	button {
 		display: inline-block;
 		width: 100px;

@@ -85,7 +85,7 @@ button.danger:hover {
   position: absolute;
   left: 40%;
   top: 10px;
-  min-width: 550px;
+  min-width: 750px;
 }
 .main-menu button {
   display: inline-block;

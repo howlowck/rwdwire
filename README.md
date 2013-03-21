@@ -13,3 +13,5 @@ The client side is functional by itself, it just won't have the login, register,
 The main application is mainly located in `public/js`.  The Entry point is `main.js`.
 
 After you clone the repo, you will need [bower](https://github.com/twitter/bower) to install the dependencies.
+
+You'll need to create a facebook.js file in `public/js/`. You can read about [facebook SDK](https://developers.facebook.com/docs/reference/javascript/#loading). facebook.js is the initialization code.

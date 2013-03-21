@@ -10,7 +10,8 @@ define(['backbone','models/Tool'], function (Backbone, Tool)
 				"Save Layout": "SaveLayoutButton:click",
 				"Login": "LoginButton:click",
 				"UserInfo": "UserInfo:click",
-				"Instructions": "InstructionsButton:click"
+				"Instructions": "InstructionsButton:click",
+				"More Actions": "MoreActionsButton:click"
 			},
 			events: {
 				"click": "dispatcherTrigger"
