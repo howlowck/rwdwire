@@ -4,7 +4,6 @@
     position: relative; 
     z-index: 0;
     overflow: visible; 
-    display: inline-block; 
     padding: 0.3em 0.6em 0.375em; 
     border: 1px solid #999; 
     border-bottom-color: #888;

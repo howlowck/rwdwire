@@ -173,6 +173,7 @@ define(["backbone",
 					}
 					self.dispatch.trigger("saveLayout:success", {url:json.url});
 					self.notify("Yay!",json.success, {"class":"success"});
+					self.actionsOverlayView.changeShare();
 					self.uid = json.url;
 				});
 			},

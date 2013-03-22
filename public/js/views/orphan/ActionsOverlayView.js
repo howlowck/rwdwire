@@ -10,6 +10,10 @@ define(['backbone'], function (Backbone)
 			},
 			show: function () {
 				this.$el.removeClass("hidden");
+			},
+			changeShare: function (){
+				this.$el.find("#AppShare").addClass("hidden");
+				this.$el.find("#LayoutShare").removeClass("hidden");
 			}
 		});
 		return ActionsOverlayView;

@@ -27,7 +27,7 @@
 		</div>
 		<!-- Facebook SDK Initialization -->
 		<div id="fb-root"></div>
-		<script src="public/js/facebook.js"></script>
+		<script src="public/js/facebook-init.js"></script>
 		<!-- End of facebook SDK -->
 		<div class="container">
 			<br/>
@@ -159,25 +159,44 @@
 				<br><br>
 				<h4>Share your creation</h4>
 				<p class="notes">Once you save your layout, you can share with your friends.  Until then, you can just share this app :)</p>
-				<button class="facebook button confirm" id="facebookShare" onclick='postToFeed(); return false;'>Share!</button>
+				<button class="facebook button confirm" id="AppShare" onclick='postToFeedApp(); return false;'>Share This App!</button>
+				<button class="facebook button confirm hidden" id="LayoutShare" onclick='postToFeedLayout(); return false;'>Share Your Layout!</button>
 
 				<script>
-				function postToFeed(){
+				function postToFeedApp(){
+					FB.ui(
+						{
+					    method: 'feed',
+					    name: 'RWD Wireframes',
+					    link: 'http://www.lifeishao.com/rwdwire',
+					    picture: 'http://www.lifeishao.com/rwdwire/public/img/step' + Math.round(Math.random()*7) + '.png',
+					    caption: 'Checkout this app!',
+					    description: 'An app that makes responsive design easy for designers'
+					  },
+					  function(response) {
+					    if (response && response.post_id) {
+					      $("#LayoutShare").html("Posted").disable();
+					    } else {
+					      alert('Post was not published.');
+					    }
+					  }
+					);
+				}
+				function postToFeedLayout(){
 					FB.ui(
 					  {
 					    method: 'feed',
 					    name: 'My RWD Wireframes',
 					    link: (function(){
-					    	console.log(document.URL);
 					    	return document.URL;
 					    }()),
-					    picture: 'http://www.lifeishao.com/rwdwire/public/img/step5.png',
+					    picture: 'http://www.lifeishao.com/rwdwire/public/img/step' + Math.round(Math.random()*7) + '.png',
 					    caption: 'Look what I made!',
 					    description: 'I made a responsive wireframe!'
 					  },
 					  function(response) {
 					    if (response && response.post_id) {
-					      alert('Post was published.');
+					      $("#LayoutShare").html("Posted").disable();
 					    } else {
 					      alert('Post was not published.');
 					    }
