@@ -166,12 +166,12 @@
 					FB.ui(
 					  {
 					    method: 'feed',
-					    name: 'Facebook Dialogs',
-					    link: function(){
+					    name: 'My RWD Wireframes',
+					    link: (function(){
 					    	console.log(document.URL);
 					    	return document.URL;
-					    },
-					    picture: 'http://localhost/rwdwire/public/img/step5.png',
+					    }()),
+					    picture: 'http://www.lifeishao.com/rwdwire/public/img/step5.png',
 					    caption: 'Look what I made!',
 					    description: 'I made a responsive wireframe!'
 					  },
