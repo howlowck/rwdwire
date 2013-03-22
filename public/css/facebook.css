@@ -2,7 +2,7 @@
 
 .facebook.button { 
     position: relative; 
-    z-index: 1;
+    z-index: 0;
     overflow: visible; 
     display: inline-block; 
     padding: 0.3em 0.6em 0.375em; 
