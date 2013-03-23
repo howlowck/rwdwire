@@ -147,7 +147,7 @@
 		<div class="social-overlay hidden overlay">
 			<div class="window">
 				<button class="close"><i class="icon-remove"></i></button>
-				<h3> Be Social!</h3>
+				<h3> Be Social!</h3><br>
 				<h4> Show Some Love <i class="icon-heart-empty"></i></h4>
 				<!-- Facebook like button -->
 				<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://www.lifeishao.com/rwdwire">Tweet</a>
@@ -157,49 +157,8 @@
 				<a href="https://www.facebook.com/pages/RWD-Wireframes/141677576007636" target="_blank" class="facebook button confirm">Go To Facebook page</a>
 				<button class="facebook button confirm" id="AppShare" onclick='postToFeedApp(); return false;'>Share This App!</button>
 				<button class="facebook button confirm disable" disabled="true" id="LayoutShare" onclick='postToFeedLayout(); return false;'>Share Your Layout!</button>
-
-				<script>
-				function postToFeedApp(){
-					FB.ui(
-						{
-					    method: 'feed',
-					    name: 'RWD Wireframes',
-					    link: 'http://www.lifeishao.com/rwdwire',
-					    picture: 'http://www.lifeishao.com/rwdwire/public/img/step' + Math.round(Math.random()*7) + '.png',
-					    caption: 'Checkout this app!',
-					    description: 'An app that makes responsive design easy for designers'
-					  },
-					  function(response) {
-					    if (response && response.post_id) {
-					      $("#AppShare").html("(Posted)").attr("disabled","true");
-					    } else {
-					      alert('Post was not published.');
-					    }
-					  }
-					);
-				}
-				function postToFeedLayout(){
-					FB.ui(
-					  {
-					    method: 'feed',
-					    name: 'My RWD Wireframes',
-					    link: (function(){
-					    	return document.URL;
-					    }()),
-					    picture: 'http://www.lifeishao.com/rwdwire/public/img/step' + Math.round(Math.random()*7) + '.png',
-					    caption: 'Look what I made!',
-					    description: 'I made a responsive wireframe!'
-					  },
-					  function(response) {
-					    if (response && response.post_id) {
-					      $("#LayoutShare").html("(Posted)").attr("disabled","true");
-					    } else {
-					      alert('Post was not published.');
-					    }
-					  }
-					);
-				}
-				</script>
+				<span>&lt;--only when you save a layout</span>
+				<br><br>			
 			</div>
 		<div>
 		<!-- Templates -->
@@ -326,6 +285,48 @@
 			</div>
 		</script>
 		<!--Social Plugins -->
+			<script>
+				function postToFeedApp(){
+					FB.ui(
+						{
+					    method: 'feed',
+					    name: 'RWD Wireframes',
+					    link: 'http://www.lifeishao.com/rwdwire',
+					    picture: 'http://www.lifeishao.com/rwdwire/public/img/step' + Math.round(Math.random()*7) + '.png',
+					    caption: 'Checkout this app!',
+					    description: 'An app that makes responsive design easy for designers'
+					  },
+					  function(response) {
+					    if (response && response.post_id) {
+					      $("#AppShare").html("(Posted)").addClass("disable").attr("disabled","");
+					    } else {
+					      alert('Post was not published.');
+					    }
+					  }
+					);
+				}
+				function postToFeedLayout(){
+					FB.ui(
+					  {
+					    method: 'feed',
+					    name: 'My RWD Wireframes',
+					    link: (function(){
+					    	return document.URL;
+					    }()),
+					    picture: 'http://www.lifeishao.com/rwdwire/public/img/step' + Math.round(Math.random()*7) + '.png',
+					    caption: 'Look what I made!',
+					    description: 'I made a responsive wireframe!'
+					  },
+					  function(response) {
+					    if (response && response.post_id) {
+					      $("#LayoutShare").html("(Posted)").addClass("disable").attr("disabled","");
+					    } else {
+					      alert('Post was not published.');
+					    }
+					  }
+					);
+				}
+				</script>
 			<!-- Facebook SDK Initialization -->
 			<div id="fb-root"></div>
 			<script src="public/js/facebook-init.js"></script>
