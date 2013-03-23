@@ -11,7 +11,7 @@ define(['backbone','models/Tool'], function (Backbone, Tool)
 				"Login": "LoginButton:click",
 				"UserInfo": "UserInfo:click",
 				"Instructions": "InstructionsButton:click",
-				"More Actions": "MoreActionsButton:click"
+				"Social": "SocialButton:click",
 			},
 			events: {
 				"click": "dispatcherTrigger"

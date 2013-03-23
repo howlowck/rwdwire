@@ -25,10 +25,7 @@
 				Loading...
 			</div>
 		</div>
-		<!-- Facebook SDK Initialization -->
-		<div id="fb-root"></div>
-		<script src="public/js/facebook-init.js"></script>
-		<!-- End of facebook SDK -->
+
 		<div class="container">
 			<br/>
 			<h1 id="main-title">
@@ -147,20 +144,19 @@
 		<div class="width-overlay hidden overlay"></div>
 
 		<div class="edit-overlay hidden overlay"></div>
-		<div class="actions-overlay hidden overlay">
+		<div class="social-overlay hidden overlay">
 			<div class="window">
 				<button class="close"><i class="icon-remove"></i></button>
-				<h3> More Actions</h3>
-				<p class="notes"> Here you'll find a few more things to do </p><br>
+				<h3> Be Social!</h3>
 				<h4> Show Some Love <i class="icon-heart-empty"></i></h4>
 				<!-- Facebook like button -->
-				<div class="fb-like" data-send="false" data-width="100" data-show-faces="false"></div>
-				<!-- End of like button -->
-				<br><br>
-				<h4>Share your creation</h4>
-				<p class="notes">Once you save your layout, you can share with your friends.  Until then, you can just share this app :)</p>
+				<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://www.lifeishao.com/rwdwire">Tweet</a>
+				<br><a data-pin-config="beside" href="//pinterest.com/pin/create/button/?url=http%3A%2F%2Fwww.lifeishao.com%2Frwdwire&media=http%3A%2F%2Fwww.lifeishao.com%2Frwdwire%2Fpublic%2Fimg%2Fstep1.png&description=RWD%20Wireframes" data-pin-do="buttonPin" ><img src="//assets.pinterest.com/images/pidgets/pin_it_button.png" /></a>
+				<br> 
+				<div class="fb-like" data-send="false" data-width="100" data-show-faces="false"></div> <br>
+				<a href="https://www.facebook.com/pages/RWD-Wireframes/141677576007636" target="_blank" class="facebook button confirm">Go To Facebook page</a>
 				<button class="facebook button confirm" id="AppShare" onclick='postToFeedApp(); return false;'>Share This App!</button>
-				<button class="facebook button confirm hidden" id="LayoutShare" onclick='postToFeedLayout(); return false;'>Share Your Layout!</button>
+				<button class="facebook button confirm disable" disabled="true" id="LayoutShare" onclick='postToFeedLayout(); return false;'>Share Your Layout!</button>
 
 				<script>
 				function postToFeedApp(){
@@ -175,7 +171,7 @@
 					  },
 					  function(response) {
 					    if (response && response.post_id) {
-					      $("#LayoutShare").html("Posted").disable();
+					      $("#AppShare").html("(Posted)").addAttr("disabled");
 					    } else {
 					      alert('Post was not published.');
 					    }
@@ -196,7 +192,7 @@
 					  },
 					  function(response) {
 					    if (response && response.post_id) {
-					      $("#LayoutShare").html("Posted").disable();
+					      $("#LayoutShare").html("(Posted)").addAttr("disabled");
 					    } else {
 					      alert('Post was not published.');
 					    }
@@ -329,7 +325,13 @@
 				<p class="notification-message"> <%=message%></p>
 			</div>
 		</script>
-
+		<!--Social Plugins -->
+			<!-- Facebook SDK Initialization -->
+			<div id="fb-root"></div>
+			<script src="public/js/facebook-init.js"></script>
+			<!-- End of facebook SDK -->
+			<script type="text/javascript" src="//assets.pinterest.com/js/pinit.js"></script>
+			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 		<!--Google Analytics -->
 		<script type="text/javascript">
 		  var _gaq = _gaq || [];

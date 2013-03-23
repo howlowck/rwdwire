@@ -15,7 +15,7 @@ define(["backbone",
 		"models/User",
 		"views/user/UserOverlayView",
 		"views/orphan/InstructionOverlayView",
-		"views/orphan/ActionsOverlayView"], 
+		"views/orphan/SocialOverlayView"], 
 
 	function (Backbone, 
 			WidthCollection, 
@@ -34,7 +34,7 @@ define(["backbone",
 			User,
 			UserOverlayView,
 			InstructionOverlayView,
-			ActionsOverlayView){
+			SocialOverlayView){
 
 		// var Width =
 
@@ -87,7 +87,7 @@ define(["backbone",
 							{iconClass: "icon-plus", name: "New Element", task: "New Element"},
 							{iconClass: "icon-save", name: "Save Layout", task: "Save Layout"},
 							{iconClass: "icon-signin", name: "Login Here", task: "Login"},
-							{iconClass: "icon-star", name: "More Actions", task: "More Actions"}]
+							{iconClass: "icon-star", name: "Be Social", task: "Social"}]
 				};
 				this.widthsCollection = new WidthCollection();
 				this.widthsCollectionView = new WidthCollectionView({collection: this.widthsCollection, dispatch: this.dispatch});
@@ -105,7 +105,7 @@ define(["backbone",
 				this.user = new User();
 				this.userOverlayView = new UserOverlayView({model: this.user, dispatch: this.dispatch});
 				this.instructionOverlayView = new InstructionOverlayView({dispatch: this.dispatch});
-				this.actionsOverlayView = new ActionsOverlayView({dispatch: this.dispatch});
+				this.socialOverlayView = new SocialOverlayView({dispatch: this.dispatch});
 			},
 			notify: function (type, message, options){
 				var data = {},
@@ -126,7 +126,7 @@ define(["backbone",
 				this.dispatch.on("LoginButton:click", this.showLogin, this);
 				this.dispatch.on("UserInfo:click", this.showUserInfo, this);
 				this.dispatch.on("InstructionsButton:click", this.showInstructions, this);
-				this.dispatch.on("MoreActionsButton:click", this.showMoreActions, this);
+				this.dispatch.on("SocialButton:click", this.showSocial, this);
 				this.dispatch.on("element:edit", this.editElement, this);
 				this.dispatch.on("WidthView:click", this.updateViewport, this);
 
@@ -173,7 +173,7 @@ define(["backbone",
 					}
 					self.dispatch.trigger("saveLayout:success", {url:json.url});
 					self.notify("Yay!",json.success, {"class":"success"});
-					self.actionsOverlayView.changeShare();
+					self.socialOverlayView.changeShare();
 					self.uid = json.url;
 				});
 			},
@@ -186,8 +186,8 @@ define(["backbone",
 			showInstructions: function (payload){
 				this.instructionOverlayView.show();
 			},
-			showMoreActions: function (payload){
-				this.actionsOverlayView.show();
+			showSocial: function (payload){
+				this.socialOverlayView.show();
 			},
 			editElement: function (payload){
 				var model = this.elementsCollection.get(payload.cid);

@@ -1,7 +1,7 @@
 define(['backbone'], function (Backbone) 
 	{
-		var ActionsOverlayView = Backbone.View.extend({
-			el:$(".actions-overlay"),
+		var SocialOverlayView = Backbone.View.extend({
+			el:$(".social-overlay"),
 			events: {
 				"click .close" : "close"
 			},
@@ -12,10 +12,9 @@ define(['backbone'], function (Backbone)
 				this.$el.removeClass("hidden");
 			},
 			changeShare: function (){
-				this.$el.find("#AppShare").addClass("hidden");
-				this.$el.find("#LayoutShare").removeClass("hidden");
+				this.$el.find("#LayoutShare").removeClass("disable").removeAttr("disabled");
 			}
 		});
-		return ActionsOverlayView;
+		return SocialOverlayView;
 	}
 );
