@@ -171,7 +171,7 @@
 					  },
 					  function(response) {
 					    if (response && response.post_id) {
-					      $("#AppShare").html("(Posted)").attr("disabled","disabled");
+					      $("#AppShare").html("(Posted)").attr("disabled","true");
 					    } else {
 					      alert('Post was not published.');
 					    }
@@ -192,7 +192,7 @@
 					  },
 					  function(response) {
 					    if (response && response.post_id) {
-					      $("#LayoutShare").html("(Posted)").attr("disabled","disabled");
+					      $("#LayoutShare").html("(Posted)").attr("disabled","true");
 					    } else {
 					      alert('Post was not published.');
 					    }
