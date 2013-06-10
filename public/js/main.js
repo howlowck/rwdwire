@@ -2,28 +2,28 @@
 
 require.config({
 	baseURL: "../js",
-	paths:{
+	paths: {
 		jquery: "../assets/jquery/jquery.min",
 		underscore: "../assets/underscore/underscore-min",
 		backbone: "../assets/backbone/backbone-min",
 		crypto: "http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256",
-		jqueryui: "../assets/jquery-ui/ui/minified/jquery-ui.custom.min",
+		jqueryui: "../assets/jquery.ui/dist/jquery-ui.min",
 		timeago: "../assets/jquery-timeago/jquery.timeago",
 		spectrum: "../assets/spectrum/spectrum",
 		CKEditor: "../assets/CKEditor/ckeditor"
 	},
-	shim:{
-		underscore:{
+	shim: {
+		underscore: {
 			exports: "_"
 		},
-		backbone:{
-			deps:["underscore", "jquery"],
+		backbone: {
+			deps: ["underscore", "jquery"],
 			exports: "Backbone"
 		},
-		crypto:{
+		crypto: {
 			exports: "CryptoJS"
 		},
-		jqueryui : ['jquery'],
+		jqueryui: ['jquery'],
 		timeago: ['jquery'],
 		CKEditor: {
 			exports: "CKEDITOR"
@@ -32,7 +32,7 @@ require.config({
 	}
 });
 
-define(["app"], function(App){
+define(["app"], function (App) {
 	rwdwire = new App();
 });
 

@@ -1,10 +1,12 @@
 define(["backbone",
-		"collections/WidthCollection", 
-		"views/width/WidthView", 
-		"views/width/WidthCollectionView", 
+		"collections/WidthCollection",
+		"views/width/WidthView",
+		"views/width/WidthCollectionView",
 		"views/width/WidthCollectionEditView",
-		"collections/ToolsCollection",
-		"views/tool/ToolsCollectionView",
+		//"collections/ToolsCollection",
+		//"views/tool/ToolsCollectionView",
+		"views/tool/TopMenu",
+		"views/tool/SideBar",
 		"models/Element",
 		"views/element/ElementView",
 		"collections/ElementsCollection",
@@ -15,15 +17,17 @@ define(["backbone",
 		"models/User",
 		"views/user/UserOverlayView",
 		"views/orphan/InstructionOverlayView",
-		"views/orphan/SocialOverlayView"], 
+		"views/orphan/SocialOverlayView"],
 
-	function (Backbone, 
-			WidthCollection, 
-			WidthView, 
-			WidthCollectionView, 
+	function (Backbone,
+			WidthCollection,
+			WidthView,
+			WidthCollectionView,
 			WidthCollectionEditView,
-			ToolsCollection,
-			ToolsCollectionView,
+			//ToolsCollection,
+			//ToolsCollectionView,
+			TopMenu,
+			SideBar,
 			Element,
 			ElementView,
 			ElementsCollection,
@@ -34,43 +38,7 @@ define(["backbone",
 			User,
 			UserOverlayView,
 			InstructionOverlayView,
-			SocialOverlayView){
-
-		// var Width =
-
-		// var WidthCollection =
-
-		// var WidthCollectionView =
-
-		// var WidthCollectionEditView = 
-
-		// var Tool = 
-
-		// var ToolView = 
-
-		// var ToolsCollection = 
-
-		// var ToolsCollectionView = 
-
-		// var Element = 
-
-		// var ElementView = 
-
-		// var ElementsCollection = 
-
-		// var ElementsCollectionView = 
-
-		// var CreateElementOverlayView = 
-
-		// var EditElementOverlayView = 
-
-		// var PreviewElementsCollectionView = 
-
-		// var User = 
-
-		// var UserOverlayView = 
-
-		// var InstructionOverlayView = 
+			SocialOverlayView) {
 
 		/** Application View **/
 		var AppView = Backbone.View.extend({
@@ -81,19 +49,29 @@ define(["backbone",
 			initialize: function (options) {
 
 				this.dispatch = options.dispatch;
-				var data = {
-					tools: [{iconClass: "icon-question-sign", name: "Show Tutorial", task: "Instructions"},
-							{iconClass: "icon-pencil", name: "Edit Viewports", task: "Edit Widths"},
-							{iconClass: "icon-plus", name: "New Element", task: "New Element"},
-							{iconClass: "icon-save", name: "Save Layout", task: "Save Layout"},
-							{iconClass: "icon-signin", name: "Login Here", task: "Login"},
-							{iconClass: "icon-star", name: "Be Social", task: "Social"}]
-				};
+				// var data = {
+				// 	tools: [{iconClass: "icon-question-sign", name: "Tutorial", task: "Instructions"},
+				// 			{iconClass: "icon-pencil", name: "Viewports", task: "Edit Widths"},
+				// 			{iconClass: "icon-plus", name: "New Element", task: "New Element"},
+				// 			{iconClass: "icon-save", name: "Save", task: "Save Layout"},
+				// 			{iconClass: "icon-user", name: "Login", task: "Login"},
+				// 			{iconClass: "icon-thumbs-up", name: "Social", task: "Social"}]
+				// };
 				this.widthsCollection = new WidthCollection();
-				this.widthsCollectionView = new WidthCollectionView({collection: this.widthsCollection, dispatch: this.dispatch});
-				this.widthsCollectionEditView = new WidthCollectionEditView({collection: this.widthsCollection, dispatch: this.dispatch});
-				this.toolsCollection = new ToolsCollection(data.tools);
-				this.toolsCollectionView = new ToolsCollectionView({collection: this.toolsCollection, dispatch: this.dispatch});
+				this.widthsCollectionView = new WidthCollectionView({
+					collection: this.widthsCollection,
+					dispatch: this.dispatch
+				});
+				this.widthsCollectionEditView = new WidthCollectionEditView({
+					collection: this.widthsCollection,
+					dispatch: this.dispatch
+				});
+				// this.toolsCollection = new ToolsCollection(data.tools);
+				// this.toolsCollectionView = new ToolsCollectionView({
+				// 	collection: this.toolsCollection,
+				// 	dispatch: this.dispatch
+				// });
+				this.topMenu = new TopMenu({dispatch: this.dispatch});
 				this.elementsCollection = new ElementsCollection();
 				this.elementsCollectionView = new ElementsCollectionView({
 					collection: this.elementsCollection,
@@ -101,26 +79,28 @@ define(["backbone",
 				});
 				this.createElementOverlayView = new CreateElementOverlayView({dispatch: this.dispatch});
 				this.editElementOverlayView = new EditElementOverlayView({dispatch: this.dispatch});
-				this.previewElementsCollectionView = new PreviewElementsCollectionView({dispatch: this.dispatch, collection : this.elementsCollection});
+				this.previewElementsCollectionView = new PreviewElementsCollectionView({
+					dispatch: this.dispatch,
+					collection : this.elementsCollection
+				});
 				this.user = new User();
 				this.userOverlayView = new UserOverlayView({model: this.user, dispatch: this.dispatch});
 				this.instructionOverlayView = new InstructionOverlayView({dispatch: this.dispatch});
 				this.socialOverlayView = new SocialOverlayView({dispatch: this.dispatch});
 			},
-			notify: function (type, message, options){
-				var data = {},
-					item;
+			notify: function (type, message, options) {
+				var data = {};
 				data.type = type;
 				data.message = message;
 				data.className = options.class;
 				this.$el.find(".notification").append(this.notificationTemplate(data));
 
 			},
-			closeNotify: function (e){
+			closeNotify: function (e) {
 				$(e.currentTarget).remove();
 			},
 			events: function () {
-				this.dispatch.on("EditWidthButton:click", this.editWidth,this);
+				this.dispatch.on("EditWidthButton:click", this.editWidth, this);
 				this.dispatch.on("NewElementButton:click", this.newElement, this);
 				this.dispatch.on("SaveLayoutButton:click", this.saveLayout, this);
 				this.dispatch.on("LoginButton:click", this.showLogin, this);
@@ -146,50 +126,50 @@ define(["backbone",
 			newElement: function () {
 				this.createElementOverlayView.showCreateElementOverlay();
 			},
-			saveLayout: function() {
-				var data= {},
+			saveLayout: function () {
+				var data = {},
 					self = this;
 
 				//save current state
-				this.elementsCollection.each( function (model) {
+				this.elementsCollection.each(function (model) {
 					model.saveCurrentState();
 				});
 
 				data.key = this.user.get("api_key");
 				data.uid = this.uid;
 				data.widths = JSON.stringify(this.widthsCollection.toJSON());
-				data.elements= JSON.stringify(this.elementsCollection.toJSON());
+				data.elements = JSON.stringify(this.elementsCollection.toJSON());
 
 				//$.parseJSON(string)
 				$.ajax({
 					url: this.urlRoot + "save_layout",
 					data: data,
 					type: 'POST'
-				}).done(function (data){
+				}).done(function (data) {
 					var json = $.parseJSON(data);
-					if ( json.error) {
-						self.notify("Uh oh..",json.error, {"class":"error"});
+					if (json.error) {
+						self.notify("Uh oh..", json.error, {"class": "error"});
 						return;
 					}
-					self.dispatch.trigger("saveLayout:success", {url:json.url});
-					self.notify("Yay!",json.success, {"class":"success"});
+					self.dispatch.trigger("saveLayout:success", {url: json.url});
+					self.notify("Yay!", json.success, {"class": "success"});
 					self.socialOverlayView.changeShare();
 					self.uid = json.url;
 				});
 			},
-			showLogin: function (payload) {
+			showLogin: function () {
 				this.userOverlayView.renderLogin();
 			},
-			showUserInfo: function (payload){
+			showUserInfo: function () {
 				this.userOverlayView.renderUserInfo({key: this.user.get("api_key")});
 			},
-			showInstructions: function (payload){
+			showInstructions: function () {
 				this.instructionOverlayView.show();
 			},
-			showSocial: function (payload){
+			showSocial: function () {
 				this.socialOverlayView.show();
 			},
-			editElement: function (payload){
+			editElement: function (payload) {
 				var model = this.elementsCollection.get(payload.cid);
 				this.editElementOverlayView.show(model);
 			},
@@ -203,7 +183,7 @@ define(["backbone",
 				}
 			},
 			updateElementsState: function (payload) {
-				this.elementsCollection.each( function (model) {
+				this.elementsCollection.each(function (model) {
 					model.updateCurrentState(payload.width);
 				});
 				this.elementsCollection.sort();
@@ -211,11 +191,11 @@ define(["backbone",
 			sortElements: function (payload) {
 				var self = this,
 					count = payload.visible.length;
-				_.each(payload.visible, function(value){
+				_.each(payload.visible, function (value) {
 					self.elementsCollection.get(value).set("zindex", count);
 					count--;
 				});
-				_.each(payload.disable, function(value){
+				_.each(payload.disable, function (value) {
 					self.elementsCollection.get(value).set("zindex", -1);
 				});
 			},
@@ -225,7 +205,12 @@ define(["backbone",
 						y = payload.rawy - this.elementsCollectionView.$el.offset().top,
 						width = payload.width,
 						height = payload.height;
-					return {x: x, y: y, width: width, height: height, disable: false, zindex: this.elementsCollection.length+1};
+					return {x: x,
+							y: y,
+							width: width,
+							height: height,
+							disable: false,
+							zindex: this.elementsCollection.length + 1};
 				}).call(this);
 				var newElement = new Element(modelSpec);
 				this.elementsCollection.add(newElement);
@@ -236,7 +221,7 @@ define(["backbone",
 			resizeElement: function (payload) {
 				var modelSpec = (function () {
 					var x = payload.ui.position.left - this.elementsCollectionView.$el.offset().left,
-						y = payload.ui.position.top- this.elementsCollectionView.$el.offset().top,
+						y = payload.ui.position.top - this.elementsCollectionView.$el.offset().top,
 						width = payload.ui.size.width,
 						height = payload.ui.size.height;
 					return {x: x, y: y, width: width, height: height};
@@ -246,18 +231,18 @@ define(["backbone",
 			moveElement: function (payload) {
 				this.elementsCollection.get(payload.cid).set({x: payload.ui.position.left, y: payload.ui.position.top});
 			},
-			successLogin: function (payload) {
-				this.toolsCollection.where({task: "Login"})[0].set({name: "User Info", task: "UserInfo"});
-				this.notify("Yay!","You are logged in", { "class":"success" });
+			successLogin: function () {
+				//this.toolsCollection.where({task: "Login"})[0].set({name: "User Info", task: "UserInfo"});
+				//TODO change data-trigger from LoginButton:click to UserInfo:click
+				this.topMenu.$(".user").data("trigger", "UserInfo:click").children("i").attr("title", "User Info");
+				this.notify("Yay!", "You are logged in", {"class": "success" });
 			}
 		});
-		
 		var App = Backbone.Router.extend({
 			initialize: function () {
 				this.dispatch = _.clone(Backbone.Events);
 				this.appView = new AppView({dispatch: this.dispatch});
 				this.dispatch.on("saveLayout:success", this.addURL, this);
-				
 				Backbone.history.start();
 				$(".loading").addClass("hidden");
 			},
@@ -269,7 +254,7 @@ define(["backbone",
 				var self = this;
 				this.appView.uid = layoutUid;
 				$.ajax({
-					url: "../rwdwire-server/layouts/load_layout/"+layoutUid,
+					url: "../rwdwire-server/layouts/load_layout/" + layoutUid,
 					data: {
 						uid : layoutUid
 					},
@@ -277,36 +262,54 @@ define(["backbone",
 				}).done(function (data) {
 					data = $.parseJSON(data);
 					self.appView.widthsCollection.cleanReset($.parseJSON(data.dimensions));
-					self.appView.elementsCollectionView.changeDimension(self.appView.widthsCollection.first().get("xmax"),self.appView.widthsCollection.first().get("y"));
-					self.appView.elementsCollectionView.changeColor(self.appView.widthsCollection.first().get("viewportColor"));
+					self.appView.elementsCollectionView.changeDimension(
+						self.appView.widthsCollection.first().get("xmax"),
+						self.appView.widthsCollection.first().get("y")
+					);
+					self.appView.elementsCollectionView.changeColor(
+						self.appView.widthsCollection.first().get("viewportColor")
+					);
 					self.appView.elementsCollection.cleanReset($.parseJSON(data.elements));
 					self.appView.elementsCollectionView.render();
 					self.appView.previewElementsCollectionView.render();
 				});
 			},
 			defaultAction: function () {
-				var self = this,
-					data = {dimensions: [{xmax: 480, y: 700, title: "mobile portrait", viewportColor: "#eedee0"},
-								{xmin: 481, xmax: 767, y: 700, title: "mobile landscape", viewportColor: "#eedee0"},
-								{xmin: 768, xmax:979, y: 700, title: "default", viewportColor: "#eedee0"},
-								{xmin: 980, xmax:1200, y:700, title: "large display", viewportColor: "#eedee0"}],
-							elements: [{"name": "logo","x":7,"y":4,"width":103,"height":59,"disable":false,"type":"div","content":"Logo","bcolor":"#eeeeee","zindex":"1","opacity":1},
-								{"name": "nav","x":113,"y":3,"width":360,"height":60,"disable":false,"type":"div","content":"Navigation","bcolor":"#eeeeee","zindex":"2","opacity":1},
-								{"name": "main","x":7,"y":69,"width":466,"height":275,"disable":false,"type":"div","content":"Main Content","bcolor":"#ddccee","zindex":"3","opacity":1},
-								{"name": "supplement","x":7,"y":347,"width":242,"height":178,"disable":false,"type":"div","content":"Supplement","bcolor":"#aabbcc","zindex":"4","opacity":1},
-								{"name": "sidebar","x":252,"y":347,"width":221,"height":178,"disable":false,"type":"div","content":"Sidebar","bcolor":"#eeeeee","zindex":"5","opacity":1}]
+				var data =
+						{dimensions: [{xmax: 480, y: 700, title: "mobile portrait", viewportColor: "#eedee0"},
+							{xmin: 481, xmax: 767, y: 700, title: "mobile landscape", viewportColor: "#eedee0"},
+							{xmin: 768, xmax: 979, y: 700, title: "default", viewportColor: "#eedee0"},
+							{xmin: 980, xmax: 1200, y: 700, title: "large display", viewportColor: "#eedee0"}],
+						elements: [{"name": "logo", "x": 7, "y": 4, "width": 103, "height": 59, "disable": false,
+									"type": "div", "content": "Logo", "bcolor": "#eeeeee", "zindex": "1", "opacity": 1},
+								{"name": "nav", "x": 113, "y": 3, "width": 360, "height": 60, "disable": false,
+								"type": "div", "content": "Navigation", "bcolor": "#eeeeee",
+								"zindex": "2", "opacity": 1},
+								{"name": "main", "x": 7, "y": 69, "width": 466, "height": 275, "disable": false,
+								"type": "div", "content": "Main Content", "bcolor": "#ddccee",
+								"zindex": "3", "opacity": 1},
+								{"name": "supplement", "x": 7, "y": 347, "width": 242, "height": 178, "disable": false,
+								"type": "div", "content": "Supplement", "bcolor": "#aabbcc",
+								"zindex": "4", "opacity": 1},
+								{"name": "sidebar", "x": 252, "y": 347, "width": 221, "height": 178, "disable": false,
+								"type": "div", "content": "Sidebar", "bcolor": "#eeeeee",
+								"zindex": "5", "opacity": 1}]
 							};
 				this.appView.widthsCollection.add(data.dimensions);
-				this.appView.elementsCollectionView.changeDimension(this.appView.widthsCollection.first().get("xmax"),this.appView.widthsCollection.first().get("y"));
-				this.appView.elementsCollectionView.changeColor(this.appView.widthsCollection.first().get("viewportColor"));
+				this.appView.elementsCollectionView.changeDimension(
+					this.appView.widthsCollection.first().get("xmax"),
+					this.appView.widthsCollection.first().get("y")
+				);
+				this.appView.elementsCollectionView.changeColor(
+					this.appView.widthsCollection.first().get("viewportColor")
+				);
 				this.appView.elementsCollectionView.render();
 				this.appView.elementsCollection.add(data.elements);
 				this.appView.previewElementsCollectionView.render();
 			},
 			addURL: function (payload) {
-				this.navigate("layout/"+payload.url);
+				this.navigate("layout/" + payload.url);
 			}
 		});
-		
 		return App;
-});
+	});

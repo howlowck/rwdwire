@@ -11,8 +11,8 @@
 		<meta property="og:site_name" content="Responsive Wireframes" />
 		<meta property="fb:admins" content="4713134" />
 
-		<link rel="stylesheet" href="public/assets/jquery-ui/themes/start/jquery-ui.min.css"/>
-		<link rel="stylesheet" href="public/assets/font-awesome/css/font-awesome.min.css"/>
+		<link rel="stylesheet" href="public/assets/jquery.ui/dist/jquery-ui.min.css"/>
+		<link rel="stylesheet" href="public/assets/font-awesome/build/assets/font-awesome/css/font-awesome.min.css"/>
 		<link rel="stylesheet" href="public/css/facebook.css"/>
 		<link rel="stylesheet" href="public/css/default.css"/>
 
@@ -25,45 +25,50 @@
 				Loading...
 			</div>
 		</div>
-
-		<div class="container">
-			<br/>
-			<h1 id="main-title">
+		<nav id="main-nav">
+			<h1 class="title">
 				RWD Wireframes <span id="version"> (v. 0.0.2) </span>
-			</h1> <br/>
-			<div id="sizes">
-			</div>
-
+			</h1>
 			<div class="main-menu">
-
+				<button class="tool-view" data-trigger="InstructionsButton:click"><i title="Tutorial" class="icon-question-sign"></i> </button>
+				<button class="tool-view" data-trigger="EditWidthButton:click"><i title="Viewports" class="icon-pencil"></i> </button>
+				<button class="tool-view" data-trigger="NewElementButton:click"><i title="New Element" class="icon-plus"></i> </button>
+				<button class="tool-view" data-trigger="SaveLayoutButton:click"><i title="Save" class="icon-save"></i> </button>
+				<button class="tool-view user" data-trigger="LoginButton:click"><i title="Login" class="icon-user"></i> </button>
+				<button class="tool-view" data-trigger="SocialButton:click"><i title="Social" class="icon-thumbs-up"></i></button>
 			</div>
+		</nav>
+		<div class="lower-section">
+			<aside class="side-bar">
+			</aside>
+			<div class="container">
+				<div id="sizes">
+				</div>
 
-			<div class="main-view">
+				<div class="main-view">
 
+				</div>
 			</div>
+			<aside class="elements-preview">
+				<div class="preview-handle"><span class="rotate90 label">Elements</span></div>
+				<div class="preview-content">
+					<h3> Order or Disable Elements </h3>
+					<p class="notes"> Here you can order the element layers (think like PS layer order) for a particular view. <br/>
+					<strong> Also, you can disable elements for a particular view, simply drag the element to the disabled section</strong> </p>
+					<br/> 
+					<h4>Visible</h4>
+					<ul id="previewVisible" class="preview-list">
+						<!-- Visible Element Preview goes in here -->
+					</ul>
+					<br/>
+					<h4>Disabled</h4>
+					<ul id="previewDisable" class="preview-list">
+						<!-- Invisible Element Preview goes in here -->
+					</ul>
+				</div>
+			</aside>
 		</div>
 		<div class="notification">
-		</div>
-		<div class="elements-preview">
-			<div class="preview-handle"><span class="rotate90 label">Elements</span></div>
-			<div class="preview-content">
-				<h3> Order or Disable Elements </h3>
-				<p class="notes"> Here you can order the element layers (think like PS layer order) for a particular view. <br/>
-				<strong> Also, you can disable elements for a particular view, simply drag the element to the disabled section</strong> </p>
-				<br/> 
-				<h4>Visible</h4>
-				<ul id="previewVisible" class="preview-list">
-					<!-- Visible Element Preview goes in here -->
-				</ul>
-				<br/>
-				<h4>Disabled</h4>
-				<ul id="previewDisable" class="preview-list">
-					<!-- Invisible Element Preview goes in here -->
-				</ul>
-			</div>
-		</div>
-		<div class="contact">
-			<a target="_blank" href="mailto:lifeishao@outlook.com">Feedback <i class="icon-external-link"></i></a>
 		</div>
 		<!-- Overlays -->
 		<div class="element-overlay hidden overlay">
@@ -80,7 +85,7 @@
 						<h3 class="instruction-title">Welcome!</h3>
 						<div class="instruction-content">
 							<div class="instruction-image"><img src="public/img/step0.png" alt="different types of views"/></div>
-							<div class="instruction-message">Thank you for using RWD Wireframe.  <br><br> This tool is made so designers can more easily design for responsive web pages.  This tutorial will give you a walkthrough how to use this app.</div>
+							<div class="instruction-message">Thank you for using RWD Wireframe.  <br><br> This tool is made so designers can more easily design for responsive web pages.  It's completely free and <a target="_blank" href="https://github.com/howlowck/rwdwire">open source</a>.  <br><br> This tutorial will give you a walkthrough how to use this app.</div>
 						</div>
 					</div>
 					<div class="pane pane-1 hidden">
@@ -168,7 +173,7 @@
 		</script>
 
 		<script id="toolViewTemp" type="text/template">
-			<i class="<%= iconClass %>"></i> <%=name%>
+			<i title="<%=name%>" class="<%= iconClass %>"></i> 
 		</script>
 
 		<script id="elementViewTemp" type="text/template">

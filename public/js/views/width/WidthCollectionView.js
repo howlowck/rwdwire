@@ -7,18 +7,12 @@ define(['models/Width', 'collections/WidthCollection', 'views/width/WidthView'],
 				this.dispatch = options.dispatch;
 				this.listenTo(this.collection,"reset add destroy change:xmax", this.render);
 			},
-			maxWidth: function () {
-				this.collection.sort();
-				return(this.collection.last().get("xmax"));
-			},
 			render: function () {
 				this.calcWidthDim();
 				this.$el.empty();
 				this.collection.each(function (widthModel){
 					this.addModelToView(widthModel);
 				},this);
-				this.maxWidth();
-				this.$el.width(this.maxWidth() + 5);
 				return this;
 			},
 			calcWidthDim: function () {

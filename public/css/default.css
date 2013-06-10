@@ -1,32 +1,14 @@
-@import url(http://fonts.googleapis.com/css?family=Roboto:400,700);
-/*
-support:
-W3C: Opera (desktop and mini), Firefox (v20+), Chrome Desktop (with -webkit)
-Previous version: IE10+ (with -ms)
-Oldest version: Safari Desktop and iOS, Chrome in iOS
-
-resources:
-http://css-infos.net/properties/webkit
-http://msdn.microsoft.com/en-us/library/ie/hh673531(v=vs.85).aspx
-http://dev.opera.com/articles/view/flexbox-basics/
-*/
+@import url(https://fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic);
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Noto Sans', sans-serif;
 }
 
 body {
-  background-color: white;
-}
-
-.container {
-  margin-left: 30px;
-  position: relative;
-  margin-bottom: 30px;
   background-color: white;
 }
 
@@ -47,50 +29,137 @@ body {
   /* Firefox */
 }
 
-button {
-  cursor: pointer;
-  background: none;
-  border: none;
+button, .btn {
+  position: relative;
+  top: 0.07em;
+  font-size: 1.5em;
+  color: #ecf0f1;
   margin: 5px;
-  padding: 5px;
-  -webkit-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
-  /* Safari and Chrome */
-  -moz-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
-  /* Firefox 4 */
-  -ms-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
-  /* MS */
-  -o-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
-  /* Opera */
-  transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
-  background-color: #eeeeee;
+  border: none;
+  background-color: #2f7ba9;
+  padding: 3px 1em;
+  border-radius: 3px;
+  cursor: pointer;
+  border-width: 1px;
+  border-color: #194159;
+  border-style: solid;
 }
-button:hover {
-  background-color: #dddddd;
+button:hover, .btn:hover {
+  background-color: #4197ca;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(250, 250, 250, 0.3)), to(rgba(0, 0, 0, 0)));
+  background-image: -moz-linear-gradient(rgba(250, 250, 250, 0.3), rgba(0, 0, 0, 0));
+  background-image: linear-gradient(rgba(250, 250, 250, 0.3), rgba(0, 0, 0, 0));
 }
-button:active {
-  background-color: #cccccc;
+button:active, .btn:active {
+  background-color: #2a6d95;
+  box-shadow: 2px 2px 3px rgba(20, 20, 20, 0.3) inset;
+  background-image: none;
 }
-button.danger {
-  background-color: #ee5f5b;
+button.btn-large, .btn.btn-large {
+  height: 2em;
+  font-size: 2em;
+  font-weight: bold;
+  border-radius: 4px;
 }
-button.danger:hover {
-  background-color: #bd362f;
+button.btn-small, .btn.btn-small {
+  font-size: 1em;
+  border-radius: 2px;
+}
+button.success, .btn.success {
+  background-color: #1e9e26;
+  border-color: #16731c;
+}
+button.success:hover, .btn.success:hover {
+  background-color: #26c930;
+}
+button.success:active, .btn.success:active {
+  background-color: #1a8921;
+}
+button.danger, .btn.danger {
+  background-color: #f20530;
+  border-color: #c00426;
+}
+button.danger:hover, .btn.danger:hover {
+  background-color: #fb2f54;
+}
+button.danger:active, .btn.danger:active {
+  background-color: #d9042b;
+}
+button.disabled, .btn.disabled {
+  top: 0.07em;
+  color: #505050;
+  background-color: #ecf0f1;
+  background-image: none;
+  border-color: #cfd9db;
+  box-shadow: none;
+}
+button.disabled:hover, .btn.disabled:hover {
+  background-color: #ecf0f1;
+  background-image: none;
+}
+button.disabled:active, .btn.disabled:active {
+  top: 0.07em;
+  background-color: #ecf0f1;
+  background-image: none;
+  box-shadow: none;
+}
+
+nav#main-nav {
+  padding: 0;
+  margin: 0;
+  position: relative;
+  z-index: 1000;
+  min-width: 700px;
+  background-color: #194159;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(250, 250, 250, 0.2)), to(rgba(0, 0, 0, 0.1)));
+  background-image: -moz-linear-gradient(rgba(250, 250, 250, 0.2), rgba(0, 0, 0, 0.1));
+  background-image: linear-gradient(rgba(250, 250, 250, 0.2), rgba(0, 0, 0, 0.1));
+  line-height: 3em;
+}
+nav#main-nav .title {
+  text-align: center;
+  display: inline-block;
+  margin: 0;
+  margin-left: 20px;
+  color: #ecf0f1;
+  font-size: 1.5em;
+  text-shadow: 1px 1px 1px black;
+}
+nav#main-nav .main-menu {
+  position: absolute;
+  right: 30px;
+  display: inline-block;
+}
+nav#main-nav .main-menu button.tool-view {
+  display: inline-block;
+  font-size: 1.5em;
+  color: #ecf0f1;
+  padding: 0 10px;
+  background-image: none;
+  background-color: rgba(0, 0, 0, 0);
+}
+nav#main-nav .main-menu button.tool-view:hover {
+  background-color: rgba(250, 250, 250, 0.2);
+}
+nav#main-nav .main-menu button.tool-view:active {
+  color: #d0d0d0;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(0, 0, 0, 0.4)), to(rgba(250, 250, 250, 0.3)));
+  background-image: -moz-linear-gradient(rgba(0, 0, 0, 0.4), rgba(250, 250, 250, 0.3));
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(250, 250, 250, 0.3));
+}
+nav#main-nav .main-menu button.tool-view.active {
+  color: #d0d0d0;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(0, 0, 0, 0.4)), to(rgba(250, 250, 250, 0.3)));
+  background-image: -moz-linear-gradient(rgba(0, 0, 0, 0.4), rgba(250, 250, 250, 0.3));
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(250, 250, 250, 0.3));
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5) inset;
+}
+nav#main-nav .main-menu button.tool-view.notification:active {
+  background-image: none;
 }
 
 .notes {
   font-size: 0.9em;
-}
-
-.main-menu {
-  position: absolute;
-  left: 40%;
-  top: 10px;
-  min-width: 750px;
-}
-.main-menu button {
-  display: inline-block;
-  width: 100px;
-  font-size: 20px;
 }
 
 .notification {
@@ -129,11 +198,30 @@ button.danger:hover {
   background-color: #62c462;
 }
 
-#sizes {
-  height: 4em;
+.lower-section {
+  position: relative;
 }
-
-.width-view {
+.lower-section .side-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 60px;
+  background-color: #194159;
+  box-shadow: 1px 0px 0px rgba(0, 0, 0, 0.8);
+}
+.lower-section #sizes {
+  height: 4em;
+  white-space: nowrap;
+}
+.lower-section .container {
+  position: relative;
+  left: 70px;
+  top: 5px;
+  margin-bottom: 30px;
+  background-color: white;
+}
+.lower-section .container .width-view {
   position: relative;
   background-color: #708a74;
   display: inline-block;
@@ -145,11 +233,10 @@ button.danger:hover {
   white-space: nowrap;
   height: 100%;
 }
-.width-view .max {
+.lower-section .container .width-view .max {
   float: right;
 }
-
-.main-view {
+.lower-section .container .main-view {
   width: 1px;
   background-color: #eeeeee;
   position: relative;
@@ -163,37 +250,35 @@ button.danger:hover {
   /* Opera */
   transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
 }
-
-.element-view {
+.lower-section .container .element-view {
   border: 1px gray solid;
   overflow: hidden;
   z-index: 4;
   cursor: move;
 }
-.element-view .top {
+.lower-section .container .element-view .top {
   vertical-align: top;
 }
-.element-view .inner {
+.lower-section .container .element-view .inner {
   position: relative;
 }
-.element-view .inner .content {
+.lower-section .container .element-view .inner .content {
   font-family: Arial, Helvetica, sans-serif;
   position: inherit;
 }
-.element-view .remove-element {
+.lower-section .container .element-view .remove-element {
   background-color: orange;
   padding: 5px;
 }
-
-.elements-preview {
+.lower-section .elements-preview {
   position: fixed;
   right: -180px;
-  top: 0;
+  top: 50px;
   width: 210px;
   height: 100%;
   background-color: #abc;
   opacity: 0.5;
-  z-index: 800;
+  z-index: 999;
   -webkit-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
   /* Safari and Chrome */
   -moz-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
@@ -204,11 +289,11 @@ button.danger:hover {
   /* Opera */
   transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
 }
-.elements-preview.opened {
+.lower-section .elements-preview.opened {
   opacity: 1;
   right: 0;
 }
-.elements-preview .preview-handle {
+.lower-section .elements-preview .preview-handle {
   position: absolute;
   width: 30px;
   height: 100%;
@@ -224,56 +309,37 @@ button.danger:hover {
   /* Opera */
   transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
 }
-.elements-preview .preview-handle:hover {
+.lower-section .elements-preview .preview-handle:hover {
   background-color: #5bc0de;
 }
-.elements-preview .preview-handle .label {
+.lower-section .elements-preview .preview-handle .label {
   margin-top: 100px;
   font-size: 2em;
 }
-.elements-preview .preview-content {
+.lower-section .elements-preview .preview-content {
   position: absolute;
   right: 0;
   width: 180px;
   padding: 10px;
 }
-.elements-preview ul {
+.lower-section .elements-preview ul {
   list-style-type: none;
 }
-.elements-preview ul .preview-element-item {
+.lower-section .elements-preview ul .preview-element-item {
   display: block;
   padding: 5px;
   margin: 2px;
   background-color: #eeeeee;
   cursor: move;
 }
-.elements-preview ul#previewVisible {
+.lower-section .elements-preview ul#previewVisible {
   min-height: 30px;
   background-color: #eeeeee;
 }
-.elements-preview ul#previewDisable {
+.lower-section .elements-preview ul#previewDisable {
   min-height: 30px;
   background-color: #efefef;
   opacity: 0.5;
-}
-
-.contact {
-  position: fixed;
-  left: -1.8em;
-  bottom: 50px;
-  transform: rotate(-90deg);
-  -ms-transform: rotate(-90deg);
-  /* IE 9 */
-  -webkit-transform: rotate(-90deg);
-  /* Safari and Chrome */
-  -o-transform: rotate(-90deg);
-  /* Opera */
-  -moz-transform: rotate(-90deg);
-  /* Firefox */
-}
-.contact a {
-  text-decoration: none;
-  color: #333333;
 }
 
 /** Overlay Stuff **/

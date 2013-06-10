@@ -1,4 +1,4 @@
-define(['backbone','models/Tool'], function (Backbone, Tool)
+define(['backbone'], function (Backbone)
 	{
 		var ToolView = Backbone.View.extend({
 			tagName: "button",
@@ -11,7 +11,7 @@ define(['backbone','models/Tool'], function (Backbone, Tool)
 				"Login": "LoginButton:click",
 				"UserInfo": "UserInfo:click",
 				"Instructions": "InstructionsButton:click",
-				"Social": "SocialButton:click",
+				"Social": "SocialButton:click"
 			},
 			events: {
 				"click": "dispatcherTrigger"

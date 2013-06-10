@@ -1,22 +1,52 @@
-@import url(http://fonts.googleapis.com/css?family=Roboto:400,700);
+// @import url(http://fonts.googleapis.com/css?family=Roboto:400,700);
+@import url(https://fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic);
 @import "../assets/scss-mixins/mixin-display-flex.scss";
-//variables
-$container-color: white;
-$viewport-color: #eeeeee;
-$overlay-window-color: #eee;
-$width-color: #708A74;
-$width-border-color: #E0C7A4;
-$info-color: #5bc0de;
-$success-color: #62c462;
-$error-color: #fbb450;
-$button-color-default: #eee;
-$button-color-hover: #ddd;
-$button-color-active: #ccc;
-$button-danger-default: #ee5f5b;
-$button-danger-hover: #bd362f;
-$button-danger-active: #bd362f;
-$button-success-default: #62c462;
-$button-success-hover: #42c442;
+
+//Main colors!!!
+$black: #161616;
+$gray: #505050;
+//$purple: #8e44ad; 
+$white: #ecf0f1; 
+$blue: #194159; 
+$lightblue: #9DD8FF;
+$red: #F20530;
+$orange: #D96236;
+$green: #1E9E26;
+
+//Contextual Colors!!!
+$success: $green;
+$danger: $red;
+
+// //variables
+ $container-color: white;
+ $viewport-color: #eeeeee;
+ $overlay-window-color: #eee;
+ $width-color: #708A74;
+ $width-border-color: #E0C7A4;
+ $info-color: #5bc0de;
+ $success-color: #62c462;
+ $error-color: #fbb450;
+// $button-color-default: #eee;
+// $button-color-hover: #ddd;
+// $button-color-active: #ccc;
+// $button-danger-default: #ee5f5b;
+// $button-danger-hover: #bd362f;
+// $button-danger-active: #bd362f;
+// $button-success-default: #62c462;
+// $button-success-hover: #42c442;
+
+//Element Colors
+$btn-default: lighten($blue, 20%); //<----- Change
+$btn-default-hover: lighten($btn-default, 10%);
+$btn-default-active: darken($btn-default, 5%);
+$btn-success: $success; 
+$btn-success-hover: lighten($btn-success, 10%);
+$btn-success-active: darken($btn-success, 5%);
+$btn-danger: $danger; 
+$btn-danger-hover: lighten($btn-danger, 10%);
+$btn-danger-active: darken($btn-danger, 5%);
+$btn-disabled: $white; //<----- Change
+$btn-disabled-text: $gray; //<----- Change
 
 //Mixins
 @mixin box-sizing ($opt:border-box) {
@@ -58,7 +88,7 @@ $button-success-hover: #42c442;
 	padding: 0;
 	margin: 0;
 	@include box-sizing();
-	font-family: 'Roboto', sans-serif;
+	font-family: 'Noto Sans', sans-serif;
 }
 
 div{
@@ -66,13 +96,6 @@ div{
 }
 
 body{
-	background-color: $container-color;
-}
-
-.container {
-	margin-left: 30px;
-	position: relative;
-	margin-bottom: 30px;
 	background-color: $container-color;
 }
 
@@ -85,42 +108,152 @@ body{
 	display: block;
 	@include rotate(90deg)
 }
-button{
-	cursor: pointer;
-    background  : none;
-    border  : none;
-    margin      : 5px;
-    padding     : 5px;
-    @include transition(0.5s);
-    background-color: $button-color-default;
+button, .btn {
+    position: relative;
+    top: 0.07em;
+    font-size: 1.5em;
+    color: $white;
+    margin: 5px;
+    border: none;
+    background-color: $btn-default;
+    padding: 3px 1em;
+    border-radius: 3px;
+    cursor: pointer;
+    // background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 0.3)));
+    // background-image: -moz-linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3));
+    // background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3));
+    border-width: 1px;
+    border-color: darken($btn-default, 20%);
+    border-style: solid;
+    //box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
+    &:hover{
+        background-color: $btn-default-hover;
+        background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(250,250, 250, 0.3)), to(rgba(0, 0, 0, 0)));
+        background-image: -moz-linear-gradient(rgba(250,250, 250, 0.3), rgba(0, 0, 0, 0));
+        background-image: linear-gradient(rgba(250,250, 250, 0.3), rgba(0, 0, 0, 0));
+    }
+    &:active {
+        background-color: $btn-default-active;
+        box-shadow: 2px 2px 3px rgba(20,20,20,0.3) inset;
+        background-image: none;
+        // background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(0, 0, 0, 0.3)), to(darken(rgba(0, 0, 0, 0), 20%)));
+        // background-image: -moz-linear-gradient(rgba(0, 0, 0, 0.3), darken(rgba(0, 0, 0, 0), 20%));
+        // background-image: linear-gradient(rgba(0, 0, 0, 0.3), darken(rgba(0, 0, 0, 0), 20%));
+    }
+    &.btn-large {
+        height: 2em;
+        font-size: 2em;
+        font-weight: bold;
+        border-radius: 4px;
+    }
+    &.btn-small {
+        font-size: 1em;
+        border-radius: 2px;
+    }
 
-	&:hover{
-		background-color: $button-color-hover;
-	}
-	&:active{
-		background-color: $button-color-active;
-	}
+    &.success {
+        background-color: $btn-success;
+        border-color: darken($btn-success, 10%);
+        &:hover{
+            background-color: $btn-success-hover;
+        }
+        &:active {
+            background-color: $btn-success-active;
+        }
+    }
 
-	&.danger{
-		background-color: $button-danger-default;
-	}
-	&.danger:hover{
-		background-color: $button-danger-hover;
+    &.danger {
+        background-color: $btn-danger;
+        border-color: darken($btn-danger, 10%);
+        &:hover{
+            background-color: $btn-danger-hover;
+        }
+        &:active {
+            background-color: $btn-danger-active;
+        }
+    }
+
+    &.disabled {
+        top: 0.07em;
+        color: $btn-disabled-text;
+        background-color: $btn-disabled;
+        background-image: none;
+        border-color: darken($btn-disabled, 10%);
+        box-shadow: none;
+        &:hover{
+            background-color: $btn-disabled;
+            background-image: none;
+        }
+        &:active {
+            top: 0.07em;
+            background-color: $btn-disabled;
+            background-image: none;
+            box-shadow: none;
+        }
+    }
+}
+
+nav#main-nav{
+    padding: 0;
+    margin: 0;
+    position: relative;
+    z-index: 1000;
+    min-width: 700px;
+    background-color: $blue;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(250, 250, 250, 0.2)), to(rgba(0, 0, 0, 0.1)));
+    background-image: -moz-linear-gradient(rgba(250, 250, 250, 0.2), rgba(0, 0, 0, 0.1));
+    background-image: linear-gradient(rgba(250, 250, 250, 0.2), rgba(0, 0, 0, 0.1));
+    //box-shadow: 0px 1px 4px rgba(0,0,0,0.8);
+    line-height: 3em;
+    .title {
+        //width: 160px;
+        text-align: center;
+        display: inline-block;
+        margin:0;
+        margin-left: 20px;
+        color: $white;
+        font-size: 1.5em;
+        text-shadow: 1px 1px 1px rgba(0,0,0,1);
+        //margin-right: 30px;
+    }
+    .main-menu {
+    	position: absolute;
+    	right: 30px;
+    	display: inline-block;
+    	button.tool-view {
+	        display:inline-block;
+	        font-size: 1.5em;
+	        color: $white;
+	        padding: 0 10px;
+	        background-image: none;
+	        background-color: rgba(0,0,0,0);
+	        &:hover{
+	        	background-color: rgba(250,250,250, 0.2);
+	        }
+	        &:active{
+	            color: lighten($gray, 50%);
+	            background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(0, 0, 0, 0.4)), to(rgba(250, 250, 250, 0.3)));
+	            background-image: -moz-linear-gradient(rgba(0, 0, 0, 0.4), rgba(250, 250, 250, 0.3));
+	            background-image: linear-gradient(rgba(0, 0, 0, 0.4),rgba(250, 250, 250, 0.3));
+	        }
+	        &.active{
+	            color: lighten($gray, 50%);
+	            background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(0, 0, 0, 0.4)), to(rgba(250, 250, 250, 0.3)));
+	            background-image: -moz-linear-gradient(rgba(0, 0, 0, 0.4), rgba(250, 250, 250, 0.3));
+	            background-image: linear-gradient(rgba(0, 0, 0, 0.4),rgba(250, 250, 250, 0.3));
+	            box-shadow: 2px 2px 5px rgba(0,0,0,0.5) inset;
+	        }
+	        &.notification{
+	            &:active{
+	                background-image: none;
+	            }
+	        }
+	    }
 	}
 }
+
 .notes{
 	font-size: 0.9em;
-}
-.main-menu {
-	position: absolute;
-	left: 40%;
-	top: 10px;
-	min-width: 750px;
-	button {
-		display: inline-block;
-		width: 100px;
-		font-size: 20px;
-	}
 }
 
 .notification {
@@ -159,127 +292,146 @@ button{
 		background-color: $success-color;
 	}
 }
-
-#sizes {
-	height: 4em;
-}
-
-.width-view {
+.lower-section{
 	position: relative;
-	background-color: $width-color;
-	display: inline-block;
-	vertical-align: top;
-	border: 1px solid $width-border-color;
-	cursor: pointer;
-	padding: 10px;
-	overflow: auto;
-	white-space: nowrap; 
-	height: 100%;
-	.max{
-		float: right;
-	}
-}
-
-.main-view {
-	width: 1px;
-	background-color: $viewport-color;
-	position: relative;
-	@include transition(0.5s);
-}
-
-
-.element-view {
-	border: 1px gray solid;
-	overflow: hidden;
-	z-index: 4;
-	cursor: move;
-
-	.top{
-		vertical-align: top;
-	}
-	.inner {
-		position: relative;
-
-		.content {
-			font-family: Arial, Helvetica, sans-serif;
-			position: inherit;
-		}
-	}
-	.remove-element {
-		background-color: orange;
-		padding: 5px;
-	}
-}
-
-$handleWidth : 30px;
-$previewWidth: 210px;
-$previewContentWidth: $previewWidth - $handleWidth;
-.elements-preview{
-	position: fixed;
-	right:  $handleWidth - $previewWidth;
-	top: 0;
-	width: $previewWidth;
-	height: 100%;
-	background-color: #abc;
-	opacity: 0.5;
-	z-index: 800;
-	@include transition(0.5s);
-	&.opened{
-		opacity: 1;
-		right: 0;
-	}
-
-	.preview-handle{
+	.side-bar{
 		position: absolute;
-		width: $handleWidth;
-		height: 100%;
 		left: 0;
-		cursor: pointer;
-		@include transition(0.5s);
-		&:hover{
-			background-color: $info-color;
-		}
-		.label{
-			margin-top: 100px;
-			font-size: 2em;
-		}
+		top: 0;
+		bottom: 0;
+		width: 60px;
+		background-color: $blue;
+		box-shadow: 1px 0px 0px rgba(0, 0, 0, 0.8);
 	}
-	.preview-content{
-		position: absolute;
-		right: 0;
-		width: $previewContentWidth;
-		padding: 10px;
+	#sizes {
+		height: 4em;
+		white-space: nowrap;
 	}
-	ul{
-		list-style-type: none;
-		.preview-element-item{
-			display: block;
-			padding: 5px;
-			margin: 2px;
-			background-color: #eeeeee;
+	.container{
+		position: relative;
+		left: 70px;
+		top: 5px;
+		margin-bottom: 30px;
+		background-color: $container-color;
+		.width-view {
+			position: relative;
+			background-color: $width-color;
+			display: inline-block;
+			vertical-align: top;
+			border: 1px solid $width-border-color;
+			cursor: pointer;
+			padding: 10px;
+			overflow: auto;
+			white-space: nowrap; 
+			height: 100%;
+			.max{
+				float: right;
+			}
+		}
+
+		.main-view {
+			width: 1px;
+			background-color: $viewport-color;
+			position: relative;
+			@include transition(0.5s);
+		}
+
+
+		.element-view {
+			border: 1px gray solid;
+			overflow: hidden;
+			z-index: 4;
 			cursor: move;
+
+			.top{
+				vertical-align: top;
+			}
+			.inner {
+				position: relative;
+
+				.content {
+					font-family: Arial, Helvetica, sans-serif;
+					position: inherit;
+				}
+			}
+			.remove-element {
+				background-color: orange;
+				padding: 5px;
+			}
 		}
-		&#previewVisible{
-			min-height: 30px;
-			background-color: #eeeeee;
+	}
+	
+
+	$handleWidth : 30px;
+	$previewWidth: 210px;
+	$previewContentWidth: $previewWidth - $handleWidth;
+	.elements-preview{
+		position: fixed;
+		right:  $handleWidth - $previewWidth;
+		top: 50px;
+		width: $previewWidth;
+		height: 100%;
+		background-color: #abc;
+		opacity: 0.5;
+		z-index: 999;
+		@include transition(0.5s);
+		&.opened{
+			opacity: 1;
+			right: 0;
 		}
-		&#previewDisable{
-			min-height: 30px;
-			background-color: #efefef;
-			opacity: 0.5;
+
+		.preview-handle{
+			position: absolute;
+			width: $handleWidth;
+			height: 100%;
+			left: 0;
+			cursor: pointer;
+			@include transition(0.5s);
+			&:hover{
+				background-color: $info-color;
+			}
+			.label{
+				margin-top: 100px;
+				font-size: 2em;
+			}
+		}
+		.preview-content{
+			position: absolute;
+			right: 0;
+			width: $previewContentWidth;
+			padding: 10px;
+		}
+		ul{
+			list-style-type: none;
+			.preview-element-item{
+				display: block;
+				padding: 5px;
+				margin: 2px;
+				background-color: #eeeeee;
+				cursor: move;
+			}
+			&#previewVisible{
+				min-height: 30px;
+				background-color: #eeeeee;
+			}
+			&#previewDisable{
+				min-height: 30px;
+				background-color: #efefef;
+				opacity: 0.5;
+			}
 		}
 	}
 }
-.contact{
-	position: fixed;
-	left: -1.8em;
-	bottom: 50px;
-	@include rotate(-90deg);
-	a{
-		text-decoration: none;
-		color: #333333;
-	}
-}
+// .contact{
+// 	position: fixed;
+// 	left: -1.8em;
+// 	bottom: 50px;
+// 	@include rotate(-90deg);
+// 	a{
+// 		text-decoration: none;
+// 		color: #333333;
+// 	}
+// }
 
 /** Overlay Stuff **/
 .overlay{
@@ -378,7 +530,7 @@ $previewContentWidth: $previewWidth - $handleWidth;
 		}
 		
 		.save{
-			background-color: $button-success-default;
+			background-color: $success-color;
 		}
 		
 		
