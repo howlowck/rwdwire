@@ -1,0 +1,6 @@
+// mixin-transform.scss
+
+@mixin transform($prop) {
+  -webkit-transform: $prop;
+  transform: $prop;
+}

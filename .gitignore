@@ -54,7 +54,7 @@ application/logs/*
 
 images/*
 
-public/assets/*
+
 
 public/js/facebook-init.js
 *.sublime-*

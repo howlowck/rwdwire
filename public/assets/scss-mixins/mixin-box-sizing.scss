@@ -1,0 +1,7 @@
+// mixin-box-sizing.scss
+
+@mixin box-sizing($prop) {
+    -webkit-box-sizing: $prop;
+    -moz-box-sizing: $prop;
+    box-sizing: $prop;
+}

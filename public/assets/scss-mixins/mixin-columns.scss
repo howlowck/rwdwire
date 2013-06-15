@@ -1,0 +1,45 @@
+
+// INCOMPLETE, NEEDS WORK:
+
+// @link http://www.quirksmode.org/css/columns/
+
+// use only one of the two below:
+@mixin column-count($prop) {
+    -webkit-column-count: $prop;
+    -moz-column-count: $prop;
+    column-count: $prop;
+}
+@mixin column-width($prop) {
+    -webkit-column-width: $prop;
+    -moz-column-width: $prop;
+    column-width: $prop;
+}
+
+// other:
+@mixin column-rule($prop) {
+    -webkit-column-rule: $prop;
+    -moz-column-rule: $prop;
+    column-rule: $prop;
+}
+@mixin column-gap($prop) {
+    -webkit-column-gap: $prop;
+    -moz-column-gap: $prop;
+    column-gap: $prop;
+}
+@mixin break-inside($prop) {
+    -webkit-column-break-inside: $prop;
+    // -moz-break-inside: $prop; ??
+    break-inside: $prop;
+}
+@mixin break-before($prop) {
+    -webkit-column-break-before: $prop;
+    // -moz-break-before: $prop; ??
+    break-before: $prop;
+}
+@mixin break-after($prop) {
+    -webkit-column-break-after: $prop;
+    // -moz-break-after: $prop; ??
+    break-after: $prop;
+}
+
+

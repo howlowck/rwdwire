@@ -1,0 +1,7 @@
+// mixin-box-shadow.scss
+
+// -webkit needed by Android < 4, iOS < 5
+@mixin box-shadow($prop) {
+    -webkit-box-shadow: unquote($prop);
+    box-shadow: unquote($prop);
+}

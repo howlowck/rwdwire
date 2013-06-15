@@ -1,0 +1,14 @@
+{
+  "name": "scss-mixins",
+  "version": "0.0.8",
+  "main": "mixin-display-flex.scss",
+  "dependencies": {},
+  "gitHead": "fd87101ab4d8cf54ce41fb1acb98ff7c4dccf73c",
+  "_id": "scss-mixins@0.0.8",
+  "readme": "ERROR: No README.md file found!",
+  "description": "ERROR: No README.md file found!",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nusait/scss-mixins.git"
+  }
+}

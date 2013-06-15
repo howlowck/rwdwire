@@ -18,14 +18,14 @@ $success: $green;
 $danger: $red;
 
 // //variables
- $container-color: white;
- $viewport-color: #eeeeee;
- $overlay-window-color: #eee;
- $width-color: #708A74;
- $width-border-color: #E0C7A4;
- $info-color: #5bc0de;
- $success-color: #62c462;
- $error-color: #fbb450;
+$container-color: white;
+$viewport-color: #eeeeee;
+$overlay-window-color: #eee;
+$width-color: #708A74;
+$width-border-color: #E0C7A4;
+$info-color: #5bc0de;
+$success-color: #62c462;
+$error-color: #fbb450;
 // $button-color-default: #eee;
 // $button-color-hover: #ddd;
 // $button-color-active: #ccc;
@@ -196,15 +196,21 @@ button, .btn {
 nav#main-nav{
     padding: 0;
     margin: 0;
-    position: relative;
-    z-index: 1000;
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 2000;
     min-width: 700px;
+    @include transition();
     background-color: $blue;
     background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(250, 250, 250, 0.2)), to(rgba(0, 0, 0, 0.1)));
     background-image: -moz-linear-gradient(rgba(250, 250, 250, 0.2), rgba(0, 0, 0, 0.1));
     background-image: linear-gradient(rgba(250, 250, 250, 0.2), rgba(0, 0, 0, 0.1));
-    //box-shadow: 0px 1px 4px rgba(0,0,0,0.8);
+    box-shadow: 0px 1px 4px rgba(0,0,0,0.7);
     line-height: 3em;
+    &.hide{
+        top: -4em;
+    }
     .title {
         //width: 160px;
         text-align: center;
@@ -292,146 +298,202 @@ nav#main-nav{
 		background-color: $success-color;
 	}
 }
-.lower-section{
-	position: relative;
-	.side-bar{
-		position: absolute;
-		left: 0;
-		top: 0;
-		bottom: 0;
-		width: 60px;
-		background-color: $blue;
-		box-shadow: 1px 0px 0px rgba(0, 0, 0, 0.8);
-	}
-	#sizes {
-		height: 4em;
-		white-space: nowrap;
-	}
-	.container{
+
+.side-bar {
+	position: fixed;
+    padding-top: 30px;
+	left: 0;
+	top: 3em;
+	bottom: 0;
+	width: 55px;
+    z-index: 1900;
+	background-color: $blue;
+	box-shadow: 1px 0px 7px rgba(0, 0, 0, 0.7);
+    @include transition();
+    &.hide {
+        left: -100px;
+    }
+    .side-tooltip{
+        left: 70px;
+        position: absolute;
+        display: inline;
+        white-space: nowrap;
+        background-color: $blue;
+        padding: 10px;
+        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.4);
+        border-radius: 4px;
+        color: $white;
+        // &:after{
+        //     position: absolute;
+        //     bottom: 100%;
+        //     width: 0;
+        //     height: 0;
+        //     border: solid transparent;
+        //     content: " ";
+        //     pointer-events: none;
+        //     left: 50%;
+        //     margin-left: -10px;
+        //     border-width: 10px;
+        //     border-bottom-color: $blue;
+        // }
+        &:after{
+            position: absolute;
+            bottom: 100%;
+            width: 0;
+            height: 0;
+            border: solid transparent;
+            content: " ";
+            pointer-events: none;
+            left: 0;
+            top: 50%;
+            margin-top: -10px;
+            margin-left: -20px;
+            border-width: 10px;
+            border-right-color: $blue;
+        }
+    }
+    button.tool-view {
+        display:inline-block;
+        font-size: 1.5em;
+        color: $white;
+        padding: 0 10px;
+        background-image: none;
+        background-color: rgba(0,0,0,0);
+        &:hover{
+            background-color: rgba(250,250,250, 0.2);
+        }
+        &:active{
+            color: lighten($gray, 50%);
+            background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(0, 0, 0, 0.4)), to(rgba(250, 250, 250, 0.3)));
+            background-image: -moz-linear-gradient(rgba(0, 0, 0, 0.4), rgba(250, 250, 250, 0.3));
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4),rgba(250, 250, 250, 0.3));
+        }
+        &.active{
+            color: lighten($gray, 50%);
+            background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(0, 0, 0, 0.4)), to(rgba(250, 250, 250, 0.3)));
+            background-image: -moz-linear-gradient(rgba(0, 0, 0, 0.4), rgba(250, 250, 250, 0.3));
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4),rgba(250, 250, 250, 0.3));
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.5) inset;
+        }
+    }
+}
+
+#sizes {
+	height: 4em;
+	white-space: nowrap;
+}
+
+.container{
+	position: absolute;
+	left: 70px;
+	top: 3.5em;
+	margin-bottom: 30px;
+	background-color: $container-color;
+	.width-view {
 		position: relative;
-		left: 70px;
-		top: 5px;
-		margin-bottom: 30px;
-		background-color: $container-color;
-		.width-view {
-			position: relative;
-			background-color: $width-color;
-			display: inline-block;
-			vertical-align: top;
-			border: 1px solid $width-border-color;
-			cursor: pointer;
-			padding: 10px;
-			overflow: auto;
-			white-space: nowrap; 
-			height: 100%;
-			.max{
-				float: right;
-			}
-		}
-
-		.main-view {
-			width: 1px;
-			background-color: $viewport-color;
-			position: relative;
-			@include transition(0.5s);
-		}
-
-
-		.element-view {
-			border: 1px gray solid;
-			overflow: hidden;
-			z-index: 4;
-			cursor: move;
-
-			.top{
-				vertical-align: top;
-			}
-			.inner {
-				position: relative;
-
-				.content {
-					font-family: Arial, Helvetica, sans-serif;
-					position: inherit;
-				}
-			}
-			.remove-element {
-				background-color: orange;
-				padding: 5px;
-			}
+		background-color: $width-color;
+		display: inline-block;
+		vertical-align: top;
+		border: 1px solid $width-border-color;
+		cursor: pointer;
+		padding: 10px;
+		overflow: auto;
+		white-space: nowrap; 
+		height: 100%;
+		.max{
+			float: right;
 		}
 	}
-	
-
-	$handleWidth : 30px;
-	$previewWidth: 210px;
-	$previewContentWidth: $previewWidth - $handleWidth;
-	.elements-preview{
-		position: fixed;
-		right:  $handleWidth - $previewWidth;
-		top: 50px;
-		width: $previewWidth;
-		height: 100%;
-		background-color: #abc;
-		opacity: 0.5;
-		z-index: 999;
+	.main-view {
+		width: 1px;
+		background-color: $viewport-color;
+		position: relative;
 		@include transition(0.5s);
-		&.opened{
-			opacity: 1;
-			right: 0;
+	}
+	.element-view {
+		border: 1px gray solid;
+		overflow: hidden;
+		z-index: 4;
+		cursor: move;
+		.top{
+			vertical-align: top;
 		}
+		.inner {
+			position: relative;
 
-		.preview-handle{
-			position: absolute;
-			width: $handleWidth;
-			height: 100%;
-			left: 0;
-			cursor: pointer;
-			@include transition(0.5s);
-			&:hover{
-				background-color: $info-color;
-			}
-			.label{
-				margin-top: 100px;
-				font-size: 2em;
+			.content {
+				font-family: Arial, Helvetica, sans-serif;
+				position: inherit;
 			}
 		}
-		.preview-content{
-			position: absolute;
-			right: 0;
-			width: $previewContentWidth;
-			padding: 10px;
-		}
-		ul{
-			list-style-type: none;
-			.preview-element-item{
-				display: block;
-				padding: 5px;
-				margin: 2px;
-				background-color: #eeeeee;
-				cursor: move;
-			}
-			&#previewVisible{
-				min-height: 30px;
-				background-color: #eeeeee;
-			}
-			&#previewDisable{
-				min-height: 30px;
-				background-color: #efefef;
-				opacity: 0.5;
-			}
+		.remove-element {
+			background-color: orange;
+			padding: 5px;
 		}
 	}
 }
-// .contact{
-// 	position: fixed;
-// 	left: -1.8em;
-// 	bottom: 50px;
-// 	@include rotate(-90deg);
-// 	a{
-// 		text-decoration: none;
-// 		color: #333333;
-// 	}
-// }
+
+
+$handleWidth : 30px;
+$previewWidth: 210px;
+$previewContentWidth: $previewWidth - $handleWidth;
+.elements-preview{
+	position: fixed;
+	right:  $handleWidth - $previewWidth;
+	top: 50px;
+	width: $previewWidth;
+	height: 100%;
+	background-color: #abc;
+	opacity: 0.5;
+	z-index: 999;
+	@include transition(0.5s);
+	&.opened{
+		opacity: 1;
+		right: 0;
+	}
+
+	.preview-handle{
+		position: absolute;
+		width: $handleWidth;
+		height: 100%;
+		left: 0;
+		cursor: pointer;
+		@include transition(0.5s);
+		&:hover{
+			background-color: $info-color;
+		}
+		.label{
+			margin-top: 100px;
+			font-size: 2em;
+		}
+	}
+	.preview-content{
+		position: absolute;
+		right: 0;
+		width: $previewContentWidth;
+		padding: 10px;
+	}
+	ul{
+		list-style-type: none;
+		.preview-element-item{
+			display: block;
+			padding: 5px;
+			margin: 2px;
+			background-color: #eeeeee;
+			cursor: move;
+		}
+		&#previewVisible{
+			min-height: 30px;
+			background-color: #eeeeee;
+		}
+		&#previewDisable{
+			min-height: 30px;
+			background-color: #efefef;
+			opacity: 0.5;
+		}
+	}
+}
+
 
 /** Overlay Stuff **/
 .overlay{
@@ -574,12 +636,13 @@ nav#main-nav{
 	z-index: 4;
 }
 
-.ui-resizable-ghost {
-	@include no-transition;
+.ui-resizable-helper {
+	//@include no-transition;
+    //border: 1px rgba(0,0,0,0.5) solid;
 }
 
 .hidden {
-	display: none;
+	display: none !important;
 }
 
 .no-select {

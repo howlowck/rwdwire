@@ -1,0 +1,56 @@
+// mixin-background-image-linear-gradient.scss
+
+@function wcs($color, $point) {
+  @return color-stop + "(" + ($point / 100) + ", " + $color + ")";
+}
+
+@function lcs($color, $point) {
+  @return unquote($color + " " + $point + "%");
+}
+@function wdr($prop) {
+  $response: null;
+  @if $prop == unquote("to bottom") {
+    $response: "linear, left top, left bottom";
+  } @else if $prop == unquote("to top") {
+    $response: "linear, left bottom, left top";
+  } @else if $prop == unquote("to right") {
+    $response: "linear, left top, right top";
+  } @else if $prop == unquote("to left") {
+    $response: "linear, right top, left top";
+  }
+  @return unquote($response);
+}
+
+@function ldr($prop) {
+  @return unquote($prop);
+}
+
+@mixin background-image-linear-gradient($direction, $c1, $s1, $c2: false, $s2: "", $c3: false, $s3: "", $c4: false, $s4: "") {
+  $we1: unquote("");
+  $we2: unquote("");
+  $we3: unquote("");
+  $we4: unquote("");
+  $le1: unquote("");
+  $le2: unquote("");
+  $le3: unquote("");
+  $le4: unquote("");
+
+  @if $c1 {
+    $we1: wcs($c1, $s1);
+    $le1: lcs($c1, $s1);
+  }
+  @if $c2 {
+    $we2: unquote(", ") + wcs($c2, $s2);
+    $le2: unquote(", ") + lcs($c2, $s2);
+  }
+  @if $c3 {
+    $we3: unquote(", ") + wcs($c3, $s3);
+    $le3: unquote(", ") + lcs($c3, $s3);
+  }
+  @if $c4 {
+    $we4: unquote(", ") + wcs($c4, $s4);
+    $le4: unquote(", ") + lcs($c4, $s4);
+  }
+  background-image: -webkit-gradient(wdr($direction), $we1 $we2 $we3 $we4);
+  background-image:  linear-gradient(ldr($direction), $le1 $le2 $le3 $le4);
+}

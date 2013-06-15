@@ -3,8 +3,6 @@ define(["backbone",
 		"views/width/WidthView",
 		"views/width/WidthCollectionView",
 		"views/width/WidthCollectionEditView",
-		//"collections/ToolsCollection",
-		//"views/tool/ToolsCollectionView",
 		"views/tool/TopMenu",
 		"views/tool/SideBar",
 		"models/Element",
@@ -24,8 +22,6 @@ define(["backbone",
 			WidthView,
 			WidthCollectionView,
 			WidthCollectionEditView,
-			//ToolsCollection,
-			//ToolsCollectionView,
 			TopMenu,
 			SideBar,
 			Element,
@@ -49,14 +45,6 @@ define(["backbone",
 			initialize: function (options) {
 
 				this.dispatch = options.dispatch;
-				// var data = {
-				// 	tools: [{iconClass: "icon-question-sign", name: "Tutorial", task: "Instructions"},
-				// 			{iconClass: "icon-pencil", name: "Viewports", task: "Edit Widths"},
-				// 			{iconClass: "icon-plus", name: "New Element", task: "New Element"},
-				// 			{iconClass: "icon-save", name: "Save", task: "Save Layout"},
-				// 			{iconClass: "icon-user", name: "Login", task: "Login"},
-				// 			{iconClass: "icon-thumbs-up", name: "Social", task: "Social"}]
-				// };
 				this.widthsCollection = new WidthCollection();
 				this.widthsCollectionView = new WidthCollectionView({
 					collection: this.widthsCollection,
@@ -66,12 +54,8 @@ define(["backbone",
 					collection: this.widthsCollection,
 					dispatch: this.dispatch
 				});
-				// this.toolsCollection = new ToolsCollection(data.tools);
-				// this.toolsCollectionView = new ToolsCollectionView({
-				// 	collection: this.toolsCollection,
-				// 	dispatch: this.dispatch
-				// });
 				this.topMenu = new TopMenu({dispatch: this.dispatch});
+				this.sideBar = new SideBar({dispatch: this.dispatch});
 				this.elementsCollection = new ElementsCollection();
 				this.elementsCollectionView = new ElementsCollectionView({
 					collection: this.elementsCollection,
@@ -232,8 +216,6 @@ define(["backbone",
 				this.elementsCollection.get(payload.cid).set({x: payload.ui.position.left, y: payload.ui.position.top});
 			},
 			successLogin: function () {
-				//this.toolsCollection.where({task: "Login"})[0].set({name: "User Info", task: "UserInfo"});
-				//TODO change data-trigger from LoginButton:click to UserInfo:click
 				this.topMenu.$(".user").data("trigger", "UserInfo:click").children("i").attr("title", "User Info");
 				this.notify("Yay!", "You are logged in", {"class": "success" });
 			}

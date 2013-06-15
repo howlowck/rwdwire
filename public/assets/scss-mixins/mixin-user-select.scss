@@ -1,0 +1,13 @@
+// Determines whether a user can select the content of an element.
+// @link https://developer.mozilla.org/en-US/docs/CSS/user-select
+
+// ie10 with -ms prefix
+// safari, chrome  with -webkti prefix (mobile?)
+// firefox with -moz prefix
+
+@mixin user-select($prop) {
+  -webkit-user-select: $prop;
+  -moz-user-select: $prop;
+  -ms-user-select: $prop;
+  user-select: $prop;
+}
