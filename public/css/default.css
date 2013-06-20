@@ -16,19 +16,6 @@ body {
   font-size: 15px;
 }
 
-.rotate90 {
-  display: block;
-  transform: rotate(90deg);
-  -ms-transform: rotate(90deg);
-  /* IE 9 */
-  -webkit-transform: rotate(90deg);
-  /* Safari and Chrome */
-  -o-transform: rotate(90deg);
-  /* Opera */
-  -moz-transform: rotate(90deg);
-  /* Firefox */
-}
-
 button, .btn {
   position: relative;
   top: 0.07em;
@@ -56,7 +43,7 @@ button:active, .btn:active {
   background-image: none;
 }
 button.btn-large, .btn.btn-large {
-  height: 2em;
+  min-height: 2em;
   font-size: 2em;
   font-weight: bold;
   border-radius: 4px;
@@ -104,6 +91,60 @@ button.disabled:active, .btn.disabled:active {
   box-shadow: none;
 }
 
+.input {
+  font-size: 1em;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(0, 0, 0, 0.05)), to(rgba(0, 0, 0, 0)));
+  background-image: -moz-linear-gradient(rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0));
+  background-image: linear-gradient(rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0));
+  border-radius: 3px;
+  padding: 0.1em;
+  margin: 2px;
+  border: solid 1px #b6b6b6;
+}
+
+.notification {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 2000;
+}
+.notification .notification-item {
+  -webkit-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
+  /* Safari and Chrome */
+  -moz-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
+  /* Firefox 4 */
+  -ms-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
+  /* MS */
+  -o-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
+  /* Opera */
+  transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
+  opacity: 0;
+  position: relative;
+  right: 0px;
+  display: inline-block;
+  background-color: #9dd8ff;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 0.05)));
+  background-image: -moz-linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.05));
+  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.05));
+  border-radius: 4px;
+  border-color: #505050;
+  border-width: 1px;
+  border-style: solid;
+  padding: 10px 10px 10px 10px;
+  box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.5);
+  color: #194159;
+}
+.notification .notification-item.success {
+  background-color: #c7f4ca;
+  border-color: #16731c;
+  color: #0e4811;
+}
+.notification .notification-item.error {
+  background-color: #fdacbb;
+  border-color: #c00426;
+  color: #8e031c;
+}
+
 nav#main-nav {
   padding: 0;
   margin: 0;
@@ -130,6 +171,31 @@ nav#main-nav {
 }
 nav#main-nav.hide {
   top: -4em;
+}
+nav#main-nav .top-tooltip {
+  top: 57px;
+  position: absolute;
+  display: inline;
+  width: 100px;
+  background-color: #2f7ba9;
+  padding: 10px;
+  box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+  color: #ecf0f1;
+  text-align: center;
+}
+nav#main-nav .top-tooltip:after {
+  position: absolute;
+  bottom: 100%;
+  width: 0;
+  height: 0;
+  border: solid transparent;
+  content: " ";
+  pointer-events: none;
+  left: 50%;
+  margin-left: -10px;
+  border-width: 10px;
+  border-bottom-color: #2f7ba9;
 }
 nav#main-nav .title {
   text-align: center;
@@ -177,49 +243,13 @@ nav#main-nav .main-menu button.tool-view.notification:active {
   font-size: 0.9em;
 }
 
-.notification {
-  position: absolute;
-  width: 400px;
-  right: 20px;
-  top: 0;
-  z-index: 999;
-}
-.notification .notification-item {
-  position: relative;
-  padding: 20px;
-  opacity: 0.8;
-  cursor: pointer;
-}
-.notification .notification-item .notification-type {
-  font-size: 2em;
-  font-weight: bolder;
-}
-.notification .notification-item .notification-message {
-  font-size: 1.5em;
-}
-.notification .notification-item .close {
-  position: absolute;
-  top: 20;
-  right: 20;
-  padding: 5px;
-}
-.notification .error {
-  background-color: #fbb450;
-}
-.notification .info {
-  background-color: #5bc0de;
-}
-.notification .success {
-  background-color: #62c462;
-}
-
 .side-bar {
   position: fixed;
   padding-top: 30px;
   left: 0;
   top: 3em;
   bottom: 0;
-  width: 55px;
+  width: 50px;
   z-index: 1900;
   background-color: #194159;
   box-shadow: 1px 0px 7px rgba(0, 0, 0, 0.7);
@@ -237,15 +267,16 @@ nav#main-nav .main-menu button.tool-view.notification:active {
   left: -100px;
 }
 .side-bar .side-tooltip {
-  left: 70px;
+  left: 60px;
   position: absolute;
   display: inline;
   white-space: nowrap;
-  background-color: #194159;
+  background-color: #2f7ba9;
   padding: 10px;
-  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.4);
+  box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.4);
   border-radius: 4px;
   color: #ecf0f1;
+  z-index: 4;
 }
 .side-bar .side-tooltip:after {
   position: absolute;
@@ -260,13 +291,14 @@ nav#main-nav .main-menu button.tool-view.notification:active {
   margin-top: -10px;
   margin-left: -20px;
   border-width: 10px;
-  border-right-color: #194159;
+  border-right-color: #2f7ba9;
 }
 .side-bar button.tool-view {
   display: inline-block;
-  font-size: 1.5em;
+  font-size: default;
+  width: 40px;
   color: #ecf0f1;
-  padding: 0 10px;
+  padding: 0 5px;
   background-image: none;
   background-color: rgba(0, 0, 0, 0);
 }
@@ -287,37 +319,53 @@ nav#main-nav .main-menu button.tool-view.notification:active {
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5) inset;
 }
 
-#sizes {
-  height: 4em;
-  white-space: nowrap;
-}
-
 .container {
-  position: absolute;
+  position: relative;
   left: 70px;
-  top: 3.5em;
-  margin-bottom: 30px;
+  top: 3.7em;
+  margin-bottom: 100px;
   background-color: white;
 }
-.container .width-view {
+.container #sizes {
+  height: 3em;
+  white-space: nowrap;
+}
+.container #sizes .width-view {
   position: relative;
-  background-color: #708a74;
+  background-color: #505050;
   display: inline-block;
   vertical-align: top;
-  border: 1px solid #e0c7a4;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #161616;
+  color: #ecf0f1;
   cursor: pointer;
   padding: 10px;
   overflow: auto;
   white-space: nowrap;
   height: 100%;
+  width: 10px;
 }
-.container .width-view .max {
+.container #sizes .width-view:first-child {
+  border-radius: 8px 0 0 0;
+}
+.container #sizes .width-view:last-child {
+  border-radius: 0 8px 0 0;
+}
+.container #sizes .width-view .min {
+  float: left;
+}
+.container #sizes .width-view .max {
   float: right;
 }
 .container .main-view {
   width: 1px;
   background-color: #eeeeee;
   position: relative;
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgba(0, 0, 0, 0.3);
+  border-top: none;
   -webkit-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
   /* Safari and Chrome */
   -moz-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
@@ -329,33 +377,41 @@ nav#main-nav .main-menu button.tool-view.notification:active {
   transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
 }
 .container .element-view {
-  border: 1px gray solid;
+  border: 1px rgba(0, 0, 0, 0.3) solid;
+  border-radius: 2px;
   overflow: hidden;
   z-index: 4;
   cursor: move;
+  -webkit-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
+  /* Safari and Chrome */
+  -moz-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
+  /* Firefox 4 */
+  -ms-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
+  /* MS */
+  -o-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
+  /* Opera */
+  transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
 }
 .container .element-view .top {
   vertical-align: top;
 }
 .container .element-view .inner {
   position: relative;
+  margin: 5px;
 }
 .container .element-view .inner .content {
   font-family: Arial, Helvetica, sans-serif;
   position: inherit;
 }
-.container .element-view .remove-element {
-  background-color: orange;
-  padding: 5px;
-}
 
-.elements-preview {
+.elements-overview {
+  padding: 0;
+  border-radius: 5px;
   position: fixed;
-  right: -180px;
-  top: 50px;
+  top: 30%;
+  left: 70%;
   width: 210px;
-  height: 100%;
-  background-color: #abc;
+  background-color: #f6f6f6;
   opacity: 0.5;
   z-index: 999;
   -webkit-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
@@ -367,58 +423,71 @@ nav#main-nav .main-menu button.tool-view.notification:active {
   -o-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
   /* Opera */
   transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.7);
 }
-.elements-preview.opened {
-  opacity: 1;
+.elements-overview.hidden {
+  opacity: 0;
   right: 0;
 }
-.elements-preview .preview-handle {
-  position: absolute;
-  width: 30px;
-  height: 100%;
-  left: 0;
-  cursor: pointer;
-  -webkit-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
+.elements-overview.dragging {
+  -webkit-transition: none !important;
   /* Safari and Chrome */
-  -moz-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
+  -moz-transition: none !important;
   /* Firefox 4 */
-  -ms-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
+  -ms-transition: none !important;
   /* MS */
-  -o-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
+  -o-transition: none !important;
   /* Opera */
-  transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
+  transition: none !important;
 }
-.elements-preview .preview-handle:hover {
-  background-color: #5bc0de;
+.elements-overview .handle {
+  border-radius: 5px 5px 0 0;
+  padding: 10px;
+  cursor: move;
+  background-color: #2f7ba9;
+  color: #ecf0f1;
 }
-.elements-preview .preview-handle .label {
-  margin-top: 100px;
-  font-size: 2em;
-}
-.elements-preview .preview-content {
+.elements-overview .handle .close {
+  padding: 2px;
+  font-size: 10px;
   position: absolute;
+  top: 0;
   right: 0;
-  width: 180px;
+}
+.elements-overview .overview-content {
+  width: 210px;
   padding: 10px;
 }
-.elements-preview ul {
+.elements-overview .overview-content ul {
   list-style-type: none;
 }
-.elements-preview ul .preview-element-item {
+.elements-overview .overview-content ul#overviewVisible {
+  border-radius: 5px;
+  min-height: 30px;
+  background-color: #eeeeee;
+}
+.elements-overview .overview-content ul#overviewDisable {
+  position: relative;
+  min-height: 30px;
+  border-radius: 5px;
+  background-color: #efefef;
+  opacity: 0.5;
+}
+.elements-overview .overview-content ul#overviewDisable .placeholder {
+  position: absolute;
+  font-size: 12px;
+  top: 5px;
+  left: 10px;
+  z-index: -1;
+}
+.elements-overview .overview-content ul .overview-element-item {
   display: block;
   padding: 5px;
   margin: 2px;
   background-color: #eeeeee;
   cursor: move;
-}
-.elements-preview ul#previewVisible {
-  min-height: 30px;
-  background-color: #eeeeee;
-}
-.elements-preview ul#previewDisable {
-  min-height: 30px;
-  background-color: #efefef;
-  opacity: 0.5;
+  border: 1px #b6b6b6 solid;
+  border-radius: 5px;
 }
 
 /** Overlay Stuff **/
@@ -445,7 +514,16 @@ nav#main-nav .main-menu button.tool-view.notification:active {
   background-color: #eeeeee;
   position: relative;
   margin: 0 auto;
+  margin-top: 80px;
   padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 5 rgba(0, 0, 0, 0.8);
+}
+.overlay .window.login-window {
+  width: 400px;
+}
+.overlay .window.register-window {
+  width: 400px;
 }
 .overlay .window .error {
   background-color: #fbb450;
@@ -495,9 +573,12 @@ nav#main-nav .main-menu button.tool-view.notification:active {
   vertical-align: top;
 }
 
+.social-overlay .window {
+  width: 500px;
+}
+
 .edit-overlay .window {
   position: absolute;
-  top: 10%;
   left: 50%;
   margin-left: -400px;
   height: 80%;
@@ -527,6 +608,8 @@ nav#main-nav .main-menu button.tool-view.notification:active {
   padding: 10px;
   background-color: #fff;
   position: relative;
+  border-radius: 3px;
+  border: 1px #c8c8c8 solid;
 }
 .width-form-item .remove-width {
   position: absolute;
@@ -541,6 +624,18 @@ nav#main-nav .main-menu button.tool-view.notification:active {
 .shadow-element {
   border: 2px black solid;
   z-index: 4;
+}
+
+.ui-resizable-ghost {
+  -webkit-transition: none !important;
+  /* Safari and Chrome */
+  -moz-transition: none !important;
+  /* Firefox 4 */
+  -ms-transition: none !important;
+  /* MS */
+  -o-transition: none !important;
+  /* Opera */
+  transition: none !important;
 }
 
 .hidden {

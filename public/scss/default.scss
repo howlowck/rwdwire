@@ -21,19 +21,11 @@ $danger: $red;
 $container-color: white;
 $viewport-color: #eeeeee;
 $overlay-window-color: #eee;
-$width-color: #708A74;
-$width-border-color: #E0C7A4;
+$width-color: $gray;
+$width-border-color: $black;
 $info-color: #5bc0de;
 $success-color: #62c462;
 $error-color: #fbb450;
-// $button-color-default: #eee;
-// $button-color-hover: #ddd;
-// $button-color-active: #ccc;
-// $button-danger-default: #ee5f5b;
-// $button-danger-hover: #bd362f;
-// $button-danger-active: #bd362f;
-// $button-success-default: #62c462;
-// $button-success-hover: #42c442;
 
 //Element Colors
 $btn-default: lighten($blue, 20%); //<----- Change
@@ -104,10 +96,10 @@ body{
 		font-size: 15px;
 	}
 }
-.rotate90{
-	display: block;
-	@include rotate(90deg)
-}
+// .rotate90{
+// 	display: block;
+// 	@include rotate(90deg)
+// }
 button, .btn {
     position: relative;
     top: 0.07em;
@@ -119,9 +111,6 @@ button, .btn {
     padding: 3px 1em;
     border-radius: 3px;
     cursor: pointer;
-    // background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 0.3)));
-    // background-image: -moz-linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3));
-    // background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3));
     border-width: 1px;
     border-color: darken($btn-default, 20%);
     border-style: solid;
@@ -136,12 +125,9 @@ button, .btn {
         background-color: $btn-default-active;
         box-shadow: 2px 2px 3px rgba(20,20,20,0.3) inset;
         background-image: none;
-        // background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(0, 0, 0, 0.3)), to(darken(rgba(0, 0, 0, 0), 20%)));
-        // background-image: -moz-linear-gradient(rgba(0, 0, 0, 0.3), darken(rgba(0, 0, 0, 0), 20%));
-        // background-image: linear-gradient(rgba(0, 0, 0, 0.3), darken(rgba(0, 0, 0, 0), 20%));
     }
     &.btn-large {
-        height: 2em;
+        min-height: 2em;
         font-size: 2em;
         font-weight: bold;
         border-radius: 4px;
@@ -192,6 +178,51 @@ button, .btn {
         }
     }
 }
+.input {
+    font-size: 1em;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(0, 0, 0, 0.05)), to(rgba(0, 0, 0, 0)));
+    background-image: -moz-linear-gradient(rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0));
+    background-image: linear-gradient(rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0));
+    border-radius: 3px;
+    padding: 0.1em;
+    margin: 2px;
+    border: solid 1px lighten($gray, 40%);
+}
+.notification{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 2000;
+    .notification-item {
+        @include transition();
+        opacity: 0;
+        position: relative;
+        right: 0px;
+        display: inline-block;
+        background-color: $lightblue;
+        background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 0.05)));
+        background-image: -moz-linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.05));
+        background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.05));
+        border-radius: 4px;
+        border-color: $gray;
+        border-width: 1px;
+        border-style: solid;
+        padding: 10px 10px 10px 10px;
+        box-shadow: 0px 1px 6px rgba(0,0,0,0.5);
+        color: $blue;
+
+        &.success{
+            background-color: lighten($success, 50%);
+            border-color: darken($success, 10%);
+            color: darken($success, 20%);
+        }
+        &.error{
+            background-color: lighten($danger, 35%);
+            border-color: darken($danger, 10%);
+            color: darken($danger, 20%);
+        }
+    }
+}
 
 nav#main-nav{
     padding: 0;
@@ -210,6 +241,31 @@ nav#main-nav{
     line-height: 3em;
     &.hide{
         top: -4em;
+    }
+    .top-tooltip{
+        top: 57px;
+        position: absolute;
+        display: inline;
+        width: 100px;
+        background-color: lighten($blue, 20%);
+        padding: 10px;
+        box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.4);
+        border-radius: 4px;
+        color: $white;
+        text-align: center;
+        &:after{
+            position: absolute;
+            bottom: 100%;
+            width: 0;
+            height: 0;
+            border: solid transparent;
+            content: " ";
+            pointer-events: none;
+            left: 50%;
+            margin-left: -10px;
+            border-width: 10px;
+            border-bottom-color: lighten($blue, 20%);
+        }
     }
     .title {
         //width: 160px;
@@ -262,50 +318,13 @@ nav#main-nav{
 	font-size: 0.9em;
 }
 
-.notification {
-	position: absolute;
-	width: 400px;
-	right: 20px;
-	top: 0;
-	z-index: 999;
-
-	.notification-item{
-		position: relative;
-		padding: 20px;
-		opacity: 0.8;
-		cursor: pointer;
-		.notification-type{
-			font-size: 2em;
-			font-weight: bolder;
-		}
-		.notification-message{
-			font-size: 1.5em;
-		}
-		.close{
-			position: absolute;
-			top: 20;
-			right: 20;
-			padding: 5px;
-		}
-	}
-	.error{
-		background-color: $error-color;
-	}
-	.info{
-		background-color: $info-color;
-	}
-	.success{
-		background-color: $success-color;
-	}
-}
-
 .side-bar {
 	position: fixed;
     padding-top: 30px;
 	left: 0;
 	top: 3em;
 	bottom: 0;
-	width: 55px;
+	width: 50px;
     z-index: 1900;
 	background-color: $blue;
 	box-shadow: 1px 0px 7px rgba(0, 0, 0, 0.7);
@@ -314,28 +333,16 @@ nav#main-nav{
         left: -100px;
     }
     .side-tooltip{
-        left: 70px;
+        left: 60px;
         position: absolute;
         display: inline;
         white-space: nowrap;
-        background-color: $blue;
+        background-color: lighten($blue, 20%);
         padding: 10px;
-        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.4);
+        box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.4);
         border-radius: 4px;
-        color: $white;
-        // &:after{
-        //     position: absolute;
-        //     bottom: 100%;
-        //     width: 0;
-        //     height: 0;
-        //     border: solid transparent;
-        //     content: " ";
-        //     pointer-events: none;
-        //     left: 50%;
-        //     margin-left: -10px;
-        //     border-width: 10px;
-        //     border-bottom-color: $blue;
-        // }
+        color: $white; 
+        z-index: 4;
         &:after{
             position: absolute;
             bottom: 100%;
@@ -349,14 +356,15 @@ nav#main-nav{
             margin-top: -10px;
             margin-left: -20px;
             border-width: 10px;
-            border-right-color: $blue;
+            border-right-color: lighten($blue, 20%);
         }
     }
     button.tool-view {
         display:inline-block;
-        font-size: 1.5em;
+        font-size: default;
+        width: 40px;
         color: $white;
-        padding: 0 10px;
+        padding: 0 5px;
         background-image: none;
         background-color: rgba(0,0,0,0);
         &:hover{
@@ -377,120 +385,145 @@ nav#main-nav{
         }
     }
 }
-
-#sizes {
-	height: 4em;
-	white-space: nowrap;
-}
-
 .container{
-	position: absolute;
+	position: relative;
 	left: 70px;
-	top: 3.5em;
-	margin-bottom: 30px;
+	top: 3.7em;
+	margin-bottom: 100px;
 	background-color: $container-color;
-	.width-view {
-		position: relative;
-		background-color: $width-color;
-		display: inline-block;
-		vertical-align: top;
-		border: 1px solid $width-border-color;
-		cursor: pointer;
-		padding: 10px;
-		overflow: auto;
-		white-space: nowrap; 
-		height: 100%;
-		.max{
-			float: right;
-		}
-	}
+    #sizes {
+        height: 3em;
+        white-space: nowrap;
+    	.width-view {
+            &:first-child{
+                border-radius: 8px 0 0 0;
+            }
+            &:last-child{
+                border-radius: 0 8px 0 0;
+            }
+    		position: relative;
+    		background-color: $width-color;
+    		display: inline-block;
+    		vertical-align: top;
+    		border-style: solid;
+            border-width: 1px;
+            border-color: $width-border-color;
+            color: $white;
+    		cursor: pointer;
+    		padding: 10px;
+    		overflow: auto;
+    		white-space: nowrap; 
+    		height: 100%;
+            width: 10px;
+            .min{
+                float: left;
+            }
+    		.max{
+    			float: right;
+    		}
+    	}
+    }
 	.main-view {
 		width: 1px;
 		background-color: $viewport-color;
 		position: relative;
+        border-style: solid;
+        border-width: 1px;
+        border-color: rgba(0, 0, 0, 0.3);
+        border-top: none;
 		@include transition(0.5s);
 	}
 	.element-view {
-		border: 1px gray solid;
+		border: 1px rgba(0, 0, 0, 0.3) solid;
+        border-radius: 2px;
 		overflow: hidden;
 		z-index: 4;
 		cursor: move;
+        @include transition();
 		.top{
 			vertical-align: top;
 		}
 		.inner {
 			position: relative;
-
+            margin: 5px;
 			.content {
 				font-family: Arial, Helvetica, sans-serif;
 				position: inherit;
 			}
 		}
-		.remove-element {
-			background-color: orange;
-			padding: 5px;
-		}
 	}
 }
 
 
-$handleWidth : 30px;
-$previewWidth: 210px;
-$previewContentWidth: $previewWidth - $handleWidth;
-.elements-preview{
-	position: fixed;
-	right:  $handleWidth - $previewWidth;
-	top: 50px;
+.elements-overview{
+    $previewWidth: 210px;
+    padding: 0;
+    border-radius: 5px;
+    position: fixed;
+	top: 30%;
+    left: 70%;
 	width: $previewWidth;
-	height: 100%;
-	background-color: #abc;
+	background-color: lighten($gray, 65%);
 	opacity: 0.5;
 	z-index: 999;
 	@include transition(0.5s);
-	&.opened{
-		opacity: 1;
+    box-shadow: 0px 1px 4px rgba(0,0,0,0.7);
+	&.hidden{
+		opacity: 0;
 		right: 0;
 	}
-
-	.preview-handle{
-		position: absolute;
-		width: $handleWidth;
-		height: 100%;
-		left: 0;
-		cursor: pointer;
-		@include transition(0.5s);
-		&:hover{
-			background-color: $info-color;
-		}
-		.label{
-			margin-top: 100px;
-			font-size: 2em;
-		}
-	}
-	.preview-content{
-		position: absolute;
-		right: 0;
-		width: $previewContentWidth;
+    &.dragging{
+        @include no-transition();
+    }
+    .handle{
+        border-radius: 5px 5px 0 0;
+        padding: 10px;
+        cursor: move;
+        background-color: lighten($blue, 20%);
+        color: $white;
+        .close{
+            padding: 2px;
+            font-size: 10px;
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+    }
+	.overview-content{
+		width: $previewWidth;
 		padding: 10px;
-	}
-	ul{
-		list-style-type: none;
-		.preview-element-item{
-			display: block;
-			padding: 5px;
-			margin: 2px;
-			background-color: #eeeeee;
-			cursor: move;
-		}
-		&#previewVisible{
-			min-height: 30px;
-			background-color: #eeeeee;
-		}
-		&#previewDisable{
-			min-height: 30px;
-			background-color: #efefef;
-			opacity: 0.5;
-		}
+        ul{
+            list-style-type: none;
+            &#overviewVisible{
+                border-radius: 5px;
+                min-height: 30px;
+                background-color: #eeeeee;
+            }
+            &#overviewDisable{
+                position: relative;
+                .placeholder{
+                    position:absolute;
+                    font-size: 12px;
+                    top: 5px;
+                    left: 10px;
+                    z-index: -1;
+                }
+                min-height: 30px;
+                border-radius: 5px;
+                background-color: #efefef;
+                opacity: 0.5;
+            }
+            .overview-element-item{
+                display: block;
+                padding: 5px;
+                margin: 2px;
+                background-color: #eeeeee;
+                cursor: move;
+                border: 1px lighten($gray, 40%) solid;
+                border-radius: 5px;
+            }
+            
+        }
 	}
 }
 
@@ -518,7 +551,16 @@ $previewContentWidth: $previewWidth - $handleWidth;
 		background-color: $overlay-window-color; 
 		position: relative;
 		margin: 0 auto;
+        margin-top: 80px;
 		padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 0 5 rgba(0, 0, 0, 0.8);
+        &.login-window {
+            width: 400px;
+        }
+        &.register-window {
+            width: 400px;
+        }
 		.error{
 			background-color: #fbb450;
 			padding: 5px;
@@ -576,10 +618,14 @@ $previewContentWidth: $previewWidth - $handleWidth;
 		}
 	}
 }
+.social-overlay{
+    .window{
+        width: 500px;
+    }
+}
 .edit-overlay{
 	.window{
 		position: absolute;
-		top: 10%;
 		left: 50%;
 		margin-left: -400px;
 		height: 80%;
@@ -614,6 +660,8 @@ $previewContentWidth: $previewWidth - $handleWidth;
 	padding: 10px;
 	background-color: #fff;
 	position: relative;
+    border-radius: 3px;
+    border: 1px rgba(200, 200, 200, 1) solid;
 	.remove-width{
 		position: absolute;
 		top: 10px;
@@ -636,9 +684,10 @@ $previewContentWidth: $previewWidth - $handleWidth;
 	z-index: 4;
 }
 
-.ui-resizable-helper {
-	//@include no-transition;
-    //border: 1px rgba(0,0,0,0.5) solid;
+.ui-resizable-ghost {
+	@include no-transition;
+    //border: 1px rgba(0,0,0,0.2) solid;
+    //background-color: rgba(0, 0, 0, 0.4);
 }
 
 .hidden {

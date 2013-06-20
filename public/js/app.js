@@ -43,7 +43,7 @@ define(["backbone",
 			notificationTemplate: _.template($("#notificationItemTemp").html()),
 			uid: "",
 			initialize: function (options) {
-
+				this.overlays = [];	
 				this.dispatch = options.dispatch;
 				this.widthsCollection = new WidthCollection();
 				this.widthsCollectionView = new WidthCollectionView({
@@ -54,6 +54,7 @@ define(["backbone",
 					collection: this.widthsCollection,
 					dispatch: this.dispatch
 				});
+				this.overlays.push(this.widthsCollectionEditView);
 				this.topMenu = new TopMenu({dispatch: this.dispatch});
 				this.sideBar = new SideBar({dispatch: this.dispatch});
 				this.elementsCollection = new ElementsCollection();
@@ -62,31 +63,42 @@ define(["backbone",
 					dispatch: this.dispatch
 				});
 				this.createElementOverlayView = new CreateElementOverlayView({dispatch: this.dispatch});
+				this.overlays.push(this.createElementOverlayView);
 				this.editElementOverlayView = new EditElementOverlayView({dispatch: this.dispatch});
+				this.overlays.push(this.editElementOverlayView);
 				this.previewElementsCollectionView = new PreviewElementsCollectionView({
 					dispatch: this.dispatch,
 					collection : this.elementsCollection
 				});
 				this.user = new User();
 				this.userOverlayView = new UserOverlayView({model: this.user, dispatch: this.dispatch});
+				this.overlays.push(this.userOverlayView);
 				this.instructionOverlayView = new InstructionOverlayView({dispatch: this.dispatch});
+				this.overlays.push(this.instructionOverlayView);
 				this.socialOverlayView = new SocialOverlayView({dispatch: this.dispatch});
+				this.overlays.push(this.socialOverlayView);
 			},
 			notify: function (type, message, options) {
 				var data = {};
 				data.type = type;
 				data.message = message;
 				data.className = options.class;
-				this.$el.find(".notification").append(this.notificationTemplate(data));
+				var $notification = $(this.notificationTemplate(data));
+				this.$(".notification").append($notification);
+				$notification.css("opacity", 1);
 
-			},
-			closeNotify: function (e) {
-				$(e.currentTarget).remove();
+				setTimeout(function () {
+					$notification.remove();
+				}, 2000);
+				setTimeout(function () {
+					$notification.css("opacity", 0);
+				}, 1500);
 			},
 			events: function () {
 				this.dispatch.on("EditWidthButton:click", this.editWidth, this);
 				this.dispatch.on("NewElementButton:click", this.newElement, this);
 				this.dispatch.on("SaveLayoutButton:click", this.saveLayout, this);
+				this.dispatch.on("ElementsOverviewButton:click", this.openSortElementsDialogue, this);
 				this.dispatch.on("LoginButton:click", this.showLogin, this);
 				this.dispatch.on("UserInfo:click", this.showUserInfo, this);
 				this.dispatch.on("InstructionsButton:click", this.showInstructions, this);
@@ -96,19 +108,31 @@ define(["backbone",
 
 				this.dispatch.on("WidthCollection/viewportColor:change", this.changeViewportColor, this);
 				this.dispatch.on("ElementsCollectionView/width:change", this.updateElementsState, this);
-				this.dispatch.on("PreviewElementCollection:sortupdate", this.sortElements, this);
+				this.dispatch.on("OverviewElementCollection:sortupdate", this.sortElements, this);
 
 				this.dispatch.on("CreateElementOverlayView:createElement", this.createElement, this);
 				this.dispatch.on("ElementView:resize", this.resizeElement, this);
 				this.dispatch.on("ElementView:move", this.moveElement, this);
 				this.dispatch.on("UserLogin:success", this.successLogin, this);
-				this.$el.on("click", ".notification-item", this.closeNotify);
+				this.dispatch.on("overlay:open", this.hideNavBars, this);
+				this.dispatch.on("overlay:close", this.showNavBars, this);
+				//this.$el.on("click", ".notification-item .close", this.closeNotify);
 			},
 			editWidth: function () {
-				this.widthsCollectionEditView.showOverlay();
+				this.closeAllOverlays();
+				this.widthsCollectionEditView.open();
+			},
+			hideNavBars: function () {
+				this.topMenu.hide();
+				this.sideBar.hide();
+			},
+			showNavBars: function () {
+				this.topMenu.show();
+				this.sideBar.show();
 			},
 			newElement: function () {
-				this.createElementOverlayView.showCreateElementOverlay();
+				this.closeAllOverlays();
+				this.createElementOverlayView.open();
 			},
 			saveLayout: function () {
 				var data = {},
@@ -141,21 +165,34 @@ define(["backbone",
 					self.uid = json.url;
 				});
 			},
+			openSortElementsDialogue: function () {
+				this.previewElementsCollectionView.toggleOpenState();
+			},
+			closeAllOverlays: function () {
+				this.overlays.forEach(function (overlay) {
+					overlay.close();
+				});
+			},
 			showLogin: function () {
+				this.closeAllOverlays();
 				this.userOverlayView.renderLogin();
 			},
 			showUserInfo: function () {
+				this.closeAllOverlays();
 				this.userOverlayView.renderUserInfo({key: this.user.get("api_key")});
 			},
 			showInstructions: function () {
-				this.instructionOverlayView.show();
+				this.closeAllOverlays();
+				this.instructionOverlayView.open();
 			},
 			showSocial: function () {
-				this.socialOverlayView.show();
+				this.closeAllOverlays();
+				this.socialOverlayView.open();
 			},
 			editElement: function (payload) {
+				this.closeAllOverlays();
 				var model = this.elementsCollection.get(payload.cid);
-				this.editElementOverlayView.show(model);
+				this.editElementOverlayView.open(model);
 			},
 			updateViewport: function (payload) {
 				this.elementsCollectionView.changeDimension(payload.width, payload.height);
@@ -180,7 +217,9 @@ define(["backbone",
 					count--;
 				});
 				_.each(payload.disable, function (value) {
-					self.elementsCollection.get(value).set("zindex", -1);
+					if (value !== "") {
+						self.elementsCollection.get(value).set("zindex", -1);
+					}
 				});
 			},
 			createElement: function (payload) {
@@ -199,12 +238,12 @@ define(["backbone",
 				var newElement = new Element(modelSpec);
 				this.elementsCollection.add(newElement);
 				this.elementsCollection.sort();
-				this.editElementOverlayView.show(newElement);
+				this.editElementOverlayView.open(newElement);
 			},
 
 			resizeElement: function (payload) {
 				var modelSpec = (function () {
-					var x = payload.ui.position.left - this.elementsCollectionView.$el.offset().left,
+					var x = payload.ui.position.left - this.elementsCollectionView.$el.offset().left - 1,
 						y = payload.ui.position.top - this.elementsCollectionView.$el.offset().top,
 						width = payload.ui.size.width,
 						height = payload.ui.size.height;
@@ -258,10 +297,10 @@ define(["backbone",
 			},
 			defaultAction: function () {
 				var data =
-						{dimensions: [{xmax: 480, y: 700, title: "mobile portrait", viewportColor: "#eedee0"},
-							{xmin: 481, xmax: 767, y: 700, title: "mobile landscape", viewportColor: "#eedee0"},
-							{xmin: 768, xmax: 979, y: 700, title: "default", viewportColor: "#eedee0"},
-							{xmin: 980, xmax: 1200, y: 700, title: "large display", viewportColor: "#eedee0"}],
+						{dimensions: [{xmax: 480, y: 700, title: "mobile portrait", viewportColor: "#eeeeee"},
+							{xmin: 481, xmax: 767, y: 700, title: "mobile landscape", viewportColor: "#eeeeee"},
+							{xmin: 768, xmax: 979, y: 700, title: "default", viewportColor: "#eeeeee"},
+							{xmin: 980, xmax: 1200, y: 700, title: "large display", viewportColor: "#eeeeee"}],
 						elements: [{"name": "logo", "x": 7, "y": 4, "width": 103, "height": 59, "disable": false,
 									"type": "div", "content": "Logo", "bcolor": "#eeeeee", "zindex": "1", "opacity": 1},
 								{"name": "nav", "x": 113, "y": 3, "width": 360, "height": 60, "disable": false,

@@ -13,6 +13,9 @@ define(['models/Width'], function (Width)
 				this.listenTo(this.model, "change", this.render);
 			},
 			dimension: function () {
+				if (this.model.get("xmin") !== 0) {
+					return this.model.get("xmax") - this.model.get("xmin") + 1;
+				}
 				return this.model.get("xmax") - this.model.get("xmin");
 			},
 			updateViewportDim: function () {

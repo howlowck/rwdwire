@@ -12,7 +12,8 @@
 		<meta property="fb:admins" content="4713134" />
 
 		<link rel="stylesheet" href="public/assets/jquery.ui/dist/jquery-ui.min.css"/>
-		<link rel="stylesheet" href="public/assets/font-awesome/build/assets/font-awesome/css/font-awesome.min.css"/>
+		<!-- <link rel="stylesheet" href="public/assets/font-awesome/build/assets/font-awesome/css/font-awesome.min.css"/> -->
+		<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 		<link rel="stylesheet" href="public/css/facebook.css"/>
 		<link rel="stylesheet" href="public/css/default.css"/>
 
@@ -27,47 +28,48 @@
 		</div>
 		<nav id="main-nav">
 			<h1 class="title">
-				RWD Wireframes <span id="version"> (v. 0.0.2) </span>
+				RWD Wireframes <span id="version"> (v. 0.1.0) </span>
 			</h1>
 			<div class="main-menu">
-				<button class="tool-view" data-trigger="InstructionsButton:click"><i title="Tutorial" class="icon-question-sign"></i> </button>
-				<button class="tool-view user" data-trigger="LoginButton:click"><i title="Login" class="icon-user"></i> </button>
-				<button class="tool-view" data-trigger="SocialButton:click"><i title="Social" class="icon-thumbs-up"></i></button>
+				<div class="top-tooltip hidden"></div>
+				<button class="tool-view" data-trigger="InstructionsButton:click" data-title="Tutorial"><i class="icon-question-sign"></i> </button>
+				<button class="tool-view user" data-trigger="LoginButton:click" data-title="Login"><i class="icon-user"></i> </button>
+				<button class="tool-view" data-trigger="SocialButton:click" data-title="Social"><i class="icon-thumbs-up"></i></button>
 			</div>
 		</nav>
 
-			<aside class="side-bar">
-				<div class="side-tooltip hidden"></div>
-				<button class="tool-view" data-trigger="EditWidthButton:click" data-title="Viewports"><i class="icon-pencil"></i> </button>
-				<button class="tool-view" data-trigger="NewElementButton:click" data-title="New Element"><i class="icon-plus"></i> </button>
-				<button class="tool-view" data-trigger="SaveLayoutButton:click" data-title="Save"><i class="icon-save"></i> </button>
-			</aside>
-			<div class="container">
-				<div id="sizes">
-				</div>
-
-				<div class="main-view">
-
-				</div>
+		<aside class="side-bar">
+			<div class="side-tooltip hidden"></div>
+			<button class="tool-view" data-trigger="EditWidthButton:click" data-title="Edit Viewports"><i class="icon-desktop"></i> </button>
+			<button class="tool-view" data-trigger="NewElementButton:click" data-title="New Element"><i class="icon-plus"></i> </button>
+			<button class="tool-view" data-trigger="ElementsOverviewButton:click" data-title="Sort Elements"><i class="icon-sort-by-attributes-alt"></i></button>
+			<button class="tool-view" data-trigger="SaveLayoutButton:click" data-title="Save Layout"><i class="icon-save"></i> </button>
+		</aside>
+		<div class="container no-select">
+			<div id="sizes">
 			</div>
-			<aside class="elements-preview">
-				<div class="preview-handle"><span class="rotate90 label">Elements</span></div>
-				<div class="preview-content">
-					<h3> Order or Disable Elements </h3>
-					<p class="notes"> Here you can order the element layers (think like PS layer order) for a particular view. <br/>
-					<strong> Also, you can disable elements for a particular view, simply drag the element to the disabled section</strong> </p>
-					<br/> 
-					<h4>Visible</h4>
-					<ul id="previewVisible" class="preview-list">
-						<!-- Visible Element Preview goes in here -->
-					</ul>
-					<br/>
-					<h4>Disabled</h4>
-					<ul id="previewDisable" class="preview-list">
-						<!-- Invisible Element Preview goes in here -->
-					</ul>
-				</div>
-			</aside>
+
+			<div class="main-view">
+
+			</div>
+		</div>
+		<div class="elements-overview no-select hidden">
+			<div class="handle">
+				<button class="close"><i class="icon-remove"></i></button>
+				<h3> Order or Disable Elements </h3>
+			</div>
+			<div class="overview-content">
+				<p class="help hidden"> Here you can order the element layers (think like PS layer order) for a particular view. <br/>
+				<strong> Also, you can disable elements for a particular view, simply drag the element to the disabled section</strong> </p>
+				<h4>Visible</h4>
+				<ul id="overviewVisible" class="overview-list">
+					<!-- Visible Element Overview goes in here -->
+				</ul>
+				<h4>Disabled</h4>
+				<ul id="overviewDisable" class="overview-list">
+				</ul>
+			</div>
+		</div>
 
 		<div class="notification">
 		</div>
@@ -144,9 +146,7 @@
 		</div>
 
 		<div class="user-overlay hidden overlay">
-
 		</div>
-
 		<div class="width-overlay hidden overlay"></div>
 
 		<div class="edit-overlay hidden overlay"></div>
@@ -160,11 +160,10 @@
 				<br><a data-pin-config="beside" href="//pinterest.com/pin/create/button/?url=http%3A%2F%2Fwww.lifeishao.com%2Frwdwire&media=http%3A%2F%2Fwww.lifeishao.com%2Frwdwire%2Fpublic%2Fimg%2Fstep1.png&description=RWD%20Wireframes" data-pin-do="buttonPin" ><img src="//assets.pinterest.com/images/pidgets/pin_it_button.png" /></a>
 				<br> 
 				<div class="fb-like" data-send="false" data-width="100" data-show-faces="false"></div> <br>
-				<a href="https://www.facebook.com/rwdwire" target="_blank" class="facebook button confirm">Go To Facebook Page</a>
-				<button class="facebook button confirm" id="AppShare" onclick='postToFeedApp(); return false;'>Share This App!</button>
+				<button class="facebook button confirm" id="AppShare" onclick='postToFeedApp(); return false;'>Share This App!</button><br>
 				<button class="facebook button confirm disable" disabled="true" id="LayoutShare" onclick='postToFeedLayout(); return false;'>Share Your Layout!</button>
-				<span>&lt;--only when you save a layout</span>
-				<br><br>			
+				<span><i class="icon-arrow-left"></i> only when you save a layout</span>
+				<br><br>
 			</div>
 		<div>
 		<!-- Templates -->
@@ -190,15 +189,14 @@
 				<div id="loginError" class="error hidden"></div>
 				<form id="loginForm">
 					<label> Email: </label>
-					<input type="email" name="email" id="inputEmail"><br/>
+					<input type="email" class="input input-large" name="email" id="inputEmail"><br/>
 					<label> Password: </label>
-					<input type="password" name="password" id="inputPass"><br/>
+					<input type="password" class="input input-large" name="password" id="inputPass"><br/>
 					<br/>
-					<button type="submit" id="loginSubmit" class="btn-large"><i class="icon-ok"></i> Login</button>
+					<button type="submit" id="loginSubmit" class="btn-large btn success"><i class="icon-ok"></i> Login</button>
 				</form>
 				Or 
-				<br/>
-				<button id="registerButton" class="btn-large"><i class="icon-key"></i> Register </button>
+				<button id="registerButton" class="btn"><i class="icon-key"></i> Register </button>
 				<br/>
 			</div>
 		</script>
@@ -209,11 +207,11 @@
 				<div id="registerError" class="error hidden"></div>
 				<form id="registerForm">
 					<label> Email: </label>
-					<input type="email" name="email" id="inputRegisterEmail"><br/>
+					<input type="email" class="input input-large" name="email" id="inputRegisterEmail"><br/>
 					<label> Password: </label>
-					<input type="password" name="password" id="inputRegisterPass"><br/>
+					<input type="password" class="input input-large" name="password" id="inputRegisterPass"><br/>
 					<label> Confirm Password: </label>
-					<input type="password" name="vpassword" id="vinputRegisterPass"><br/><br/>
+					<input type="password" class="input input-large" name="vpassword" id="vinputRegisterPass"><br/><br/>
 					<button type="submit" class="btn-large"><i class="icon-ok"></i> Submit </button>
 				</form>
 			</div>
@@ -245,9 +243,9 @@
 		</script>
 		<script id="widthFormItemTemp" type="text/template">
 			<div class="width-form-item" data-cid="<%= cid %>">
-			Width: <input type="text" value="<%= xmax %>" class="edit-width" /> <br/>
-			Height: <input type="text" value="<%=y%>" class="edit-height"/> <br/>
-			Title: <input type="text" value="<%=title%>" class="edit-title"/> <br/>
+			Width: <input type="text" value="<%= xmax %>" class="edit-width input" /> 
+			Height: <input type="text" value="<%=y%>" class="edit-height input"/> <br/>
+			Title: <input type="text" value="<%=title%>" class="edit-title input"/>
 			Color: <input type="color" value="<%=viewportColor%>" class="edit-vcolor"/> <br/>
 			<button class="remove-width danger" title="Remove This Width">Remove</button>
 			</div>
@@ -262,14 +260,14 @@
 				</p> 
 				<br/>
 				<form id="editElementForm">
-					Name: <input type="text" class="input-name" value="<%=name%>"/><br/>
+					Name: <input type="text" class="input-name input" value="<%=name%>"/><br/>
 					<span class="top">Content: </span><br/>
 					<textarea name="element-content" class="input-content" ><%=content%></textarea>
 
 					<br/>
 					Background Color: <input class="input-bcolor" type="color" size="7" value="<%= bcolor %>">
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					Opacity: <input class="input-opacity" type="text" value="<%= opacity %>" size="4"/>
+					Opacity: <input class="input-opacity input" type="text" value="<%= opacity %>" size="4"/>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<button class="remove-element danger" type="button"> <i class="icon-exclamation-sign"></i> Remove Element</button>
 					<br/>
@@ -281,58 +279,60 @@
 
 			</div>
 		</script>
-		<script id="previewElementItemTemp" type="text/template">
-			<li class="preview-element-item" id="<%=cid%>"><%= name %></li>
+		<script id="overviewElementItemTemp" type="text/template">
+			<li class="overview-element-item" id="<%=cid%>"><%= name %></li>
 		</script>
 		<script id="notificationItemTemp" type="text/template">
 			<div class="notification-item <%=className%>" title="Click to dismiss">
-				<p class="notification-type"><%=type%> </p>
-				<p class="notification-message"> <%=message%></p>
+				<div class="inner">
+				    <h3><%=type%> </h3>
+				    <%=message%>
+				</div>
 			</div>
 		</script>
 		<!--Social Plugins -->
-			<script>
-				function postToFeedApp(){
-					FB.ui(
-						{
-					    method: 'feed',
-					    name: 'RWD Wireframes',
-					    link: 'http://www.lifeishao.com/rwdwire',
-					    picture: 'http://www.lifeishao.com/rwdwire/public/img/step' + Math.round(Math.random()*7) + '.png',
-					    caption: 'Checkout this app!',
-					    description: 'An app that makes responsive design easy for designers'
-					  },
-					  function(response) {
-					    if (response && response.post_id) {
-					      $("#AppShare").html("(Posted)").addClass("disable").attr("disabled","");
-					    } else {
-					      alert('Post was not published.');
-					    }
-					  }
-					);
-				}
-				function postToFeedLayout(){
-					FB.ui(
-					  {
-					    method: 'feed',
-					    name: 'My RWD Wireframes',
-					    link: (function(){
-					    	return document.URL;
-					    }()),
-					    picture: 'http://www.lifeishao.com/rwdwire/public/img/step' + Math.round(Math.random()*7) + '.png',
-					    caption: 'Look what I made!',
-					    description: 'I made a responsive wireframe!'
-					  },
-					  function(response) {
-					    if (response && response.post_id) {
-					      $("#LayoutShare").html("(Posted)").addClass("disable").attr("disabled","");
-					    } else {
-					      alert('Post was not published.');
-					    }
-					  }
-					);
-				}
-				</script>
+		<script>
+			function postToFeedApp(){
+				FB.ui(
+					{
+				    method: 'feed',
+				    name: 'RWD Wireframes',
+				    link: 'http://www.lifeishao.com/rwdwire',
+				    picture: 'http://www.lifeishao.com/rwdwire/public/img/step' + Math.round(Math.random()*7) + '.png',
+				    caption: 'Checkout this app!',
+				    description: 'An app that makes responsive design easy for designers'
+				  },
+				  function(response) {
+				    if (response && response.post_id) {
+				      $("#AppShare").html("(Posted)").addClass("disable").attr("disabled","");
+				    } else {
+				      alert('Post was not published.');
+				    }
+				  }
+				);
+			}
+			function postToFeedLayout(){
+				FB.ui(
+				  {
+				    method: 'feed',
+				    name: 'My RWD Wireframes',
+				    link: (function(){
+				    	return document.URL;
+				    }()),
+				    picture: 'http://www.lifeishao.com/rwdwire/public/img/step' + Math.round(Math.random()*7) + '.png',
+				    caption: 'Look what I made!',
+				    description: 'I made a responsive wireframe!'
+				  },
+				  function(response) {
+				    if (response && response.post_id) {
+				      $("#LayoutShare").html("(Posted)").addClass("disable").attr("disabled","");
+				    } else {
+				      alert('Post was not published.');
+				    }
+				  }
+				);
+			}
+			</script>
 			<!-- Facebook SDK Initialization -->
 			<div id="fb-root"></div>
 			<script src="public/js/facebook-init.js"></script>

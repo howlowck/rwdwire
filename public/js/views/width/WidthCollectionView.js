@@ -3,23 +3,23 @@ define(['models/Width', 'collections/WidthCollection', 'views/width/WidthView'],
 		var WidthCollectionView = Backbone.View.extend({
 			el: $("#sizes"),
 
-			initialize: function(options) {
+			initialize: function (options) {
 				this.dispatch = options.dispatch;
-				this.listenTo(this.collection,"reset add destroy change:xmax", this.render);
+				this.listenTo(this.collection, "reset add destroy change:xmax", this.render);
 			},
 			render: function () {
 				this.calcWidthDim();
 				this.$el.empty();
-				this.collection.each(function (widthModel){
+				this.collection.each(function (widthModel) {
 					this.addModelToView(widthModel);
-				},this);
+				}, this);
 				return this;
 			},
 			calcWidthDim: function () {
 				var prevMax = 0;
 				this.collection.sort();
 				this.collection.each(
-					function(model){
+					function (model) {
 						if (prevMax !== 0) {
 							model.set("xmin", prevMax + 1);
 						} else {
@@ -30,7 +30,7 @@ define(['models/Width', 'collections/WidthCollection', 'views/width/WidthView'],
 				);
 			},
 			addModelToView: function (widthModel) {
-				var tempView = new WidthView( {model: widthModel, dispatch: this.dispatch});
+				var tempView = new WidthView({model: widthModel, dispatch: this.dispatch});
 				this.$el.append(tempView.render().el);
 			}
 		});

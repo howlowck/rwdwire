@@ -1,29 +1,56 @@
-define(['backbone','jqueryui'], function (Backbone)
+define(['backbone', 'jqueryui'], function (Backbone)
 	{
 		var PreviewElementsCollectionView = Backbone.View.extend({
-			el: $(".elements-preview"),
-			template: _.template($("#previewElementItemTemp").html()),
+			el: $(".elements-overview"),
+			template: _.template($("#overviewElementItemTemp").html()),
 			opened: false,
 			events: {
-				"click .preview-handle":"toggleOpenState",
-				"sortupdate .preview-list": "updateSort"
+				"click .overview-handle": "toggleOpenState",
+				"click .close" : "close",
+				"mouseenter" : "enterFade",
+				"mouseleave": "exitFade",
+				"sortupdate .overview-list": "updateSort",
+				"dragstart": "addDragClass",
+				"dragstop": "removeDragClass"
 			},
-
 			initialize: function (options) {
 				this.dispatch = options.dispatch;
 				this.listenTo(this.collection, "sort destroy change:name", this.render);
 			},
 			toggleOpenState: function () {
 				if (!this.opened) {
-					this.$el.addClass("opened");
-					this.opened = true;
+					this.open();
 				} else {
-					this.$el.removeClass("opened");
-					this.opened = false;
+					this.close();
 				}
 			},
-			updateSort: function (e, ui){
-				this.dispatch.trigger("PreviewElementCollection:sortupdate", {visible: $("#previewVisible").sortable("toArray"), disable: $("#previewDisable").sortable("toArray")});
+			open: function () {
+				this.$el.removeClass("hidden");
+				this.opened = true;
+			},
+			close: function () {
+				this.$el.addClass("hidden");
+				this.opened = false;
+			},
+			enterFade: function () {
+				this.$el.css("opacity", 1);
+			},
+			exitFade: function () {
+				this.$el.css("opacity", 0.5);
+			},
+			addDragClass: function () {
+				this.$el.addClass("dragging");
+			},
+			removeDragClass: function () {
+				this.$el.removeClass("dragging");
+			},
+			updateSort: function () {
+				this.dispatch.trigger(
+					"OverviewElementCollection:sortupdate", {
+						visible: this.$("#overviewVisible").sortable("toArray"),
+						disable: this.$("#overviewDisable").sortable("toArray")
+					}
+				);
 			},
 			render: function () {
 				var self = this,
@@ -37,16 +64,16 @@ define(['backbone','jqueryui'], function (Backbone)
 					} else {
 						invisOutput += self.template(data);
 					}
-					
 				});
-				self.$el.find("#previewVisible").html(visOutput);
-				self.$el.find("#previewDisable").html(invisOutput);
-				self.$el.find( "#previewVisible, #previewDisable" ).sortable({
-					connectWith: ".preview-list"
+				self.$el.find("#overviewVisible").html(visOutput);
+				self.$el.find("#overviewDisable").html(invisOutput)
+						.append("<span class='placeholder'>Drag here to disable</span>");
+				self.$el.find("#overviewVisible, #overviewDisable").sortable({
+					connectWith: ".overview-list"
 				});
+				self.$el.draggable({handle: 'h3'});
 				return self;
 			}
-
 		});
 		return PreviewElementsCollectionView;
 	}

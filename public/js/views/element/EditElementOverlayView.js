@@ -25,10 +25,14 @@ define(['backbone'], function (Backbone)
 				this.model.destroy();
 				this.close();
 			},
-			show: function (model) {
+			open: function (model) {
 				this.model = model;
 				this.render();
 			},
+			// show: function (model) {
+			// 	this.model = model;
+			// 	this.render();
+			// },
 			close: function (e) {
 				this.$el.addClass("hidden");
 			},
@@ -39,8 +43,7 @@ define(['backbone'], function (Backbone)
 			render: function () {
 				this.$el.html(this.template(this.model.toJSON()));
 				//this.$el.find(".input-content").height(this.model.get("height")).width(this.model.get("width"));
-				require(["CKEditor"], $.proxy(this.showEditor,this));
-				
+				require(["CKEditor"], $.proxy(this.showEditor, this));
 				this.$el.removeClass("hidden");
 				return this;
 			}

@@ -54,8 +54,8 @@ define(['backbone','models/Element','jqueryui'], function (Backbone, Element)
 					"height": this.model.get("height"),
 					"z-index": this.model.get("zindex"),
 					"opacity": this.model.get("opacity"),
-					"visibility": visibleValue});
-				
+					"visibility": visibleValue
+				});
 				this.$el.resizable({
 					ghost: true,
 					handles: 'n, e, s, w, ne, se, sw, nw ',

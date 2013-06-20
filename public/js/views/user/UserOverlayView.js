@@ -11,7 +11,7 @@ define(['backbone','models/User','crypto','timeago'], function (Backbone, User, 
 			userTemplate: _.template($("#userOverlayTemp").html()),
 			events: {
 				"submit #loginForm" : "onLoginSubmit",
-				"click .close" : "closeOverlay",
+				"click .close" : "close",
 				"click #registerButton" : "renderRegister",
 				"submit #registerForm" : "onRegisterSubmit"
 			},
@@ -30,7 +30,7 @@ define(['backbone','models/User','crypto','timeago'], function (Backbone, User, 
 							self.showError("#loginError", resp.error);
 						} else {
 							model.set(resp);
-							self.closeOverlay();
+							self.close();
 							self.dispatch.trigger("UserLogin:success", {user: self.model});
 						}
 					}
@@ -56,7 +56,7 @@ define(['backbone','models/User','crypto','timeago'], function (Backbone, User, 
 						self.showError("#registerError", data.error);
 					} else {
 						self.model.set(data);
-						self.closeOverlay();
+						self.close();
 						self.dispatch.trigger("UserLogin:success", {user: self.model});
 					}
 				});
@@ -64,7 +64,7 @@ define(['backbone','models/User','crypto','timeago'], function (Backbone, User, 
 			initialize: function (options) {
 				this.dispatch = options.dispatch;
 			},
-			closeOverlay: function () {
+			close: function () {
 				this.$el.addClass("hidden");
 			},
 			hideError: function () {

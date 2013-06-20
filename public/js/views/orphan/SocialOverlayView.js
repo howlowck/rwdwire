@@ -8,7 +8,10 @@ define(['backbone'], function (Backbone)
 			close: function (e) {
 				this.$el.addClass("hidden");
 			},
-			show: function () {
+			// show: function () {
+			// 	this.$el.removeClass("hidden");
+			// },
+			open: function () {
 				this.$el.removeClass("hidden");
 			},
 			changeShare: function (){

@@ -5,7 +5,7 @@ define(['backbone'], function (Backbone)
             initialize: function (options) {
                 var ins = this;
                 ins.dispatch = options.dispatch;
-                $("button").hover(function () {
+                ins.$("button").hover(function () {
                     ins.showToolTip($(this));
                 }, function () {
                     ins.hideToolTip();
@@ -13,6 +13,12 @@ define(['backbone'], function (Backbone)
             },
             events: {
                 "click button" : "buttonTrigger"
+            },
+            hide: function () {
+                this.$el.addClass("hide");
+            },
+            show: function () {
+                this.$el.removeClass("hide");
             },
             buttonTrigger: function (e) {
                 this.dispatch.trigger($(e.currentTarget).data("trigger"));
