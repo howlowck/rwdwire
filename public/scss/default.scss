@@ -499,14 +499,15 @@ nav#main-nav{
                 top: 5px;
                 right: 5px;
                 border-radius: 3px;
-                border-color: lighten($gray, 20%);
+                border-color: lighten($blue, 20%);
                 border-width: 1px;
                 border-style: solid;
                 background-color: #eeeeee;
-                color: lighten($gray, 20%);
+                color: lighten($blue, 20%);
                 font-size: 12px;
                 text-align: center;
                 cursor: move;
+
             }
             &.handle-e{
                 right: 0;
