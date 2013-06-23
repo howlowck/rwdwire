@@ -15,3 +15,8 @@ The main application is mainly located in `public/js`.  The Entry point is `main
 After you clone the repo, you will need [bower](https://github.com/twitter/bower) to install the dependencies.
 
 You'll need to create a facebook.js file in `public/js/`. You can read about [facebook SDK](https://developers.facebook.com/docs/reference/javascript/#loading). facebook.js is the initialization code.
+
+## TODO
+1. Convert Server from Codeigniter to Laravel 4
+2. Better testing
+3. Better, persistent authentication

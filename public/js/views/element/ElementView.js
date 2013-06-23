@@ -3,28 +3,21 @@ define(['backbone','models/Element','jqueryui'], function (Backbone, Element)
 		var ElementView = Backbone.View.extend({
 			className: "element-view",
 			template: _.template($("#elementViewTemp").html()),
-			cssAnimateSetting:{
-				"-webkit-transition": "top 0.5s, left 0.5s, width 0.5s, height 0.5s, opacity 0.5s", /* Safari and Chrome */
-				"-moz-transition": "top 0.5s, left 0.5s, width 0.5s, height 0.5s, opacity 0.5s", /* Firefox 4 */
-				"-ms-transition": "top 0.5s, left 0.5s, width 0.5s, height 0.5s, opacity 0.5s", /* MS */
-				"-o-transition": "top 0.5s, left 0.5s, width 0.5s, height 0.5s, opacity 0.5s", /* Opera */
-				"transition": "top 0.5s, left 0.5s, width 0.5s, height 0.5s, opacity 0.5s"
-			},
 			events: {
 				"click .remove-element" : "removeElement",
 				"dblclick": "editContent"
 			},
-
 			initialize: function (options) {
-				
 				this.dispatch = options.dispatch;
-				this.listenTo(this.model, "reset change", this.render);
+				console.log("i'm initializing it???");
+				this.listenTo(this.model, "reset", this.render);
+				this.listenTo(this.model, "change", this.refresh);
 				this.listenTo(this.model, "destroy", this.remove);
 
 				this.$el.append('<div class="inner"></div>');
 				this.render();
 
-				this.$el.css({"position": "absolute"}).css(this.cssAnimateSetting);
+				this.$el.css({"position": "absolute"});
 			},
 			dispatcherTriggerResize: function (ui) {
 				this.dispatch.trigger("ElementView:resize", {cid: this.model.cid, ui: ui});
@@ -32,21 +25,169 @@ define(['backbone','models/Element','jqueryui'], function (Backbone, Element)
 			dispatcherTriggerMove: function (ui) {
 				this.dispatch.trigger("ElementView:move", {cid: this.model.cid, ui: ui});
 			},
-
 			editContent: function () {
 				this.dispatch.trigger("element:edit", {cid: this.model.cid});
 			},
-			
-			removeElement: function (){
+			removeElement: function () {
 				this.model.destroy();
 			},
-			
+			showHandle: function () {
+				this.$el.addClass("show-handle");
+			},
+			hideHandle: function () {
+				this.$el.removeClass("show-handle");
+			},
+			iniHandles: function () {
+				var ins = this,
+					$element,
+					$ghost,
+					oriWidth,
+					oriHeight,
+					oriX,
+					oriY;
+				ins.$el.append($("#resizableMarkers").html());
+				ins.$(".marker-e").draggable({
+					"axis" : "x",
+					"start": function () {
+						$element = $(this).parent().parent();
+						$ghost = $element.find(".element-resize-ghost");
+						$ghost.removeClass("hidden");
+						oriWidth = ins.model.get("width");
+						oriHeight = ins.model.get("height");
+						oriX = ins.model.get("x");
+						oriY = ins.model.get("y");
+						$element.addClass("no-transition");
+					},
+					"drag" : function (e, ui) {
+						$ghost.css("width", (oriWidth + (ui.position.left - ui.originalPosition.left)) + "px");
+					},
+					"stop" : function (e, ui) {
+						$ghost.addClass("hidden");
+						$element.css("width", $ghost.css("width"));
+						$(this).css("left", "-3px");
+						$element.removeClass("no-transition");
+						ui = {
+							size: {
+								width: parseInt($ghost.css("width"), 10) + 1,
+								height: oriHeight
+							},
+							position: {
+								left: oriX,
+								top: oriY
+							}
+						};
+						ins.dispatcherTriggerResize(ui);
+					}
+				});
+				ins.$(".marker-s").draggable({
+					"axis" : "y",
+					"start": function () {
+						$element = $(this).parent().parent();
+						$ghost = $element.find(".element-resize-ghost");
+						$ghost.removeClass("hidden");
+						oriWidth = ins.model.get("width");
+						oriHeight = ins.model.get("height");
+						oriX = ins.model.get("x");
+						oriY = ins.model.get("y");
+						$element.addClass("no-transition");
+					},
+					"drag" : function (e, ui) {
+						$ghost.css("height", (oriHeight + (ui.position.top - ui.originalPosition.top)) + "px");
+					},
+					"stop" : function (e, ui) {
+						$ghost.addClass("hidden");
+						$element.css("height", $ghost.css("height"));
+						$(this).css("top", "-4px");
+						$element.removeClass("no-transition");
+						ui = {
+							size: {
+								width: oriWidth,
+								height: parseInt($ghost.css("height"), 10) + 1
+							},
+							position: {
+								left: oriX,
+								top: oriY
+							}
+						};
+						ins.dispatcherTriggerResize(ui);
+					}
+				});
+				ins.$(".marker-se").draggable({
+					"start": function () {
+						$element = $(this).parent().parent();
+						$ghost = $element.find(".element-resize-ghost");
+						$ghost.removeClass("hidden");
+						oriWidth = ins.model.get("width");
+						oriHeight = ins.model.get("height");
+						oriX = ins.model.get("x");
+						oriY = ins.model.get("y");
+						$element.addClass("no-transition");
+					},
+					"drag" : function (e, ui) {
+						$ghost.css("width", (oriWidth + (ui.position.left - ui.originalPosition.left)) + "px")
+							.css("height", (oriHeight + (ui.position.top - ui.originalPosition.top)) + 1 + "px");
+					},
+					"stop" : function (e, ui) {
+						$ghost.addClass("hidden");
+						$element.css("height", $ghost.css("height"));
+						$(this).css({
+							"right": "-5px",
+							"bottom": "-4px",
+							"left": "auto",
+							"top": "auto"
+						});
+						$element.removeClass("no-transition");
+						ui = {
+							size: {
+								width: parseInt($ghost.css("width"), 10) + 1,
+								height: parseInt($ghost.css("height"), 10) + 1
+							},
+							position: {
+								left: oriX,
+								top: oriY
+							}
+						};
+						ins.dispatcherTriggerResize(ui);
+					}
+				});
+			},
 			render: function () {
-				var self = this,
-					visibleValue = this.model.get("disable")? "hidden" :"visible";
+				var ins = this,
+					visibleValue = this.model.get("disable") ? "hidden" : "visible";
+				ins.$el.children(".inner").html(ins.template(ins.model.toJSON()))
+						.position({left: ins.model.get("x"), top: ins.model.get("y")});
+				ins.$el.attr("title", "Double Click to Edit Element").css({
+					"background-color": ins.model.get("bcolor"),
+					"left" : ins.model.get("x"),
+					"top" : ins.model.get("y"),
+					"width": ins.model.get("width"),
+					"height": ins.model.get("height"),
+					"z-index": ins.model.get("zindex"),
+					"opacity": ins.model.get("opacity"),
+					"visibility": visibleValue
+				});
+				ins.$el.draggable({
+					handle: ".handle-drag",
+					start: function () {
+						ins.$el.addClass("no-transition");
+					},
+					stop: function (event, ui) {
+						ins.$el.removeClass("no-transition");
+						ins.dispatcherTriggerMove(ui);
+					}
+				}).hover(function () {
+					ins.showHandle();
+				}, function () {
+					ins.hideHandle();
+				});
+				ins.iniHandles();
+				return ins;
+			},
+			refresh: function () {
+				var visibleValue = this.model.get("disable") ? "hidden" : "visible";
 				this.$el.children(".inner").html(this.template(this.model.toJSON()))
-						.position({left: this.model.get("x"), top: this.model.get("y")});
-				this.$el.attr("title", "Double Click to Edit Element").css({
+					.position({left: this.model.get("x"), top: this.model.get("y")});
+				this.$el.css({
 					"background-color": this.model.get("bcolor"),
 					"left" : this.model.get("x"),
 					"top" : this.model.get("y"),
@@ -56,29 +197,6 @@ define(['backbone','models/Element','jqueryui'], function (Backbone, Element)
 					"opacity": this.model.get("opacity"),
 					"visibility": visibleValue
 				});
-				this.$el.resizable({
-					ghost: true,
-					handles: 'n, e, s, w, ne, se, sw, nw ',
-					stop: function (event, ui) {
-						self.dispatcherTriggerResize(ui);
-					}
-				}).draggable({
-					//stack: ".element-view",
-					start: function () {
-						self.$el.css({
-							"-webkit-transition": "none", /* Safari and Chrome */
-							"-moz-transition": "none", /* Firefox 4 */
-							"-ms-transition": "none", /* MS */
-							"-o-transition": "none", /* Opera */
-							"transition": "none"
-						});
-					},
-					stop: function (event, ui) {
-						self.$el.css(self.cssAnimateSetting);
-						self.dispatcherTriggerMove(ui);
-					}
-				});
-				return this;
 			}
 		});
 		return ElementView;

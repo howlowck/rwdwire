@@ -25,7 +25,7 @@ define(['backbone'], function (Backbone)
             },
             showToolTip: function ($this) {
                 var $tooltip = this.$(".side-tooltip");
-                $tooltip.html($this.data("title")).css("top", $this.offset().top - 50 + "px").removeClass("hidden");
+                $tooltip.html($this.data("title")).css("top", $this.position().top + "px").removeClass("hidden");
             },
             hideToolTip: function () {
                 this.$(".side-tooltip").addClass("hidden");

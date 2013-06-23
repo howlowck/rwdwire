@@ -5,7 +5,7 @@ define(['backbone'], function (Backbone)
             initialize: function (options) {
                 this.dispatch = options.dispatch;
                 var ins = this;
-                ins.$("button").hover(function () {
+                ins.$(".tool-view").hover(function () {
                     ins.showToolTip($(this));
                 }, function () {
                     ins.hideToolTip();
@@ -27,7 +27,7 @@ define(['backbone'], function (Backbone)
             },
             showToolTip: function ($this) {
                 var $tooltip = this.$(".top-tooltip");
-                $tooltip.html($this.data("title")).css("left", $this.offset().left - this.$el.offset().left - 30 + "px").removeClass("hidden");
+                $tooltip.html($this.data("title")).css("left", $this.offset().left - this.$el.offset().left - 75 + "px").removeClass("hidden");
             },
             hideToolTip: function () {
                 this.$(".top-tooltip").addClass("hidden");

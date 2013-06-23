@@ -243,8 +243,8 @@ define(["backbone",
 
 			resizeElement: function (payload) {
 				var modelSpec = (function () {
-					var x = payload.ui.position.left - this.elementsCollectionView.$el.offset().left - 1,
-						y = payload.ui.position.top - this.elementsCollectionView.$el.offset().top,
+					var x = payload.ui.position.left ;//- this.elementsCollectionView.$el.offset().left - 1,
+						y = payload.ui.position.top ;//- this.elementsCollectionView.$el.offset().top,
 						width = payload.ui.size.width,
 						height = payload.ui.size.height;
 					return {x: x, y: y, width: width, height: height};

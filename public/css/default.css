@@ -104,8 +104,8 @@ button.disabled:active, .btn.disabled:active {
 
 .notification {
   position: fixed;
-  bottom: 0;
-  right: 0;
+  top: 40px;
+  right: 20px;
   z-index: 2000;
 }
 .notification .notification-item {
@@ -131,7 +131,8 @@ button.disabled:active, .btn.disabled:active {
   border-width: 1px;
   border-style: solid;
   padding: 10px 10px 10px 10px;
-  box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.7);
+  margin-right: 20px;
   color: #194159;
 }
 .notification .notification-item.success {
@@ -176,9 +177,9 @@ nav#main-nav .top-tooltip {
   top: 57px;
   position: absolute;
   display: inline;
-  width: 100px;
+  width: 120px;
   background-color: #2f7ba9;
-  padding: 10px;
+  padding: 0 10px;
   box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.4);
   border-radius: 4px;
   color: #ecf0f1;
@@ -192,8 +193,7 @@ nav#main-nav .top-tooltip:after {
   border: solid transparent;
   content: " ";
   pointer-events: none;
-  left: 50%;
-  margin-left: -10px;
+  right: 10px;
   border-width: 10px;
   border-bottom-color: #2f7ba9;
 }
@@ -211,7 +211,10 @@ nav#main-nav .main-menu {
   right: 30px;
   display: inline-block;
 }
-nav#main-nav .main-menu button.tool-view {
+nav#main-nav .main-menu a {
+  line-height: normal;
+}
+nav#main-nav .main-menu .tool-view {
   display: inline-block;
   font-size: 1.5em;
   color: #ecf0f1;
@@ -219,23 +222,23 @@ nav#main-nav .main-menu button.tool-view {
   background-image: none;
   background-color: rgba(0, 0, 0, 0);
 }
-nav#main-nav .main-menu button.tool-view:hover {
+nav#main-nav .main-menu .tool-view:hover {
   background-color: rgba(250, 250, 250, 0.2);
 }
-nav#main-nav .main-menu button.tool-view:active {
+nav#main-nav .main-menu .tool-view:active {
   color: #d0d0d0;
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(0, 0, 0, 0.4)), to(rgba(250, 250, 250, 0.3)));
   background-image: -moz-linear-gradient(rgba(0, 0, 0, 0.4), rgba(250, 250, 250, 0.3));
   background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(250, 250, 250, 0.3));
 }
-nav#main-nav .main-menu button.tool-view.active {
+nav#main-nav .main-menu .tool-view.active {
   color: #d0d0d0;
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(0, 0, 0, 0.4)), to(rgba(250, 250, 250, 0.3)));
   background-image: -moz-linear-gradient(rgba(0, 0, 0, 0.4), rgba(250, 250, 250, 0.3));
   background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(250, 250, 250, 0.3));
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5) inset;
 }
-nav#main-nav .main-menu button.tool-view.notification:active {
+nav#main-nav .main-menu .tool-view.notification:active {
   background-image: none;
 }
 
@@ -377,11 +380,12 @@ nav#main-nav .main-menu button.tool-view.notification:active {
   transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
 }
 .container .element-view {
-  border: 1px rgba(0, 0, 0, 0.3) solid;
+  border-width: 1px;
+  border-color: rgba(0, 0, 0, 0.3);
+  border-style: solid;
   border-radius: 2px;
-  overflow: hidden;
+  cursor: pointer;
   z-index: 4;
-  cursor: move;
   -webkit-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
   /* Safari and Chrome */
   -moz-transition: width 0.5s, height 0.5s, background-color 0.5s, left 0.5s, right 0.5s, top 0.5s, opacity 0.5s;
@@ -397,11 +401,91 @@ nav#main-nav .main-menu button.tool-view.notification:active {
 }
 .container .element-view .inner {
   position: relative;
-  margin: 5px;
+  padding: 5px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 .container .element-view .inner .content {
   font-family: Arial, Helvetica, sans-serif;
   position: inherit;
+}
+.container .element-view.show-handle {
+  border-style: dashed;
+  border-color: #2f7ba9;
+}
+.container .element-view.show-handle .handle {
+  display: block;
+}
+.container .element-view .element-resize-ghost {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  border-width: 4px;
+  border-color: rgba(0, 0, 0, 0.4);
+  border-style: solid;
+  background-color: rgba(255, 255, 255, 0.4);
+}
+.container .element-view .handle {
+  display: none;
+  position: absolute;
+}
+.container .element-view .handle .marker {
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;
+  border-color: #2f7ba9;
+  border-width: 1px;
+  border-style: solid;
+  background-color: #eeeeee;
+  position: absolute !important;
+  z-index: 2;
+}
+.container .element-view .handle.handle-drag {
+  width: 20px;
+  height: 20px;
+  top: 5px;
+  right: 5px;
+  border-radius: 3px;
+  border-color: #838383;
+  border-width: 1px;
+  border-style: solid;
+  background-color: #eeeeee;
+  color: #838383;
+  font-size: 12px;
+  text-align: center;
+  cursor: move;
+}
+.container .element-view .handle.handle-e {
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 1px;
+}
+.container .element-view .handle.handle-e .marker-e {
+  right: -5px;
+  top: 50%;
+  margin-top: -5px;
+  cursor: e-resize;
+}
+.container .element-view .handle.handle-s {
+  bottom: 0;
+  height: 1px;
+  width: 100%;
+}
+.container .element-view .handle.handle-s .marker {
+  bottom: -5px;
+}
+.container .element-view .handle.handle-s .marker.marker-se {
+  right: -5px;
+  cursor: se-resize;
+}
+.container .element-view .handle.handle-s .marker.marker-s {
+  left: 50%;
+  margin-left: -5px;
+  cursor: s-resize;
 }
 
 .elements-overview {
@@ -648,4 +732,15 @@ nav#main-nav .main-menu button.tool-view.notification:active {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+.no-transition {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  /* Firefox 4 */
+  -ms-transition: none !important;
+  /* MS */
+  -o-transition: none !important;
+  /* Opera */
+  transition: none !important;
 }

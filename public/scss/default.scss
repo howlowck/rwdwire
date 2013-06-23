@@ -100,7 +100,7 @@ body{
 // 	display: block;
 // 	@include rotate(90deg)
 // }
-button, .btn {
+button, .btn{
     position: relative;
     top: 0.07em;
     font-size: 1.5em;
@@ -190,8 +190,8 @@ button, .btn {
 }
 .notification{
     position: fixed;
-    bottom: 0;
-    right: 0;
+    top: 40px;
+    right: 20px;
     z-index: 2000;
     .notification-item {
         @include transition();
@@ -208,7 +208,8 @@ button, .btn {
         border-width: 1px;
         border-style: solid;
         padding: 10px 10px 10px 10px;
-        box-shadow: 0px 1px 6px rgba(0,0,0,0.5);
+        box-shadow: 0px 1px 10px rgba(0,0,0,0.7);
+        margin-right:  20px;
         color: $blue;
 
         &.success{
@@ -246,9 +247,9 @@ nav#main-nav{
         top: 57px;
         position: absolute;
         display: inline;
-        width: 100px;
+        width: 120px;
         background-color: lighten($blue, 20%);
-        padding: 10px;
+        padding: 0 10px;
         box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.4);
         border-radius: 4px;
         color: $white;
@@ -261,8 +262,7 @@ nav#main-nav{
             border: solid transparent;
             content: " ";
             pointer-events: none;
-            left: 50%;
-            margin-left: -10px;
+            right: 10px;
             border-width: 10px;
             border-bottom-color: lighten($blue, 20%);
         }
@@ -282,13 +282,18 @@ nav#main-nav{
     	position: absolute;
     	right: 30px;
     	display: inline-block;
-    	button.tool-view {
+        a {
+            line-height: normal;
+        }
+    	.tool-view {
 	        display:inline-block;
 	        font-size: 1.5em;
 	        color: $white;
 	        padding: 0 10px;
 	        background-image: none;
 	        background-color: rgba(0,0,0,0);
+
+
 	        &:hover{
 	        	background-color: rgba(250,250,250, 0.2);
 	        }
@@ -305,6 +310,7 @@ nav#main-nav{
 	            background-image: linear-gradient(rgba(0, 0, 0, 0.4),rgba(250, 250, 250, 0.3));
 	            box-shadow: 2px 2px 5px rgba(0,0,0,0.5) inset;
 	        }
+            
 	        &.notification{
 	            &:active{
 	                background-image: none;
@@ -434,23 +440,104 @@ nav#main-nav{
 		@include transition(0.5s);
 	}
 	.element-view {
-		border: 1px rgba(0, 0, 0, 0.3) solid;
+		border-width: 1px;
+        border-color: rgba(0, 0, 0, 0.3);
+        border-style: solid;
         border-radius: 2px;
-		overflow: hidden;
+        cursor: pointer;
 		z-index: 4;
-		cursor: move;
         @include transition();
 		.top{
 			vertical-align: top;
 		}
 		.inner {
 			position: relative;
-            margin: 5px;
+            padding: 5px;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
 			.content {
 				font-family: Arial, Helvetica, sans-serif;
 				position: inherit;
 			}
 		}
+        &.show-handle{
+            border-style: dashed;
+            border-color: lighten($blue, 20%);
+            .handle{
+                display: block;
+            }
+        }
+        .element-resize-ghost{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            border-width: 4px;
+            border-color: rgba(0, 0, 0, 0.4);
+            border-style: solid;
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+        .handle{
+            display: none;
+            position: absolute;
+            .marker{
+                width: 10px;
+                height: 10px;
+                border-radius: 10px;
+                border-color: lighten($blue, 20%);
+                border-width: 1px;
+                border-style: solid;
+                background-color: #eeeeee;
+                position: absolute !important;
+                z-index: 2;
+            }
+            &.handle-drag{
+                width: 20px;
+                height: 20px;
+                top: 5px;
+                right: 5px;
+                border-radius: 3px;
+                border-color: lighten($gray, 20%);
+                border-width: 1px;
+                border-style: solid;
+                background-color: #eeeeee;
+                color: lighten($gray, 20%);
+                font-size: 12px;
+                text-align: center;
+                cursor: move;
+            }
+            &.handle-e{
+                right: 0;
+                top: 0;
+                height: 100%;
+                width: 1px;
+                .marker-e{
+                    right: -5px;
+                    top: 50%;
+                    margin-top: -5px;
+                    cursor: e-resize;
+                }
+            }
+            &.handle-s{
+                bottom: 0;
+                height: 1px;
+                width: 100%;
+                .marker{
+                    bottom: -5px;
+                    &.marker-se{
+                        right: -5px;  
+                        cursor: se-resize;           
+                    }
+                    &.marker-s{
+                        left: 50%;
+                        margin-left: -5px;
+                        cursor: s-resize;
+                    }
+                }
+            }
+        }
 	}
 }
 
@@ -696,4 +783,11 @@ nav#main-nav{
 
 .no-select {
 	@include select(none);
+}
+.no-transition {
+    -webkit-transition: none !important;
+    -moz-transition: none !important;/* Firefox 4 */
+    -ms-transition: none !important;/* MS */
+    -o-transition: none !important;/* Opera */
+    transition: none !important;
 }

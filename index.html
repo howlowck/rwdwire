@@ -35,6 +35,7 @@
 				<button class="tool-view" data-trigger="InstructionsButton:click" data-title="Tutorial"><i class="icon-question-sign"></i> </button>
 				<button class="tool-view user" data-trigger="LoginButton:click" data-title="Login"><i class="icon-user"></i> </button>
 				<button class="tool-view" data-trigger="SocialButton:click" data-title="Social"><i class="icon-thumbs-up"></i></button>
+				<a class="tool-view btn" target="_blank" data-title="Feedback <i class='icon-external-link'></i>" href="mailto:haodesigns@gmail.com"><i class="icon-envelope-alt"></i></a>
 			</div>
 		</nav>
 
@@ -43,7 +44,7 @@
 			<button class="tool-view" data-trigger="EditWidthButton:click" data-title="Edit Viewports"><i class="icon-desktop"></i> </button>
 			<button class="tool-view" data-trigger="NewElementButton:click" data-title="New Element"><i class="icon-plus"></i> </button>
 			<button class="tool-view" data-trigger="ElementsOverviewButton:click" data-title="Sort Elements"><i class="icon-sort-by-attributes-alt"></i></button>
-			<button class="tool-view" data-trigger="SaveLayoutButton:click" data-title="Save Layout"><i class="icon-save"></i> </button>
+			<button class="tool-view" data-trigger="SaveLayoutButton:click" data-title="Save Layout"><i class="icon-cloud"></i> </button>
 		</aside>
 		<div class="container no-select">
 			<div id="sizes">
@@ -116,7 +117,7 @@
 						<h3 class="instruction-title">Order or Disable Elements</h3>
 						<div class="instruction-content">
 							<div class="instruction-image"><img src="public/img/step4.png" alt="Element layers"/></div>
-							<div class="instruction-message">For more complex designs, you might need to order the element in layers or disable elements in certain views. <br><br> In the sidebar on the right, you can simple drag and drop the elements to order or disable.  (For developers, it's simply done using zindex.)</div>
+							<div class="instruction-message">For more complex designs, you might need to order the element in layers or disable elements in certain views. <br><br> In the sidebar on the left, you'll find this <i class="icon-sort-by-attributes-alt"></i> icon. From the dialogue box, you can simple drag and drop the elements to order or disable.  (For developers, it's simply done using zindex.)</div>
 						</div>
 					</div>
 					<div class="pane pane-5 hidden">
@@ -260,7 +261,7 @@
 				</p> 
 				<br/>
 				<form id="editElementForm">
-					Name: <input type="text" class="input-name input" value="<%=name%>"/><br/>
+					Label: <input type="text" class="input-name input" value="<%=name%>"/><br/>
 					<span class="top">Content: </span><br/>
 					<textarea name="element-content" class="input-content" ><%=content%></textarea>
 
@@ -289,6 +290,19 @@
 				    <%=message%>
 				</div>
 			</div>
+		</script>
+		<script id="resizableMarkers" type="text/template">
+			<div class="handle handle-drag"><i class="icon-move"></i></div>
+
+		    <div class="handle handle-e">
+		        <div class="marker marker-e"></div>
+		    </div>
+		    <div class="handle handle-s">
+		        <div class="marker marker-se"></div>
+		        <div class="marker marker-s"></div>
+
+		    </div>
+		    <div class="element-resize-ghost hidden"></div>
 		</script>
 		<!--Social Plugins -->
 		<script>
