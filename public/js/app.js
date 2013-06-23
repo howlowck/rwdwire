@@ -255,7 +255,7 @@ define(["backbone",
 				this.elementsCollection.get(payload.cid).set({x: payload.ui.position.left, y: payload.ui.position.top});
 			},
 			successLogin: function () {
-				this.topMenu.$(".user").data("trigger", "UserInfo:click").children("i").attr("title", "User Info");
+				this.topMenu.$(".user").data("trigger", "UserInfo:click").data("title", "User Info");
 				this.notify("Yay!", "You are logged in", {"class": "success" });
 			}
 		});

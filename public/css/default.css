@@ -16,6 +16,10 @@ body {
   font-size: 15px;
 }
 
+a.btn {
+  text-decoration: none;
+}
+
 button, .btn {
   position: relative;
   top: 0.07em;
