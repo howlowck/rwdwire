@@ -583,6 +583,8 @@ nav#main-nav{
 	.overview-content{
 		width: $previewWidth;
 		padding: 10px;
+        max-height: 500px;
+        overflow: auto;
         ul{
             list-style-type: none;
             &#overviewVisible{
@@ -738,6 +740,9 @@ nav#main-nav{
 
 .element-overlay {
 	cursor: crosshair;
+    .instructions {
+        @include select(none);
+    }
 	.close{
 		position: absolute;
 		right: 0px;

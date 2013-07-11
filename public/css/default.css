@@ -545,6 +545,8 @@ nav#main-nav .main-menu .tool-view.notification:active {
 .elements-overview .overview-content {
   width: 210px;
   padding: 10px;
+  max-height: 500px;
+  overflow: auto;
 }
 .elements-overview .overview-content ul {
   list-style-type: none;
@@ -683,6 +685,13 @@ nav#main-nav .main-menu .tool-view.notification:active {
 
 .element-overlay {
   cursor: crosshair;
+}
+.element-overlay .instructions {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .element-overlay .close {
   position: absolute;
