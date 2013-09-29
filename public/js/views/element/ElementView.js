@@ -59,7 +59,7 @@ define(['backbone','models/Element','jqueryui'], function (Backbone, Element)
 						$element.addClass("no-transition");
 					},
 					"drag" : function (e, ui) {
-						$ghost.css("width", (oriWidth + (ui.position.left - ui.originalPosition.left)) + "px");
+						$ghost.css("width", (oriWidth + (ui.position.left - ui.originalPosition.left)) + "px").css("height", (oriHeight - 2)  + "px");
 					},
 					"stop" : function (e, ui) {
 						$ghost.addClass("hidden");
@@ -92,7 +92,7 @@ define(['backbone','models/Element','jqueryui'], function (Backbone, Element)
 						$element.addClass("no-transition");
 					},
 					"drag" : function (e, ui) {
-						$ghost.css("height", (oriHeight + (ui.position.top - ui.originalPosition.top)) + "px");
+						$ghost.css("height", (oriHeight + (ui.position.top - ui.originalPosition.top)) + "px").css("width", (oriWidth - 2)  + "px");
 					},
 					"stop" : function (e, ui) {
 						$ghost.addClass("hidden");
