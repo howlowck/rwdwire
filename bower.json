@@ -1,6 +1,6 @@
 {
 	"name" : "RWDWire",
-	"version" : "0.0.1",
+	"version" : "0.1.0",
 	"main" : "public/css/default.css",
 	"dependencies" : {
 		"requirejs" : ">=0.0.1",
