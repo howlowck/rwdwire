@@ -1,0 +1,14 @@
+{
+  "name": "jquery-timeago",
+  "homepage": "https://github.com/rmm5t/jquery-timeago",
+  "version": "1.3.0",
+  "_release": "1.3.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.3.0",
+    "commit": "f41cfd0c6cbb5f89d9eee7511436d3c5612c2595"
+  },
+  "_source": "git://github.com/rmm5t/jquery-timeago.git",
+  "_target": ">=0.0.1",
+  "_originalSource": "jquery-timeago"
+}

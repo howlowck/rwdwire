@@ -1,23 +1,11 @@
 {
   "name": "spectrum",
-  "version": "1.1.0",
-  "main": [
-    "./spectrum.css",
-    "./spectrum.js"
-  ],
+  "version": "1.1.1",
+  "main": ["./spectrum.css", "./spectrum.js"],
   "docs": "http://bgrins.github.com/spectrum",
   "homepage": "http://bgrins.github.com/spectrum",
   "demo": "http://jsfiddle.net/bgrins/ctkY3/",
   "dependencies": {
     "jquery": ">=1.7.2"
-  },
-  "gitHead": "6b5b0e942327660edf6c2a987be4b9d7dd73cedb",
-  "readme": "# Spectrum\n## The No Hassle Colorpicker\n\nSee the demo and docs: http://bgrins.github.com/spectrum/.\n\nI wanted a colorpicker that didn't require images, and that had an API that made sense to me as a developer who has worked with color in a number of applications.  I had tried a number of existing plugins, but decided to try and make a smaller, simpler one.\n\nI started using canvas, then switched to CSS gradients, since it turned out to be easier to manage, and provided better cross browser support.\n\nSpectrum is registered as a jQuery plugin on the jQuery plugin repository here: http://plugins.jquery.com/spectrum/\n",
-  "readmeFilename": "README.md",
-  "_id": "spectrum@1.1.0",
-  "description": "See the demo and docs: http://bgrins.github.com/spectrum/.",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/bgrins/spectrum.git"
   }
 }

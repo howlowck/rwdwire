@@ -1,0 +1,16 @@
+{
+  "name": "scss-mixins",
+  "version": "0.1.0",
+  "main": "mixin-display-flex.scss",
+  "dependencies": {},
+  "homepage": "https://github.com/nusait/scss-mixins",
+  "_release": "0.1.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.1.0",
+    "commit": "ec7281299bc8b63dbd0cb34eaee1721dbdb1c108"
+  },
+  "_source": "git://github.com/nusait/scss-mixins.git",
+  "_target": ">=0.0.1",
+  "_originalSource": "scss-mixins"
+}

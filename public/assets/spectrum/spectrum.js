@@ -1,4 +1,4 @@
-// Spectrum Colorpicker v1.1.0
+// Spectrum Colorpicker v1.1.1
 // https://github.com/bgrins/spectrum
 // Author: Brian Grinstead
 // License: MIT
@@ -161,7 +161,8 @@
             paletteArray = $.isArray(palette[0]) ? palette : [palette],
             selectionPalette = opts.selectionPalette.slice(0),
             maxSelectionSize = opts.maxSelectionSize,
-            draggingClass = "sp-dragging";
+            draggingClass = "sp-dragging",
+            shiftMovementDirection = null;
 
         var doc = element.ownerDocument,
             body = doc.body,
@@ -197,7 +198,7 @@
             container.toggleClass("sp-flat", flat);
             container.toggleClass("sp-input-disabled", !opts.showInput);
             container.toggleClass("sp-alpha-enabled", opts.showAlpha);
-            container.toggleClass("sp-buttons-disabled", !opts.showButtons || flat);
+            container.toggleClass("sp-buttons-disabled", !opts.showButtons);
             container.toggleClass("sp-palette-disabled", !opts.showPalette);
             container.toggleClass("sp-palette-only", opts.showPaletteOnly);
             container.toggleClass("sp-initial-disabled", !opts.showInitial);
@@ -309,10 +310,32 @@
                 move();
             }, dragStart, dragStop);
 
-            draggable(dragger, function (dragX, dragY) {
-                currentSaturation = parseFloat(dragX / dragWidth);
-                currentValue = parseFloat((dragHeight - dragY) / dragHeight);
+            draggable(dragger, function (dragX, dragY, e) {
+
+                // shift+drag should snap the movement to either the x or y axis.
+                if (!e.shiftKey) {
+                    shiftMovementDirection = null;
+                }
+                else if (!shiftMovementDirection) {
+                    var oldDragX = currentSaturation * dragWidth;
+                    var oldDragY = dragHeight - (currentValue * dragHeight);
+                    var furtherFromX = Math.abs(dragX - oldDragX) > Math.abs(dragY - oldDragY);
+
+                    shiftMovementDirection = furtherFromX ? "x" : "y";
+                }
+
+                var setSaturation = !shiftMovementDirection || shiftMovementDirection === "x";
+                var setValue = !shiftMovementDirection || shiftMovementDirection === "y";
+
+                if (setSaturation) {
+                    currentSaturation = parseFloat(dragX / dragWidth);
+                }
+                if (setValue) {
+                    currentValue = parseFloat((dragHeight - dragY) / dragHeight);
+                }
+
                 move();
+
             }, dragStart, dragStop);
 
             if (!!initialColor) {
@@ -428,6 +451,7 @@
                 reflow();
             }
             container.addClass(draggingClass);
+            shiftMovementDirection = null;
         }
 
         function dragStop() {
@@ -530,7 +554,7 @@
             var newColor = tinycolor(color);
             var newHsv = newColor.toHsv();
 
-            currentHue = newHsv.h;
+            currentHue = (newHsv.h % 360) / 360;
             currentSaturation = newHsv.s;
             currentValue = newHsv.v;
             currentAlpha = newHsv.a;
@@ -820,8 +844,8 @@
         var duringDragEvents = {};
         duringDragEvents["selectstart"] = prevent;
         duringDragEvents["dragstart"] = prevent;
-        duringDragEvents[(hasTouch ? "touchmove" : "mousemove")] = move;
-        duringDragEvents[(hasTouch ? "touchend" : "mouseup")] = stop;
+        duringDragEvents["touchmove mousemove"] = move;
+        duringDragEvents["touchend mouseup"] = stop;
 
         function prevent(e) {
             if (e.stopPropagation) {
@@ -886,7 +910,7 @@
             dragging = false;
         }
 
-        $(element).bind(hasTouch ? "touchstart" : "mousedown", start);
+        $(element).bind("touchstart mousedown", start);
     }
 
     function throttle(func, wait, debounce) {
@@ -902,6 +926,8 @@
         };
     }
 
+
+    function log(){/* jshint -W021 */if(window.console){if(Function.prototype.bind)log=Function.prototype.bind.call(console.log,console);else log=function(){Function.prototype.apply.call(console.log,console,arguments);};log.apply(this,arguments);}}
 
     /**
     * Define a jQuery plugin
@@ -1853,16 +1879,10 @@
 
     })(this);
 
-
-
     $(function () {
         if ($.fn.spectrum.load) {
             $.fn.spectrum.processNativeColorInputs();
         }
     });
-
-
-    function log(){window.console&&(log=Function.prototype.bind?Function.prototype.bind.call(console.log,console):function(){Function.prototype.apply.call(console.log,console,arguments)},log.apply(this,arguments))};
-
 
 })(window, jQuery);

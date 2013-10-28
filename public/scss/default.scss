@@ -5,9 +5,9 @@
 //Main colors!!!
 $black: #161616;
 $gray: #505050;
-//$purple: #8e44ad; 
-$white: #ecf0f1; 
-$blue: #194159; 
+//$purple: #8e44ad;
+$white: #ecf0f1;
+$blue: #194159;
 $lightblue: #9DD8FF;
 $red: #F20530;
 $orange: #D96236;
@@ -31,10 +31,10 @@ $error-color: #fbb450;
 $btn-default: lighten($blue, 20%); //<----- Change
 $btn-default-hover: lighten($btn-default, 10%);
 $btn-default-active: darken($btn-default, 5%);
-$btn-success: $success; 
+$btn-success: $success;
 $btn-success-hover: lighten($btn-success, 10%);
 $btn-success-active: darken($btn-success, 5%);
-$btn-danger: $danger; 
+$btn-danger: $danger;
 $btn-danger-hover: lighten($btn-danger, 10%);
 $btn-danger-active: darken($btn-danger, 5%);
 $btn-disabled: $white; //<----- Change
@@ -313,7 +313,7 @@ nav#main-nav{
 	            background-image: linear-gradient(rgba(0, 0, 0, 0.4),rgba(250, 250, 250, 0.3));
 	            box-shadow: 2px 2px 5px rgba(0,0,0,0.5) inset;
 	        }
-            
+
 	        &.notification{
 	            &:active{
 	                background-image: none;
@@ -350,7 +350,7 @@ nav#main-nav{
         padding: 10px;
         box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.4);
         border-radius: 4px;
-        color: $white; 
+        color: $white;
         z-index: 4;
         &:after{
             position: absolute;
@@ -421,7 +421,7 @@ nav#main-nav{
     		cursor: pointer;
     		padding: 10px;
     		overflow: auto;
-    		white-space: nowrap; 
+    		white-space: nowrap;
     		height: 100%;
             width: 10px;
             .min{
@@ -531,8 +531,8 @@ nav#main-nav{
                 .marker{
                     bottom: -5px;
                     &.marker-se{
-                        right: -5px;  
-                        cursor: se-resize;           
+                        right: -5px;
+                        cursor: se-resize;
                     }
                     &.marker-s{
                         left: 50%;
@@ -615,7 +615,7 @@ nav#main-nav{
                 border: 1px lighten($gray, 40%) solid;
                 border-radius: 5px;
             }
-            
+
         }
 	}
 }
@@ -641,7 +641,7 @@ nav#main-nav{
 	}
 	.window{
 		width: 800px;
-		background-color: $overlay-window-color; 
+		background-color: $overlay-window-color;
 		position: relative;
 		margin: 0 auto;
         margin-top: 80px;
@@ -729,12 +729,12 @@ nav#main-nav{
 			margin-left: 0;
 			font-size: 0.8em;
 		}
-		
+
 		.save{
 			background-color: $success-color;
 		}
-		
-		
+
+
 	}
 }
 

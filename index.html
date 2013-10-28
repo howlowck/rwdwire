@@ -14,7 +14,7 @@
 
 		<link rel="stylesheet" href="public/assets/jquery.ui/dist/jquery-ui.min.css"/>
 		<!-- <link rel="stylesheet" href="public/assets/font-awesome/build/assets/font-awesome/css/font-awesome.min.css"/> -->
-		<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+		<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet">
 		<link rel="stylesheet" href="public/css/facebook.css"/>
 		<link rel="stylesheet" href="public/css/default.css"/>
 
@@ -33,19 +33,19 @@
 			</h1>
 			<div class="main-menu">
 				<div class="top-tooltip hidden"></div>
-				<button class="tool-view" data-trigger="InstructionsButton:click" data-title="Tutorial"><i class="icon-question-sign"></i> </button>
-				<button class="tool-view user" data-trigger="LoginButton:click" data-title="Login"><i class="icon-user"></i> </button>
-				<button class="tool-view" data-trigger="SocialButton:click" data-title="Social"><i class="icon-thumbs-up"></i></button>
-				<a class="tool-view btn" target="_blank" data-title="Feedback <i class='icon-external-link'></i>" href="mailto:haodesigns@gmail.com"><i class="icon-comments-alt"></i></a>
+				<button class="tool-view" data-trigger="InstructionsButton:click" data-title="Tutorial"><i class="fa fa-question-circle"></i> </button>
+				<button class="tool-view user" data-trigger="LoginButton:click" data-title="Login"><i class="fa fa-user"></i> </button>
+				<button class="tool-view" data-trigger="SocialButton:click" data-title="Social"><i class="fa fa-thumbs-up"></i></button>
+				<a class="tool-view btn" target="_blank" data-title="Feedback <i class='fa fa-external-link'></i>" href="mailto:haodesigns@gmail.com"><i class="fa fa-comments"></i></a>
 			</div>
 		</nav>
 
 		<aside class="side-bar">
 			<div class="side-tooltip hidden"></div>
-			<button class="tool-view" data-trigger="EditWidthButton:click" data-title="Edit Viewports"><i class="icon-desktop"></i> </button>
-			<button class="tool-view" data-trigger="NewElementButton:click" data-title="New Element"><i class="icon-plus"></i> </button>
-			<button class="tool-view" data-trigger="ElementsOverviewButton:click" data-title="Sort Elements"><i class="icon-sort-by-attributes-alt"></i></button>
-			<button class="tool-view" data-trigger="SaveLayoutButton:click" data-title="Save Layout"><i class="icon-cloud"></i> </button>
+			<button class="tool-view" data-trigger="EditWidthButton:click" data-title="Edit Viewports"><i class="fa fa-desktop"></i> </button>
+			<button class="tool-view" data-trigger="NewElementButton:click" data-title="New Element"><i class="fa fa-plus"></i> </button>
+			<button class="tool-view" data-trigger="ElementsOverviewButton:click" data-title="Sort Elements"><i class="fa fa-sort-amount-desc"></i></button>
+			<button class="tool-view" data-trigger="SaveLayoutButton:click" data-title="Save Layout"><i class="fa fa-cloud"></i> </button>
 		</aside>
 		<div class="container no-select">
 			<div id="sizes">
@@ -57,7 +57,7 @@
 		</div>
 		<div class="elements-overview no-select hidden">
 			<div class="handle">
-				<button class="close"><i class="icon-remove"></i></button>
+				<button class="close"><i class="fa fa-times"></i></button>
 				<h3> Order or Disable Elements </h3>
 			</div>
 			<div class="overview-content">
@@ -84,7 +84,7 @@
 
 		<div class="instruction-overlay hidden overlay">
 			<div class="window">
-				<button class="close"><i class="icon-remove"></i></button>
+				<button class="close"><i class="fa fa-times"></i></button>
 				<div class="content">
 					<div class="pane pane-0 hidden">
 						<h3 class="instruction-title">Welcome!</h3>
@@ -118,7 +118,7 @@
 						<h3 class="instruction-title">Order or Disable Elements</h3>
 						<div class="instruction-content">
 							<div class="instruction-image"><img src="public/img/step4.png" alt="Element layers"/></div>
-							<div class="instruction-message">For more complex designs, you might need to order the element in layers or disable elements in certain views. <br><br> In the sidebar on the left, you'll find this <i class="icon-sort-by-attributes-alt"></i> icon. From the dialogue box, you can simply drag and drop the elements to order or disable.  (For developers, it's simply done using zindex.)</div>
+							<div class="instruction-message">For more complex designs, you might need to order the element in layers or disable elements in certain views. <br><br> In the sidebar on the left, you'll find this <i class="fa fa-sort-by-attributes-alt"></i> icon. From the dialogue box, you can simply drag and drop the elements to order or disable.  (For developers, it's simply done using zindex.)</div>
 						</div>
 					</div>
 					<div class="pane pane-5 hidden">
@@ -143,7 +143,7 @@
 						</div>
 					</div>
 				</div>
-				<button class="btn-large next"><i class="icon-arrow-right"></i> Next</button>
+				<button class="btn-large next"><i class="fa fa-arrow-right"></i> Next</button>
 			</div>
 		</div>
 
@@ -154,9 +154,9 @@
 		<div class="edit-overlay hidden overlay"></div>
 		<div class="social-overlay hidden overlay">
 			<div class="window">
-				<button class="close"><i class="icon-remove"></i></button>
+				<button class="close"><i class="fa fa-times"></i></button>
 				<h3> Be Social!</h3><br>
-				<h4> Show Some Love <i class="icon-heart-empty"></i></h4>
+				<h4> Show Some Love <i class="fa fa-heart-empty"></i></h4>
 				<!-- Facebook like button -->
 				<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://www.lifeishao.com/rwdwire">Tweet</a>
 				<br><a href="https://twitter.com/howlowck" class="twitter-follow-button" data-show-count="false">Follow @howlowck</a>
@@ -165,7 +165,7 @@
 				<div class="fb-like" data-send="false" data-width="100" data-show-faces="false"></div> <br>
 				<button class="facebook button confirm" id="AppShare" onclick='postToFeedApp(); return false;'>Share This App!</button><br>
 				<button class="facebook button confirm disable" disabled="true" id="LayoutShare" onclick='postToFeedLayout(); return false;'>Share Your Layout!</button>
-				<span><i class="icon-arrow-left"></i> only when you save a layout</span>
+				<span><i class="fa fa-arrow-left"></i> only when you save a layout</span>
 				<br><br>
 				<h4> (Not really social, but...) </h4>
 				Help me get a SSL for the site...
@@ -197,7 +197,7 @@
 
 		<script id="loginOverlayTemp" type="text/template">
 			<div class="login-window window">
-				<button class="close"><i class="icon-remove"></i></button>
+				<button class="close"><i class="fa fa-times"></i></button>
 				<h3>Login</h3><br/>
 				<div id="loginError" class="error hidden"></div>
 				<form id="loginForm">
@@ -206,16 +206,16 @@
 					<label> Password: </label>
 					<input type="password" class="input input-large" name="password" id="inputPass"><br/>
 					<br/>
-					<button type="submit" id="loginSubmit" class="btn-large btn success"><i class="icon-ok"></i> Login</button>
+					<button type="submit" id="loginSubmit" class="btn-large btn success"><i class="fa fa-check"></i> Login</button>
 				</form>
 				Or
-				<button id="registerButton" class="btn"><i class="icon-key"></i> Register </button>
+				<button id="registerButton" class="btn"><i class="fa fa-key"></i> Register </button>
 				<br/>
 			</div>
 		</script>
 		<script id="registerOverlayTemp" type="text/template">
 			<div class="register-window window">
-				<button class="close"><i class="icon-remove"></i></button>
+				<button class="close"><i class="fa fa-times"></i></button>
 				<h3>Register</h3><br/>
 				<div id="registerError" class="error hidden"></div>
 				<form id="registerForm">
@@ -225,14 +225,14 @@
 					<input type="password" class="input input-large" name="password" id="inputRegisterPass"><br/>
 					<label> Confirm Password: </label>
 					<input type="password" class="input input-large" name="vpassword" id="vinputRegisterPass"><br/><br/>
-					<button type="submit" class="btn-large"><i class="icon-ok"></i> Submit </button>
+					<button type="submit" class="btn-large"><i class="fa fa-check"></i> Submit </button>
 				</form>
 			</div>
 		</script>
 		<script id="userOverlayTemp" type="text/template">
 			<div class="window">
-				<button class="close"><i class="icon-remove"></i></button>
-				<div class="error hidden"><i class="icon-remove"></i></div>
+				<button class="close"><i class="fa fa-times"></i></button>
+				<div class="error hidden"><i class="fa fa-times"></i></div>
 				<h3> Your Projects </h3>
 				<div class="projects">
 					It seems you have no saved projects yet.
@@ -245,13 +245,13 @@
 		<script id="widthOverlayTemp" type="text/template">
 			<div class="window">
 				<h3>Edit Viewport Settings </h3>
-				<button class="close" title="close window"><i class="icon-remove"></i></button>
+				<button class="close" title="close window"><i class="fa fa-times"></i></button>
 				<div class="notes"> Everything updates instanteously.  So just change and close :) </div>
-				<div class="error hidden"><i class="icon-remove"></i></div>
+				<div class="error hidden"><i class="fa fa-times"></i></div>
 				<div class="width-form-items">
 					<!-- The width items will be inserted here (see below) -->
 				</div>
-				<button class="add-width"><i class="icon-plus"></i> Add New Width</button>
+				<button class="add-width"><i class="fa fa-plus"></i> Add New Width</button>
 			</div>
 		</script>
 		<script id="widthFormItemTemp" type="text/template">
@@ -265,7 +265,7 @@
 		</script>
 		<script id="editElementItemTemp" type="text/template">
 			<div class="window">
-				<button class="close"><i class="icon-remove"></i></button>
+				<button class="close"><i class="fa fa-times"></i></button>
 				<h3>Edit Element</h3>
 				<p class="notes"> All the setting here, except for opacity, are persistent across all viewports.
 					<br/>
@@ -282,11 +282,11 @@
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					Opacity: <input class="input-opacity input" type="text" value="<%= opacity %>" size="4"/>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<button class="remove-element danger" type="button"> <i class="icon-exclamation-sign"></i> Remove Element</button>
+					<button class="remove-element danger" type="button"> <i class="fa fa-exclamation-sign"></i> Remove Element</button>
 					<br/>
 
-					<button class="cancel btn-large" type="button"> <i class="icon-circle-arrow-left"></i> Cancel </button>
-					<button class="save btn-large" type="submit"><i class="icon-save"></i> Save</button>
+					<button class="cancel btn-large" type="button"> <i class="fa fa-arrow-circle-left"></i> Cancel </button>
+					<button class="save btn-large" type="submit"><i class="fa fa-save"></i> Save</button>
 
 				</form>
 
@@ -304,7 +304,7 @@
 			</div>
 		</script>
 		<script id="resizableMarkers" type="text/template">
-			<div class="handle handle-drag"><i class="icon-move"></i></div>
+			<div class="handle handle-drag"><i class="fa fa-move"></i></div>
 
 		    <div class="handle handle-e">
 		        <div class="marker marker-e"></div>
