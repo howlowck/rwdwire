@@ -11,6 +11,7 @@ define(["backbone",
 		"views/element/ElementsCollectionView",
 		"views/element/CreateElementOverlayView",
 		"views/element/EditElementOverlayView",
+		"views/element/ExportCodeElementsOverlayView",
 		"views/element/PreviewElementsCollectionView",
 		"models/User",
 		"views/user/UserOverlayView",
@@ -30,6 +31,7 @@ define(["backbone",
 			ElementsCollectionView,
 			CreateElementOverlayView,
 			EditElementOverlayView,
+			ExportCodeElementsOverlayView,
 			PreviewElementsCollectionView,
 			User,
 			UserOverlayView,
@@ -43,7 +45,7 @@ define(["backbone",
 			notificationTemplate: _.template($("#notificationItemTemp").html()),
 			uid: "",
 			initialize: function (options) {
-				this.overlays = [];	
+				this.overlays = [];
 				this.dispatch = options.dispatch;
 				this.widthsCollection = new WidthCollection();
 				this.widthsCollectionView = new WidthCollectionView({
@@ -66,10 +68,14 @@ define(["backbone",
 				this.overlays.push(this.createElementOverlayView);
 				this.editElementOverlayView = new EditElementOverlayView({dispatch: this.dispatch});
 				this.overlays.push(this.editElementOverlayView);
+				this.exportCodeOverlayView = new ExportCodeElementsOverlayView({dispatch: this.dispatch});
+				this.overlays.push(this.exportCodeOverlayView);
+
 				this.previewElementsCollectionView = new PreviewElementsCollectionView({
 					dispatch: this.dispatch,
 					collection : this.elementsCollection
 				});
+
 				this.user = new User();
 				this.userOverlayView = new UserOverlayView({model: this.user, dispatch: this.dispatch});
 				this.overlays.push(this.userOverlayView);
@@ -98,6 +104,7 @@ define(["backbone",
 				this.dispatch.on("EditWidthButton:click", this.editWidth, this);
 				this.dispatch.on("NewElementButton:click", this.newElement, this);
 				this.dispatch.on("SaveLayoutButton:click", this.saveLayout, this);
+				this.dispatch.on('ExportCodeButton:click', this.exportCode, this);
 				this.dispatch.on("ElementsOverviewButton:click", this.openSortElementsDialogue, this);
 				this.dispatch.on("LoginButton:click", this.showLogin, this);
 				this.dispatch.on("UserInfo:click", this.showUserInfo, this);
@@ -121,6 +128,10 @@ define(["backbone",
 			editWidth: function () {
 				this.closeAllOverlays();
 				this.widthsCollectionEditView.open();
+			},
+			exportCode: function () {
+				this.closeAllOverlays();
+				this.exportCodeOverlayView.open();
 			},
 			hideNavBars: function () {
 				this.topMenu.hide();

@@ -13,11 +13,11 @@
 		<meta property="fb:admins" content="4713134" />
 
 		<link rel="stylesheet" href="public/assets/jquery.ui/dist/jquery-ui.min.css"/>
-		<!-- <link rel="stylesheet" href="public/assets/font-awesome/build/assets/font-awesome/css/font-awesome.min.css"/> -->
 		<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet">
+		<link rel="stylesheet" href="public/assets/highlightjs/styles/github.css">
 		<link rel="stylesheet" href="public/css/facebook.css"/>
 		<link rel="stylesheet" href="public/css/default.css"/>
-
+		<script src="//google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
 		<script data-main="public/js/main" src="public/assets/requirejs/require.js"></script>
 
 	</head>
@@ -45,6 +45,7 @@
 			<button class="tool-view" data-trigger="EditWidthButton:click" data-title="Edit Viewports"><i class="fa fa-desktop"></i> </button>
 			<button class="tool-view" data-trigger="NewElementButton:click" data-title="New Element"><i class="fa fa-plus"></i> </button>
 			<button class="tool-view" data-trigger="ElementsOverviewButton:click" data-title="Sort Elements"><i class="fa fa-sort-amount-desc"></i></button>
+			<button class="tool-view" data-trigger="ExportCodeButton:click" data-title="Export To HTML/CSS (coming soon)"><i class="fa fa-code"></i></button>
 			<button class="tool-view" data-trigger="SaveLayoutButton:click" data-title="Save Layout"><i class="fa fa-cloud"></i> </button>
 		</aside>
 		<div class="container no-select">
@@ -152,6 +153,31 @@
 		<div class="width-overlay hidden overlay"></div>
 
 		<div class="edit-overlay hidden overlay"></div>
+		<div class="export-overlay hidden overlay">
+			<div class="window">
+				<h3>HTML/CSS (Coming Soon)</h3>
+				<button class="close" title="close window"><i class="fa fa-times"></i></button>
+				<div class="notes">This is just a code skeleton meant to make web developers happy. </div>
+
+				<div class="html">
+					<h4>HTML</h4>
+					<a id="raw-html" target="_blank" class="btn btn-small raw">View Raw</a>
+					<pre id="html-export" class="language-html">
+						<code>
+						</code>
+					</pre>
+				</div>
+				<div class="css">
+					<h4>CSS</h4>
+					<a id="raw-css" target="_blank" class="btn btn-small raw">View Raw</a>
+					<pre id="css-export" class="language-css">
+						<code>
+						(I said coming soon!)
+						</code>
+					</pre>
+				</div>
+			</div>
+		</div>
 		<div class="social-overlay hidden overlay">
 			<div class="window">
 				<button class="close"><i class="fa fa-times"></i></button>

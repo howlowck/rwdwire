@@ -700,6 +700,35 @@ nav#main-nav .main-menu .tool-view.notification:active {
   font-size: 20px;
 }
 
+.export-overlay .html, .export-overlay .css {
+  position: relative;
+}
+.export-overlay .raw {
+  position: absolute;
+  top: 0;
+  right: 0;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.export-overlay pre {
+  clear: both;
+}
+.export-overlay pre code {
+  position: relative;
+  border-radius: 4px;
+  border-left: 3px solid #1e9e26;
+  padding-left: 10px;
+  max-height: 350px;
+  overflow: auto;
+}
+.export-overlay pre code .code-content {
+  display: block;
+  top: 0;
+}
+
 .width-form-item {
   margin: 10px;
   padding: 10px;

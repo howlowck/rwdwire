@@ -751,6 +751,32 @@ nav#main-nav{
 	}
 }
 
+.export-overlay {
+    .html ,.css {
+        position: relative;
+    }
+    .raw {
+        position: absolute;
+        top: 0;
+        right: 0;
+        @include select(none);
+    }
+    pre {
+        clear: both;
+        code {
+            position: relative;
+            border-radius: 4px;
+            border-left: 3px solid $green;
+            padding-left: 10px;
+            max-height: 350px;
+            overflow: auto;
+            .code-content {
+                display: block;
+                top: 0;
+            }
+        }
+    }
+}
 .width-form-item {
 	margin: 10px;
 	padding: 10px;

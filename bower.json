@@ -9,6 +9,7 @@
 		"backbone" : ">=0.0.1",
 		"jquery-timeago" : ">=0.0.1",
 		"CKEditor": "git://github.com/ckeditor/ckeditor-releases.git",
-		"scss-mixins" : ">=0.0.1"
+		"scss-mixins" : ">=0.0.1",
+		"highlightjs" : ">=0.0.1"
 	}
 }
