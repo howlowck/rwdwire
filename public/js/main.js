@@ -9,7 +9,6 @@ require.config({
 		crypto: "http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256",
 		jqueryui: "../assets/jquery.ui/dist/jquery-ui.min",
 		timeago: "../assets/jquery-timeago/jquery.timeago",
-		spectrum: "../assets/spectrum/spectrum",
 		CKEditor: "../assets/CKEditor/ckeditor"
 	},
 	shim: {
@@ -27,8 +26,7 @@ require.config({
 		timeago: ['jquery'],
 		CKEditor: {
 			exports: "CKEDITOR"
-		},
-		spectrum: ['jquery']
+		}
 	}
 });
 
