@@ -68,7 +68,11 @@ define(["backbone",
 				this.overlays.push(this.createElementOverlayView);
 				this.editElementOverlayView = new EditElementOverlayView({dispatch: this.dispatch});
 				this.overlays.push(this.editElementOverlayView);
-				this.exportCodeOverlayView = new ExportCodeElementsOverlayView({dispatch: this.dispatch});
+				this.exportCodeOverlayView = new ExportCodeElementsOverlayView({
+					collection: this.elementsCollection,
+					widths: this.widthsCollection,
+					dispatch: this.dispatch
+				});
 				this.overlays.push(this.exportCodeOverlayView);
 
 				this.previewElementsCollectionView = new PreviewElementsCollectionView({

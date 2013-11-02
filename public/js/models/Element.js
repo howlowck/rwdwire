@@ -20,7 +20,7 @@ define(['backbone'], function (Backbone)
 				/* save the model config on the prevous state and updates the model to the current state. */
 
 				//Store dimension to current (soon previous state)
-				
+
 				this.previousState = this.currentState;
 
 				this.savePrevState();
@@ -55,6 +55,22 @@ define(['backbone'], function (Backbone)
 					.set(this.currentState+"_height", this.get("height"))
 					.set(this.currentState+"_zindex", this.get("zindex"))
 					.set(this.currentState+"_opacity", this.get("opacity"));
+			},
+			getInfoByState: function (stateNumber) {
+				var stateName = 'state' + stateNumber + '_';
+				if (! this.has(stateName+"width")) {
+					stateName = '';
+				}
+				return {
+					state: stateName,
+					name: this.get('name'),
+					width: this.get(stateName+"width"),
+					height: this.get(stateName+"height"),
+					x: this.get(stateName+"x"),
+					y: this.get(stateName+"y"),
+					zindex: this.get(stateName+"zindex"),
+					opacity: this.get(stateName+"opacity")
+				};
 			}
 		});
 		return Element;

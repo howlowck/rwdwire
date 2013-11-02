@@ -721,7 +721,7 @@ nav#main-nav .main-menu .tool-view.notification:active {
   border-radius: 4px;
   border-left: 3px solid #1e9e26;
   padding-left: 10px;
-  max-height: 350px;
+  max-height: 250px;
   overflow: auto;
 }
 .export-overlay pre code .code-content {
