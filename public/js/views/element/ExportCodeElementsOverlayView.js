@@ -32,7 +32,7 @@ define(['backbone', 'highlight'], function (Backbone, hljs)
 				var $htmlContainer = this.$el.find('#html-export code'),
 				$rawButton = this.$el.find('#raw-html'),
 				elements = this.collection.clone(),
-				value = "<html>\n\t<head>\n\t\t<meta name=\"viewport\" content=\"initial-scale=1, maximum-scale=1\">\n\t</head>\n\t<body>{content}\n\t</body>\n</html>";
+				value = "<!doctype html>\n<html lang=\"en\">\n\t<head>\n\t\t<meta name=\"viewport\" content=\"initial-scale=1, maximum-scale=1\">\n\t</head>\n\t<body>{content}\n\t</body>\n</html>";
 				content = '';
 				elements.comparator = 'y';
 

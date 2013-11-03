@@ -512,12 +512,24 @@ nav#main-nav{
                 cursor: move;
 
             }
-            &.handle-e{
+            &.handle-w {
+                left: 0;
+                top: 0;
+                width: 1px;
+                height: 100%;
+                .marker-w {
+                    left: -5px;
+                    top: 50%;
+                    margin-top: -5px;
+                    cursor: w-resize;
+                }
+            }
+            &.handle-e {
                 right: 0;
                 top: 0;
                 height: 100%;
                 width: 1px;
-                .marker-e{
+                .marker-e {
                     right: -5px;
                     top: 50%;
                     margin-top: -5px;

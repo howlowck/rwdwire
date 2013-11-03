@@ -46,6 +46,43 @@ define(['backbone','models/Element','jqueryui'], function (Backbone, Element)
 					oriX,
 					oriY;
 				ins.$el.append($("#resizableMarkers").html());
+				ins.$(".marker-w").draggable({
+					"axis": "x",
+					"start": function () {
+						$element = $(this).parent().parent();
+						$ghost = $element.find(".element-resize-ghost");
+						$ghost.removeClass("hidden");
+						oriWidth = ins.model.get("width");
+						oriHeight = ins.model.get("height");
+						oriX = ins.model.get("x");
+						oriY = ins.model.get("y");
+						$element.addClass("no-transition");
+					},
+					"drag" : function (e, ui) {
+						$ghost.css({
+							left: (ui.position.left + 2) + 'px',
+							width: (oriWidth - ui.position.left - 2) + "px",
+							height: (oriHeight - 2)  + "px"
+						});
+					},
+					"stop" : function (e, ui) {
+						$ghost.addClass("hidden");
+						$element.css("width", $ghost.css("width"));
+						$(this).css("left", "-5px");
+						$element.removeClass("no-transition");
+						ui = {
+							size: {
+								width: parseInt($ghost.css("width"), 10) - 1,
+								height: oriHeight
+							},
+							position: {
+								left: oriX + parseInt($ghost.css('left'), 10) + 1,
+								top: oriY
+							}
+						};
+						ins.dispatcherTriggerResize(ui);
+					}
+				});
 				ins.$(".marker-e").draggable({
 					"axis" : "x",
 					"start": function () {
@@ -59,7 +96,11 @@ define(['backbone','models/Element','jqueryui'], function (Backbone, Element)
 						$element.addClass("no-transition");
 					},
 					"drag" : function (e, ui) {
-						$ghost.css("width", (oriWidth + (ui.position.left - ui.originalPosition.left)) + "px").css("height", (oriHeight - 2)  + "px");
+						$ghost.css({
+							left: "0px",
+							width : (oriWidth + (ui.position.left - ui.originalPosition.left)) + "px",
+							height: (oriHeight - 2)  + "px"
+						});
 					},
 					"stop" : function (e, ui) {
 						$ghost.addClass("hidden");
@@ -92,7 +133,11 @@ define(['backbone','models/Element','jqueryui'], function (Backbone, Element)
 						$element.addClass("no-transition");
 					},
 					"drag" : function (e, ui) {
-						$ghost.css("height", (oriHeight + (ui.position.top - ui.originalPosition.top)) + "px").css("width", (oriWidth - 2)  + "px");
+						$ghost.css({
+							left: "0px",
+							height: (oriHeight + (ui.position.top - ui.originalPosition.top)) + "px",
+							width: (oriWidth - 2)  + "px"
+						});
 					},
 					"stop" : function (e, ui) {
 						$ghost.addClass("hidden");
@@ -124,8 +169,11 @@ define(['backbone','models/Element','jqueryui'], function (Backbone, Element)
 						$element.addClass("no-transition");
 					},
 					"drag" : function (e, ui) {
-						$ghost.css("width", (oriWidth + (ui.position.left - ui.originalPosition.left)) + "px")
-							.css("height", (oriHeight + (ui.position.top - ui.originalPosition.top)) + 1 + "px");
+						$ghost.css({
+							left: "0px",
+							width: (oriWidth + (ui.position.left - ui.originalPosition.left)) + "px",
+							height: (oriHeight + (ui.position.top - ui.originalPosition.top)) + 1 + "px"
+						});
 					},
 					"stop" : function (e, ui) {
 						$ghost.addClass("hidden");

@@ -462,6 +462,18 @@ nav#main-nav .main-menu .tool-view.notification:active {
   text-align: center;
   cursor: move;
 }
+.container .element-view .handle.handle-w {
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 100%;
+}
+.container .element-view .handle.handle-w .marker-w {
+  left: -5px;
+  top: 50%;
+  margin-top: -5px;
+  cursor: w-resize;
+}
 .container .element-view .handle.handle-e {
   right: 0;
   top: 0;
